@@ -24,10 +24,30 @@ body {
 .user-select-none {
   user-select: none;
 }
+.placeholder-light::placeholder {
+  color: #f8f9fa ;
+}
 
 .sidebar {
     width: 300px;
     height: 100vh;
+}
+.popup-animation {
+  animation: popupFade 0.3s ease forwards;
+}
+.chat-message {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+@keyframes popupFade {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @media (max-width: 767.98px) {
