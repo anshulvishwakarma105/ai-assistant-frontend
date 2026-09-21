@@ -4,12 +4,16 @@ import html2pdf from "html2pdf.js";
 export default function ChatItemOperation({ id, text, speakingId, setSpeakingId }) {
     const [copied, setCopied] = useState(false)
     const copyText = async () => {
-        //can be cleanMarkDown(text) for bot response
-        await navigator.clipboard.writeText(text);
-        setCopied(true);
-        setTimeout(() => {
-            setCopied(false)
-        }, 2000);
+        try {
+            //can be cleanMarkDown(text) for bot response
+            await navigator.clipboard.writeText(text);
+            setCopied(true);
+            setTimeout(() => {
+                setCopied(false)
+            }, 2000);
+        } catch (e) {
+            console.error("Copy failed:", e);
+        }
     }
 
     const cleanMarkdown = (markdownText) => {
@@ -28,38 +32,45 @@ export default function ChatItemOperation({ id, text, speakingId, setSpeakingId 
 
 
     const readAloud = async () => {
-        if (speakingId === id) {
+        try {
+            if (speakingId === id) {
+                speechSynthesis.cancel();
+                setSpeakingId(null);
+                return;
+            }
             speechSynthesis.cancel();
-            setSpeakingId(null);
-            return;
-        }
-        speechSynthesis.cancel();
 
-        const cleanText = cleanMarkdown(text);
-        const voice = new SpeechSynthesisUtterance(cleanText)
-        voice.lang = "en-US";
+            const cleanText = cleanMarkdown(text);
+            const voice = new SpeechSynthesisUtterance(cleanText)
+            voice.lang = "en-US";
 
-        voice.onstart = () => {
-            setSpeakingId(id);
+            voice.onstart = () => {
+                setSpeakingId(id);
+            }
+            voice.onend = () => {
+                setSpeakingId(null);
+            }
+            voice.onerror = () => {
+                setSpeakingId(null);
+            }
+            speechSynthesis.speak(voice);
+        } catch (e) {
+            console.error("Copy failed:", e);
         }
-        voice.onend = () => {
-            setSpeakingId(null);
-        }
-        voice.onerror = () => {
-            setSpeakingId(null);
-        }
-        speechSynthesis.speak(voice);
     }
 
     const shareResponse = async () => {
         //later add share as file option
-
-        if (!navigator.share) return;
-        await navigator.share({
-            title: "Ai Response",
-            text: `Ai Response : ${text}`,
-            url: window.location.href
-        })
+        try {
+            if (!navigator.share) return;
+            await navigator.share({
+                title: "Ai Response",
+                text: `Ai Response : ${text}`,
+                url: window.location.href
+            })
+        } catch (e) {
+            console.error("Copy failed:", e);
+        }
     }
 
     const downloadAsPdf = () => {
@@ -109,7 +120,8 @@ export default function ChatItemOperation({ id, text, speakingId, setSpeakingId 
 
         document.body.appendChild(pdfContent);
         //later take the margin, filename, orientation, format from user.
-        html2pdf()
+        try {
+            html2pdf()
             .set({
                 margin: [15, 15, 15, 15],
                 filename: `Ai_Response_Chat_Id_${id}`,
@@ -132,6 +144,9 @@ export default function ChatItemOperation({ id, text, speakingId, setSpeakingId 
             })
             .from(pdfContent)
             .save();
+        } catch (e) {
+            console.error("Copy failed:", e);
+        }
 
     }
 
