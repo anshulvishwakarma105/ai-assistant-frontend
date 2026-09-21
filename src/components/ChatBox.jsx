@@ -20,7 +20,7 @@ export default function ChatBox({ chats, activeChatId, error, loading }) {
       style={{
         marginBottom: "52px"
       }}>
-      <div className="d-flex flex-column gap-2 px-5">
+      <div className="d-flex flex-column gap-2 px-2 px-lg-5">
         {activeChat?.messages.map(chatItem => (
           <div
             key={chatItem.id}
