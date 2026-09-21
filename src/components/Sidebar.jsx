@@ -47,7 +47,7 @@ export default function Sidebar({ sidebar, chats, activeChatId, setActiveChatId,
               cursor: "pointer",
             }}
           >
-            <i className="bi bi-chevron-double-right flex-shrink-0"></i>
+            <i className="bi bi-stars flex-shrink-0 px-2"></i>
             <span className="text-truncate">{chat.title}</span>
             <button
               className="btn  btn-sm border-0 text-light p-1 ms-auto"

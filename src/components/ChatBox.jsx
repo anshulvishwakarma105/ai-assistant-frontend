@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ChatItem from './ChatItem';
 import { Loading, Error, FileCard } from './Common';
 
 export default function ChatBox({ chats, activeChatId, error, loading }) {
+  const [speakingId, setSpeakingId] = useState(null)
   if (!activeChatId) {
     return (
       <div className="flex-grow-1 d-flex flex-column justify-content-center align-items-center text-center">
@@ -15,20 +16,30 @@ export default function ChatBox({ chats, activeChatId, error, loading }) {
   const activeChat = chats.find(chat => chat.id === activeChatId)
 
   return (
-    <div className="flex-grow-1 overflow-auto py-3 px-3">
+    <div className="chatBox flex-grow-1 overflow-auto py-3 px-3 "
+      style={{
+        marginBottom: "52px"
+      }}>
       <div className="d-flex flex-column gap-2 px-5">
-        {activeChat?.messages.map(chat => (
+        {activeChat?.messages.map(chatItem => (
           <div
-            key={chat.id}
+            key={chatItem.id}
             className={
-              chat.role === "user" ?
+              chatItem.role === "user" ?
                 "d-flex flex-column align-items-end my-2" :
                 "d-flex justify-content-start my-2"}
-          >{chat.file && (
-            <FileCard fileName={chat.file}  />
+          >{chatItem.file && (
+            <FileCard fileName={chatItem.file} />
           )}
 
-            <ChatItem role={chat.role} content={chat.content} />
+            <ChatItem
+              id={chatItem.id}
+              role={chatItem.role}
+              content={chatItem.content}
+              createdAt={chatItem.createdAt}
+              speakingId={speakingId}
+              setSpeakingId={setSpeakingId}
+            />
           </div>
         ))}
         {loading && (
@@ -37,7 +48,7 @@ export default function ChatBox({ chats, activeChatId, error, loading }) {
         {error && (
           <Error error={error} />
         )}
-        
+
       </div>
     </div>
   )

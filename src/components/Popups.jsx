@@ -12,7 +12,13 @@ function Editor({ editor, setEditor }) {
   return (
     <div
       onClick={(e) => e.stopPropagation()}
-      className="position-absolute top-50 start-50 translate-middle bg-dark border border-secondary rounded-3 text-light px-4 py-3 d-flex flex-column align-items-center justify-content-center gap-3 shadow popup-animation"
+      className="position-absolute top-50 start-50 translate-middle
+       bg-dark border border-secondary rounded-3 text-light px-4 py-3
+       d-flex flex-column align-items-center justify-content-center gap-3 
+       shadow popup-animation"
+      style={{
+        zIndex: "3000"
+      }}
     >
       <input
         type="text"
@@ -46,7 +52,13 @@ function Confirmation({ confirm, setConfirm }) {
   return (
     <div
       onClick={(e) => e.stopPropagation()}
-      className="position-absolute top-50 start-50 translate-middle bg-dark border border-secondary rounded-3 text-light px-4 py-3 d-flex flex-column align-items-center justify-content-center gap-3 shadow popup-animation"
+      className="position-absolute top-50 start-50 translate-middle
+       bg-dark border border-secondary rounded-3 text-light px-4 py-3 
+       d-flex flex-column align-items-center justify-content-center gap-3 
+       shadow popup-animation"
+      style={{
+        zIndex: "3000"
+      }}
     >
       <div className="text-center">{confirm.message}</div>
 
@@ -89,9 +101,12 @@ function Alert({ message, setAlert }) {
   return (
     <div
       className="position-fixed top-0 start-50 
-      translate-middle-x mt-5 px-3 py-2 bg-success
-      text-light border border-secondary rounded-3 
-      shadow d-flex align-items-center gap-2 popup-animation">
+      translate-middle-x mt-5 px-3 py-2 bg-info
+      text-dark border border-secondary rounded-3 
+      shadow d-flex align-items-center gap-2 popup-animation"
+      style={{
+        zIndex: "3000"
+      }}>
       <i className="bi bi-info-circle text-dark"></i>
       <span>{message}</span>
     </div>
@@ -124,6 +139,9 @@ function ChatOperations({ chatId, chatName, setChatOperations, setEditor, handle
                   rounded-3 shadow d-flex flex-column gap-2
                   popup-animation"
       onClick={(e) => e.stopPropagation()}
+      style={{
+        zIndex: "3000"
+      }}
     >
       <button
         className="btn btn-sm text-light w-100 text-start border-top  py-2"

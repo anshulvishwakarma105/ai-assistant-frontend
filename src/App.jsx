@@ -10,7 +10,52 @@ export default function App() {
   if (localStorage.getItem("chats")) {
     initItems = JSON.parse(localStorage.getItem("chats"))
   } else {
-    initItems = []
+    initItems = [
+  {
+    "id": "chat-001",
+    "title": "Python Basics",
+    "createdAt": "2026-09-21T10:00:00.000Z",
+    "updatedAt": "2026-09-21T10:05:00.000Z",
+    "messages": [
+      {
+        "id": "msg-001",
+        "role": "user",
+        "content": "What is Python?",
+        "file": null,
+        "createdAt": "2026-09-21T10:00:00.000Z"
+      },
+      {
+        "id": "msg-002",
+        "role": "bot",
+        "content": "## Python\n\nPython is a **high-level programming language** known for its simple syntax and wide range of uses.\n\nIt is commonly used for:\n- Web development\n- Automation\n- Data analysis\n- Artificial Intelligence\n- Machine Learning",
+        "file": null,
+        "createdAt": "2026-09-21T10:01:00.000Z"
+      }
+    ]
+  },
+  {
+    "id": "chat-002",
+    "title": "React Basics",
+    "createdAt": "2026-09-21T11:00:00.000Z",
+    "updatedAt": "2026-09-21T11:05:00.000Z",
+    "messages": [
+      {
+        "id": "msg-003",
+        "role": "user",
+        "content": "What is React?",
+        "file": null,
+        "createdAt": "2026-09-21T11:00:00.000Z"
+      },
+      {
+        "id": "msg-004",
+        "role": "bot",
+        "content": "## React\n\nReact is a **JavaScript library** for building user interfaces.\n\nThe main idea is to create reusable **components** that manage and display UI efficiently.",
+        "file": null,
+        "createdAt": "2026-09-21T11:01:00.000Z"
+      }
+    ]
+  }
+]
   }
 
   // usestates--------
@@ -154,7 +199,16 @@ export default function App() {
     );
     setAlert(`You Renamed "${newChatName}" Successfully!`);
   }
-
+  //scroll block 
+  useEffect(() => {
+    const preventPageScroll = () => {
+      window.scrollTo(0, 0);
+    };
+    document.addEventListener("scroll", preventPageScroll, { passive: false });
+    return () => {
+      document.removeEventListener("scroll", preventPageScroll);
+    };
+  }, []);
 
 
   return (
@@ -173,7 +227,7 @@ export default function App() {
 
       />
 
-      <div className="flex-grow-1 d-flex flex-column w-100 overflow-hidden">
+      <div className="flex-grow-1 d-flex flex-column w-100 overflow-hidden position-relative">
         <div className="bg-dark text-light border-bottom p-2 flex-shrink-0 sidebarToggler">
           <button
             className="btn btn-primary"
@@ -190,7 +244,7 @@ export default function App() {
           loading={loading}
         />
 
-        <InputField onAskAi={handleAskAi} />
+        <InputField onAskAi={handleAskAi} loading={loading} setAlert={setAlert} />
       </div>
       {editor &&
         <Editor editor={editor} setEditor={setEditor} />

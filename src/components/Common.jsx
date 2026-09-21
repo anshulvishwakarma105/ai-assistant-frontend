@@ -17,10 +17,10 @@ function Loading() {
 function FileCard({fileName}) {
     return (
         <div
-            className="d-flex align-items-center bg-danger 
-                text-light border rounded px-2 py-1 ">
+            className="d-flex align-items-center bg-secondary
+                text-light border rounded-pill px-3 py-1  ">
             <i className="bi bi-file-earmark me-2"></i>
-            <span >{fileName}</span>
+            <span className="text-truncate ">{fileName}</span>
         </div>
     )
 }

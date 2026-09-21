@@ -11,6 +11,7 @@ A simple Chatbot Website that help to comunicate with varoius LLm models for tex
 ## Dependencies
 // React
 >> react-markdown
+>> html2pdf
 
 //Python
 >> fastapi

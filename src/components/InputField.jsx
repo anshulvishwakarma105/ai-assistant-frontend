@@ -1,41 +1,88 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import { useRef } from "react";
+import { FileCard } from "./Common";
 
-export default function InputField({ onAskAi }) {
+export default function InputField({ onAskAi, loading, setAlert }) {
+
   const [input, setInput] = useState("");
   const [file, setFile] = useState(null);
+  const [focused, setFocused] = useState(false);
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+  const isMobile = window.innerWidth <= 767.98;
+
+  useEffect(() => {
+    const viewport = window.visualViewport;
+    if (!viewport) return;
+
+    const handleResize = () => {
+      const height = window.innerHeight - viewport.height - viewport.offsetTop
+      setKeyboardHeight(Math.max(0, height));
+    };
+
+    viewport.addEventListener("resize", handleResize);
+
+    return () => {
+      viewport.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const fileInputRef = useRef(null)
 
   const handleInputSubmit = (e) => {
     e.preventDefault();
 
-    if (!input.trim()) return;
+    if (loading || !input.trim()) return;
     onAskAi(input, file);
     setInput("");
-    setFile(null)
+    setFile(null);
+    fileInputRef.current.value = "";
   };
 
   const handleFileSubmit = (e) => {
     const selectedFile = e.target.files[0];
     if (!selectedFile) return;
+    const allowedTypes = [
+      "text/plain",
+      "application/pdf",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    ];
+
+    const maxSize = 10 * 1024 * 1024;
+
+    if (!allowedTypes.includes(selectedFile.type)) {
+      setAlert("Only TXT, PDF and DOC files are allowed.")
+      setFile(null);
+      e.target.value = "";
+      return;
+    }
+    if (selectedFile.size > maxSize) {
+      setAlert("File size must be less than 10 MB.")
+      setFile(null);
+      e.target.value = "";
+      return;
+    }
+
     setFile(selectedFile);
   }
 
   return (
-    <div className="py-2 px-2 px-md-4  bg-dark"
+    <div className=" py-2 px-2 px-md-4  bg-dark"
+      style={{
+        width: "100%",
+        position: "absolute",
+        bottom: focused && isMobile ? `${keyboardHeight}px` : "0",
+        zIndex: 100
+      }}
     >
       {file && (
         <div className="d-inline-flex position-relative ">
-          <div className="d-inline-flex align-items-center gap-2 text-light small bg-primary rounded px-2 py-1 mb-1 ">
-            <span className="d-flex align-items-center gap-2">
-              <i className="bi bi-file-earmark"></i>
-              <span className="text-truncate ">{file.name}</span>
-            </span>
-          </div>
+          <FileCard fileName={file.name} />
           <span
             onClick={() => {
               setFile(null);
+              fileInputRef.current.value = "";
             }}
             className="border-0 bg-danger text-light rounded-circle p-0 top-0 start-100 translate-middle "
             style={{
@@ -58,6 +105,7 @@ export default function InputField({ onAskAi }) {
             type="file"
             className="form-control"
             ref={fileInputRef}
+            accept=".txt,.pdf,.doc,.docx"
             onChange={handleFileSubmit}
             hidden
           />
@@ -69,11 +117,17 @@ export default function InputField({ onAskAi }) {
           aria-label="Input"
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          onFocus={() => {
+            setFocused(true)}}
+          onBlur={() => setFocused(false)}
         />
         <button
           className="btn bg-primary text-light"
-          type="submit">
-          Submit
+          type="submit"
+          disabled={loading}
+        >
+          {loading ? "Wait ..." : "Submit"}
+
         </button>
       </form>
 
