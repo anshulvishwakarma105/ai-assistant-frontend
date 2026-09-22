@@ -1,31 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useRef } from "react";
 import { FileCard } from "./Common";
+import { isMobile } from "./utils";
 
-export default function InputField({ onAskAi, loading, setAlert }) {
+
+export default function InputField({keyboardHeight, onAskAi, loading, setAlert }) {
 
   const [input, setInput] = useState("");
   const [file, setFile] = useState(null);
   const [focused, setFocused] = useState(false);
-  const [keyboardHeight, setKeyboardHeight] = useState(0);
 
-  const isMobile = window.innerWidth <= 767.98;
-
-  useEffect(() => {
-    const viewport = window.visualViewport;
-    if (!viewport) return;
-
-    const handleResize = () => {
-      const height = window.innerHeight - viewport.height - viewport.offsetTop
-      setKeyboardHeight(Math.max(0, height));
-    };
-
-    viewport.addEventListener("resize", handleResize);
-
-    return () => {
-      viewport.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   const fileInputRef = useRef(null)
 

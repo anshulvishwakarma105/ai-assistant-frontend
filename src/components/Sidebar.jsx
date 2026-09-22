@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { ChatOperations } from './Popups';
 import { UserInfoCard } from './Common';
+import { isMobile } from "./utils";
 
 export default function Sidebar({ sidebar, setSidebar, appData, activeChatId, setActiveChatId, setEditor, handleRenameChat, setConfirm, handleDeleteChat }) {
   const [chatOperations, setChatOperations] = useState(null);
@@ -15,7 +16,6 @@ export default function Sidebar({ sidebar, setSidebar, appData, activeChatId, se
       document.removeEventListener("click", handleClickOutside);
     }
   }, [])
-  const isMobile = window.innerWidth <= 767.98;
 
   return (
 

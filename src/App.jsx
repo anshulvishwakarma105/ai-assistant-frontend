@@ -3,7 +3,7 @@ import InputField from './components/InputField';
 import ChatBox from './components/ChatBox';
 import Sidebar from './components/Sidebar';
 import { Alert, Confirmation, Editor } from './components/Popups';
-
+import { isMobile } from "./components/utils";
 
 export default function App() {
   let initHistory;
@@ -103,7 +103,7 @@ export default function App() {
         `{${item.role}: ${item.content}}`
       ) || "";
     }
-    
+
     addChatItem(chatId, "user", input, file?.name ?? null);
     setLoading(true);
     const formData = new FormData();
@@ -121,8 +121,8 @@ export default function App() {
 
     try {
       const response = await fetch(
-        "https://ai-assistant-backend-temp.onrender.com/api/chat"
-        // "http://127.0.0.1:8000/api/chat"
+        // "https://ai-assistant-backend-temp.onrender.com/api/chat"
+        "http://127.0.0.1:8000/api/chat"
         ,
         {
           method: "POST",
@@ -229,9 +229,24 @@ export default function App() {
       color: "light"
     });
   }
-  //scroll block 
-  const isMobile = window.innerWidth <= 767.98;
 
+// To set inputfiled and chatbox height while keyboard is true
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
+  useEffect(() => {
+    const viewport = window.visualViewport;
+    if (!viewport) return;
+    const handleResize = () => {
+      const height = window.innerHeight - viewport.height - viewport.offsetTop
+      setKeyboardHeight(Math.max(0, height));
+    };
+    viewport.addEventListener("resize", handleResize);
+    return () => {
+      viewport.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+
+  //scroll block 
   useEffect(() => {
     const preventPageScroll = () => {
       window.scrollTo(0, 0);
@@ -274,11 +289,17 @@ export default function App() {
         <ChatBox
           appData={appData}
           activeChatId={activeChatId}
+          keyboardHeight={keyboardHeight}
           error={error}
           loading={loading}
         />
 
-        <InputField onAskAi={handleAskAi} loading={loading} setAlert={setAlert} />
+        <InputField 
+        keyboardHeight={keyboardHeight}
+        onAskAi={handleAskAi} 
+        loading={loading} 
+        setAlert={setAlert}
+         />
       </div>
       {editor &&
         <Editor editor={editor} setEditor={setEditor} setAlert={setAlert} />

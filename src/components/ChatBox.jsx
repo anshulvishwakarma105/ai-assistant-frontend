@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import ChatItem from './ChatItem';
 import { Loading, Error, FileCard } from './Common';
+import { isMobile } from "./utils";
 
-export default function ChatBox({ appData, activeChatId, error, loading }) {
+export default function ChatBox({ appData, activeChatId, keyboardHeight, error, loading }) {
   const [speakingId, setSpeakingId] = useState(null)
   if (!activeChatId) {
     return (
@@ -18,7 +19,7 @@ export default function ChatBox({ appData, activeChatId, error, loading }) {
   return (
     <div className="chatBox flex-grow-1 overflow-auto py-3 px-3 "
       style={{
-        marginBottom: "52px"
+        marginBottom: isMobile && keyboardHeight ? `${keyboardHeight + 60}px` : "52px",
       }}>
       <div className="d-flex flex-column gap-2 px-2 px-lg-5">
         {activeChat?.messages.map(chatItem => (
