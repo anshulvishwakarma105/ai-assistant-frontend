@@ -1,11 +1,24 @@
 import React, { useEffect, useState } from 'react'
 
-function Editor({ editor, setEditor }) {
+function Editor({ editor, setEditor, setAlert }) {
   const [newTitle, setNewTitle] = useState(editor.chatName)
   const handleEditorSubmit = () => {
-    if (!newTitle.trim()) return;
-    if (newTitle === editor.chatName) return;
-    console.log("pass to function")
+    if (!newTitle.trim()) {
+      setAlert({
+      message: "New Title Cannot Be Empty.",
+      bgColor: "danger",
+      color: "light"
+    });
+      return;
+    }
+    if (newTitle === editor.chatName) {
+      setAlert({
+      message: "New Title Should Be Unique.",
+      bgColor: "danger",
+      color: "light"
+    });
+      return;
+    }
     editor.action(editor.chatId, newTitle);
     setEditor(null);
   }
@@ -17,6 +30,7 @@ function Editor({ editor, setEditor }) {
        d-flex flex-column align-items-center justify-content-center gap-3 
        shadow popup-animation"
       style={{
+        width: "180px",
         zIndex: "3000"
       }}
     >
@@ -57,6 +71,7 @@ function Confirmation({ confirm, setConfirm }) {
        d-flex flex-column align-items-center justify-content-center gap-3 
        shadow popup-animation"
       style={{
+        width: "180px",
         zIndex: "3000"
       }}
     >
@@ -87,32 +102,32 @@ function Confirmation({ confirm, setConfirm }) {
 }
 
 
-function Alert({ message, setAlert }) {
+function Alert({ alert, setAlert }) {
   useEffect(() => {
-    if (!message) return;
+    if (!alert) return;
 
     const timer = setTimeout(() => {
       setAlert(null)
     }, 5000);
 
     return () => clearTimeout(timer)
-  }, [message, setAlert])
+  }, [alert, setAlert])
 
   return (
     <div
-      className="position-fixed top-0 start-50 
-      translate-middle-x mt-5 px-3 py-2 bg-info
-      text-dark border border-secondary rounded-3 
-      shadow d-flex align-items-center gap-2 popup-animation"
+      className={`position-fixed top-0 start-50 
+      translate-middle-x mt-5 px-3 py-2 bg-${alert.bgColor}
+      text-${alert.color} border border-secondary rounded-3 
+      shadow d-flex align-items-center gap-2 popup-animation `}
       style={{
         zIndex: "3000"
       }}>
-      <i className="bi bi-info-circle text-dark"></i>
-      <span>{message}</span>
+      <i className="bi bi-info-circle "></i>
+      <span>{alert.message}</span>
     </div>
   )
 }
-function ChatOperations({ chatId, chatName, setChatOperations, setEditor, handleRenameChat, setConfirm, handleDeleteChat, setAlert }) {
+function ChatOperations({ chatId, chatName, setChatOperations, setEditor, handleRenameChat, setConfirm, handleDeleteChat}) {
   const handleRenameBtn = () => {
     setEditor({
       title: "Rename Chat",
@@ -134,24 +149,29 @@ function ChatOperations({ chatId, chatName, setChatOperations, setEditor, handle
   }
   return (
     <div
-      className="position-absolute top-50 start-100
-                 translate-middle-y ms-2 mt-1 py-3 px-3 bg-dark border
-                  rounded-3 shadow d-flex flex-column gap-2
-                  popup-animation"
+      className="position-absolute top-50 start-100 translate-middle-y 
+     ms-2 py-2 px-2 
+    bg-dark border border-secondary 
+    rounded-3 shadow popup-animation
+    d-flex flex-column"
       onClick={(e) => e.stopPropagation()}
       style={{
-        zIndex: "3000"
+        zIndex: 3000,
+        minWidth: "80px"
       }}
     >
       <button
-        className="btn btn-sm text-light w-100 text-start border-top  py-2"
-        onClick={handleRenameBtn}>
+        className="btn btn-sm text-light w-100 text-start py-2 px-2 rounded-2"
+        onClick={handleRenameBtn}
+      >
         <i className="bi bi-pencil me-2"></i>
         Rename
       </button>
+
       <button
-        className="btn btn-sm text-danger w-100 text-start  border-bottom pb-2"
-        onClick={handleDeleteBtn}>
+        className="btn btn-sm text-danger w-100 text-start py-2 px-2 rounded-2 border-top border-secondary mt-1"
+        onClick={handleDeleteBtn}
+      >
         <i className="bi bi-trash me-2"></i>
         Delete
       </button>
