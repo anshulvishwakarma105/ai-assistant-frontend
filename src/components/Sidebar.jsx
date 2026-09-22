@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ChatOperations } from './Popups';
 import { UserInfoCard } from './Common';
 
-export default function Sidebar({ sidebar, setSidebar, chats, activeChatId, setActiveChatId, setEditor, handleRenameChat, setConfirm, handleDeleteChat }) {
+export default function Sidebar({ sidebar, setSidebar, appData, activeChatId, setActiveChatId, setEditor, handleRenameChat, setConfirm, handleDeleteChat }) {
   const [chatOperations, setChatOperations] = useState(null);
   useEffect(() => {
     const handleClickOutside = () => {
@@ -41,7 +41,7 @@ export default function Sidebar({ sidebar, setSidebar, chats, activeChatId, setA
       </h6>
 
       <div className="position-relative overflow-visible">
-        {chats.map(chat => (
+        {appData.chats.map(chat => (
           <div
             key={chat.id}
             onClick={() => {
@@ -83,7 +83,7 @@ export default function Sidebar({ sidebar, setSidebar, chats, activeChatId, setA
           </div>
         ))}
       </div>
-      <UserInfoCard />
+      <UserInfoCard userInfo={appData.userInfo}/>
     </div>
   )
 }

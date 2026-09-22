@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ChatItem from './ChatItem';
 import { Loading, Error, FileCard } from './Common';
 
-export default function ChatBox({ chats, activeChatId, error, loading }) {
+export default function ChatBox({ appData, activeChatId, error, loading }) {
   const [speakingId, setSpeakingId] = useState(null)
   if (!activeChatId) {
     return (
@@ -13,7 +13,7 @@ export default function ChatBox({ chats, activeChatId, error, loading }) {
     )
   }
 
-  const activeChat = chats.find(chat => chat.id === activeChatId)
+  const activeChat = appData.chats.find(chat => chat.id === activeChatId)
 
   return (
     <div className="chatBox flex-grow-1 overflow-auto py-3 px-3 "

@@ -6,56 +6,68 @@ import { Alert, Confirmation, Editor } from './components/Popups';
 
 
 export default function App() {
-  let initItems;
-  if (localStorage.getItem("chats")) {
-    initItems = JSON.parse(localStorage.getItem("chats"))
+  let initHistory;
+  if (localStorage.getItem("history")) {
+    initHistory = JSON.parse(localStorage.getItem("history"))
   } else {
-    initItems = [
-      {
-        "id": "chat-001",
-        "title": "Python Basics",
-        "createdAt": "2026-09-21T10:00:00.000Z",
-        "updatedAt": "2026-09-21T10:05:00.000Z",
-        "messages": [
-          {
-            "id": "msg-001",
-            "role": "user",
-            "content": "What is Python?",
-            "file": null,
-            "createdAt": "2026-09-21T10:00:00.000Z"
-          },
-          {
-            "id": "msg-002",
-            "role": "bot",
-            "content": "## Python\n\nPython is a **high-level programming language** known for its simple syntax and wide range of uses.\n\nIt is commonly used for:\n- Web development\n- Automation\n- Data analysis\n- Artificial Intelligence\n- Machine Learning",
-            "file": null,
-            "createdAt": "2026-09-21T10:01:00.000Z"
-          }
-        ]
+    initHistory = {
+      userInfo: {
+        name: "Alpha Beta",
+        desc: "Be Accurate and Topic Focused.",
+        region: "India",
+        preferences: {
+          language: "English",
+          timezone: "Asia/Kolkata",
+          chatStyle: "Professional"
+        }
       },
-      {
-        "id": "chat-002",
-        "title": "React Basics",
-        "createdAt": "2026-09-21T11:00:00.000Z",
-        "updatedAt": "2026-09-21T11:05:00.000Z",
-        "messages": [
-          {
-            "id": "msg-003",
-            "role": "user",
-            "content": "What is React?",
-            "file": null,
-            "createdAt": "2026-09-21T11:00:00.000Z"
-          },
-          {
-            "id": "msg-004",
-            "role": "bot",
-            "content": "## React\n\nReact is a **JavaScript library** for building user interfaces.\n\nThe main idea is to create reusable **components** that manage and display UI efficiently.",
-            "file": null,
-            "createdAt": "2026-09-21T11:01:00.000Z"
-          }
-        ]
-      }
-    ]
+      chats: [
+        {
+          "id": "chat-001",
+          "title": "Python Basics",
+          "createdAt": "2026-09-21T10:00:00.000Z",
+          "updatedAt": "2026-09-21T10:05:00.000Z",
+          "messages": [
+            {
+              "id": "msg-001",
+              "role": "user",
+              "content": "What is Python?",
+              "file": null,
+              "createdAt": "2026-09-21T10:00:00.000Z"
+            },
+            {
+              "id": "msg-002",
+              "role": "bot",
+              "content": "## Python\n\nPython is a **high-level programming language** known for its simple syntax and wide range of uses.\n\nIt is commonly used for:\n- Web development\n- Automation\n- Data analysis\n- Artificial Intelligence\n- Machine Learning",
+              "file": null,
+              "createdAt": "2026-09-21T10:01:00.000Z"
+            }
+          ]
+        },
+        {
+          "id": "chat-002",
+          "title": "React Basics",
+          "createdAt": "2026-09-21T11:00:00.000Z",
+          "updatedAt": "2026-09-21T11:05:00.000Z",
+          "messages": [
+            {
+              "id": "msg-003",
+              "role": "user",
+              "content": "What is React?",
+              "file": null,
+              "createdAt": "2026-09-21T11:00:00.000Z"
+            },
+            {
+              "id": "msg-004",
+              "role": "bot",
+              "content": "## React\n\nReact is a **JavaScript library** for building user interfaces.\n\nThe main idea is to create reusable **components** that manage and display UI efficiently.",
+              "file": null,
+              "createdAt": "2026-09-21T11:01:00.000Z"
+            }
+          ]
+        }
+      ]
+    }
   }
 
   // usestates--------
@@ -68,10 +80,11 @@ export default function App() {
   const [activeChatId, setActiveChatId] = useState(null)
 
 
-  const [chats, setChats] = useState(initItems)
+  const [appData, setAppData] = useState(initHistory)
   useEffect(() => {
-    localStorage.setItem("chats", JSON.stringify(chats))
-  }, [chats])
+    localStorage.setItem("history", JSON.stringify(appData))
+  }, [appData])
+
 
 
 
@@ -85,18 +98,18 @@ export default function App() {
       chatId = createNewChat();
       setActiveChatId(chatId);
     } else {
-      const activeChat = chats.find(chat => chat.id === chatId);
+      const activeChat = appData.chats.find(chat => chat.id === chatId);
       previousMessages = activeChat?.messages.slice(-5).map(item =>
         `{${item.role}: ${item.content}}`
       ) || "";
     }
-
+    
     addChatItem(chatId, "user", input, file?.name ?? null);
     setLoading(true);
-
     const formData = new FormData();
 
-    let prompt = `Previous Chat History: [${previousMessages}] 
+    let prompt = `Info About User : ${JSON.stringify(appData.userInfo)}
+                \nPrevious Chat History: [${previousMessages}] 
                 \nCurrent Chat Question: ${input}`;
 
     formData.append("input", prompt);
@@ -108,8 +121,8 @@ export default function App() {
 
     try {
       const response = await fetch(
-        // "https://ai-assistant-backend-temp.onrender.com/api/chat"
-        "http://127.0.0.1:8000/api/chat"
+        "https://ai-assistant-backend-temp.onrender.com/api/chat"
+        // "http://127.0.0.1:8000/api/chat"
         ,
         {
           method: "POST",
@@ -139,15 +152,15 @@ export default function App() {
 
 
   const addChatItem = (activeChatId, role, content, fileName) => {
-    setChats(prev =>
-      prev.map(chat =>
+    setAppData(prev => ({
+      ...prev,
+      chats: prev.chats.map(chat =>
         chat.id === activeChatId ?
           {
             ...chat,
             updatedAt: new Date().toISOString(),
             messages: [
               ...chat.messages,
-
               {
                 id: crypto.randomUUID(),
                 role: role,
@@ -155,21 +168,20 @@ export default function App() {
                 file: fileName,
                 createdAt: new Date().toISOString()
               }
-
             ]
-
           }
           : chat
-      ))
-
+      )
+    })
+    )
   }
-
   const createNewChat = () => {
     const newChatId = crypto.randomUUID();
     const currentTime = new Date().toISOString();
-    setChats(prev =>
-      [
-        ...prev,
+    setAppData(prev => ({
+      ...prev,
+      chats: [
+        ...prev.chats,
         {
           id: newChatId,
           title: "New Chat",
@@ -178,14 +190,16 @@ export default function App() {
           messages: []
         }
       ]
+    })
     )
     return newChatId
   }
-
   const handleDeleteChat = (chatId, chatName) => {
 
-    setChats(prev =>
-      prev.filter(chat => chat.id !== chatId)
+    setAppData(prev => ({
+      ...prev,
+      chats: prev.chats.filter(chat => chat.id !== chatId)
+    })
     );
     setAlert({
       message: `You Deleted "${chatName}" Successfully!`,
@@ -197,8 +211,9 @@ export default function App() {
     }
   }
   const handleRenameChat = (chatId, newChatName) => {
-    setChats(prev =>
-      prev.map(chat =>
+    setAppData(prev => ({
+      ...prev,
+      chats: prev.chats.map(chat =>
         chat.id === chatId ?
           {
             ...chat,
@@ -206,6 +221,7 @@ export default function App() {
           }
           : chat
       )
+    })
     );
     setAlert({
       message: `You Renamed "${newChatName}" Successfully!`,
@@ -233,8 +249,8 @@ export default function App() {
     <div className="app  d-flex overflow-hidden position-relative">
       <Sidebar
         sidebar={sidebar}
-         setSidebar={ setSidebar}
-        chats={chats}
+        setSidebar={setSidebar}
+        appData={appData}
         activeChatId={activeChatId}
         setActiveChatId={setActiveChatId}
         setEditor={setEditor}
@@ -250,13 +266,13 @@ export default function App() {
             className="btn btn-primary"
             onClick={() => setSidebar(prev => !prev)}
           >{(sidebar && isMobile) ?
-            <i class="bi bi-x-lg"></i>:
+            <i className="bi bi-x-lg"></i> :
             <i className="bi bi-list-nested"></i>}
           </button>
         </div>
 
         <ChatBox
-          chats={chats}
+          appData={appData}
           activeChatId={activeChatId}
           error={error}
           loading={loading}
