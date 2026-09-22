@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useRef } from "react";
 import { FileCard } from "./Common";
 
@@ -84,13 +84,13 @@ export default function InputField({ onAskAi, loading, setAlert }) {
               setFile(null);
               fileInputRef.current.value = "";
             }}
-            className="border-0 bg-danger text-light rounded-circle p-0 top-0 start-100 translate-middle "
+            className=" text-danger bg-light rounded p-0 top-0 start-100 translate-middle d-flex align-items-center justify-content-center "
             style={{
               position: "absolute",
               height: "14px",
               width: "14px"
             }}>
-            <i className="bi bi-x d-flex justify-content-center"></i>
+            <i class="bi bi-x-circle-fill"></i>
           </span>
         </div>
       )}
@@ -118,7 +118,8 @@ export default function InputField({ onAskAi, loading, setAlert }) {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onFocus={() => {
-            setFocused(true)}}
+            setFocused(true)
+          }}
           onBlur={() => setFocused(false)}
         />
         <button

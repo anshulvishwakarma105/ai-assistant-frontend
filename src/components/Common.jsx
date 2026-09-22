@@ -14,15 +14,33 @@ function Loading() {
         </div>
     )
 }
-function FileCard({fileName}) {
+function FileCard({ fileName }) {
     return (
         <div
             className="d-flex align-items-center bg-secondary
-                text-light border rounded-pill px-3 py-1  ">
-            <i className="bi bi-file-earmark me-2"></i>
+                text-light border border-danger rounded-pill px-3 py-1  "
+            style={{
+                maxWidth: "240px"
+            }}>
+            <i class="bi bi-file-earmark-text-fill me-2 text-warning"></i>
             <span className="text-truncate ">{fileName}</span>
         </div>
     )
 }
+function UserInfoCard() {
+    return (
+        <div className="mt-auto d-flex align-items-center gap-2 p-2 rounded-3 border">
+          <img src="/profile.png" alt="profile" className="rounded-circle flex-shrink-0" width="32" height="32" />
+          <div className="d-flex flex-column px-1 overflow-hidden">
+            <div className="text-truncate text-light">Guest Mod</div>
+            <div className="text-secondary d-flex align-items-center gap-2 text-truncate">
+              <span className="text-truncate">Saving on localstorage</span>
+              <i className="bi bi-cloud-arrow-up flex-shrink-0"></i>
+            </div>
+          </div>
+        </div>
+    )
+}
 
-export { Error, Loading, FileCard}
+export { Error, Loading, FileCard, UserInfoCard }
+
