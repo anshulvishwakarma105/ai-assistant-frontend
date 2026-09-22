@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { ChatOperations } from './Popups';
+import { UserInfoCard } from './Common';
 
-export default function Sidebar({ sidebar, chats, activeChatId, setActiveChatId, setEditor, handleRenameChat, setConfirm, handleDeleteChat, setAlert }) {
+export default function Sidebar({ sidebar, setSidebar, chats, activeChatId, setActiveChatId, setEditor, handleRenameChat, setConfirm, handleDeleteChat }) {
   const [chatOperations, setChatOperations] = useState(null);
   useEffect(() => {
     const handleClickOutside = () => {
@@ -14,17 +15,20 @@ export default function Sidebar({ sidebar, chats, activeChatId, setActiveChatId,
       document.removeEventListener("click", handleClickOutside);
     }
   }, [])
-
+  const isMobile = window.innerWidth <= 767.98;
 
   return (
+
     <div
-      className={`${sidebar ? "d-flex" : "d-none"} bg-dark text-light p-3 flex-column flex-shrink-0 sidebar  `}
-      style={{
-        position: "relative"
-      }}
+      className={` ${sidebar ? "d-flex" : "d-none"} bg-dark text-light p-3  flex-shrink-0 sidebar popup-animation h-100  flex-column`}
     >
       <button
-        onClick={() => setActiveChatId(null)}
+        onClick={() => {
+          if (isMobile) {
+            setSidebar(null);
+          }
+          setActiveChatId(null);
+        }}
         className="btn w-100 mb-4 btn-primary"
       >
         <i className="bi bi-plus-lg me-2"></i>
@@ -36,11 +40,16 @@ export default function Sidebar({ sidebar, chats, activeChatId, setActiveChatId,
         <span className="px-2">Recent Chats</span>
       </h6>
 
-      <div className="overflow-auto">
+      <div className="position-relative overflow-visible">
         {chats.map(chat => (
           <div
             key={chat.id}
-            onClick={() => setActiveChatId(chat.id)}
+            onClick={() => {
+              if (isMobile) {
+                setSidebar(null);
+              }
+              setActiveChatId(chat.id);
+            }}
             className={` p-2 rounded mb-1 text-truncate d-flex align-items-center gap-2  ${activeChatId === chat.id ? "bg-secondary" : "text-light"
               }`}
             style={{
@@ -53,6 +62,8 @@ export default function Sidebar({ sidebar, chats, activeChatId, setActiveChatId,
               className="btn  btn-sm border-0 text-light p-1 ms-auto"
               onClick={(e) => {
                 e.stopPropagation();
+                setConfirm(null);
+                setEditor(null)
                 setChatOperations(prev => prev === chat.id ? null : chat.id);
 
               }}
@@ -67,23 +78,12 @@ export default function Sidebar({ sidebar, chats, activeChatId, setActiveChatId,
                 setEditor={setEditor}
                 handleRenameChat={handleRenameChat}
                 setConfirm={setConfirm}
-                handleDeleteChat={handleDeleteChat}
-                setAlert={setAlert} />
+                handleDeleteChat={handleDeleteChat} />
             )}
           </div>
         ))}
       </div>
-      <div className="mt-auto d-flex align-items-center gap-2 p-2 rounded-3 border">
-        <img src="/profile.png" alt="profile" className="rounded-circle flex-shrink-0" width="32" height="32" />
-        <div className="d-flex flex-column px-1 overflow-hidden">
-          <div className="text-truncate text-light">Guest Mod</div>
-          <div className="text-secondary d-flex align-items-center gap-2 text-truncate">
-            <span className="text-truncate">Saving on localstorage</span>
-            <i className="bi bi-cloud-arrow-up flex-shrink-0"></i>
-          </div>
-        </div>
-      </div>
-
+      <UserInfoCard />
     </div>
   )
 }
