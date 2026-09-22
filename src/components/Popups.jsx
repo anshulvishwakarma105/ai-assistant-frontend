@@ -26,11 +26,11 @@ function Editor({ editor, setEditor, setAlert }) {
     <div
       onClick={(e) => e.stopPropagation()}
       className="position-absolute top-50 start-50 translate-middle
-       bg-dark border border-secondary rounded-3 text-light px-4 py-3
+       bg-dark border border-secondary rounded-3 text-light px-3 py-3
        d-flex flex-column align-items-center justify-content-center gap-3 
        shadow popup-animation"
       style={{
-        width: "180px",
+        minWidth: "160px",
         zIndex: "3000"
       }}
     >
@@ -42,9 +42,9 @@ function Editor({ editor, setEditor, setAlert }) {
         id="renameChat"
         aria-describedby="renameChat" />
 
-      <div className=" w-100 d-flex justify-content-evenly">
+      <div className=" w-100 d-flex justify-content-center gap-2">
         <button
-          className="btn btn-sm btn-danger"
+          className="btn btn-sm btn-danger w-100"
           onClick={handleEditorSubmit}
         >
           {editor.title}
@@ -52,7 +52,7 @@ function Editor({ editor, setEditor, setAlert }) {
         <button
           type='button'
           onClick={() => setEditor(null)}
-          className="btn btn-sm btn-secondary"
+          className="btn btn-sm btn-secondary w-100"
         >
           Cancel
         </button>
@@ -71,16 +71,16 @@ function Confirmation({ confirm, setConfirm }) {
        d-flex flex-column align-items-center justify-content-center gap-3 
        shadow popup-animation"
       style={{
-        width: "180px",
+        minWidth: "160px",
         zIndex: "3000"
       }}
     >
       <div className="text-center">{confirm.message}</div>
 
-      <div className=" w-100 d-flex justify-content-evenly">
+      <div className=" w-100 d-flex justify-content-center gap-2">
         <button
           type='button'
-          className="btn btn-sm btn-danger"
+          className="btn btn-sm btn-danger w-100"
           onClick={() => {
             confirm.action();
             setConfirm(null);
@@ -91,7 +91,7 @@ function Confirmation({ confirm, setConfirm }) {
         <button
           type='button'
           onClick={() => setConfirm(null)}
-          className="btn btn-sm btn-secondary"
+          className="btn btn-sm btn-secondary w-100"
         >
           Cancel
         </button>
@@ -118,8 +118,9 @@ function Alert({ alert, setAlert }) {
       className={`position-fixed top-0 start-50 
       translate-middle-x mt-5 px-3 py-2 bg-${alert.bgColor}
       text-${alert.color} border border-secondary rounded-3 
-      shadow d-flex align-items-center gap-2 popup-animation `}
+      shadow d-flex align-items-start gap-2 popup-animation `}
       style={{
+        minWidth:"200px",
         zIndex: "3000"
       }}>
       <i className="bi bi-info-circle "></i>
@@ -130,7 +131,7 @@ function Alert({ alert, setAlert }) {
 function ChatOperations({ chatId, chatName, setChatOperations, setEditor, handleRenameChat, setConfirm, handleDeleteChat}) {
   const handleRenameBtn = () => {
     setEditor({
-      title: "Rename Chat",
+      title: "Rename",
       action: handleRenameChat,
       chatId: chatId,
       chatName: chatName
@@ -140,7 +141,7 @@ function ChatOperations({ chatId, chatName, setChatOperations, setEditor, handle
   }
   const handleDeleteBtn = () => {
     setConfirm({
-      title: "Delete Chat",
+      title: "Delete",
       message: `Are you sure Want to delete "${chatName}" `,
       action: () => handleDeleteChat(chatId, chatName)
     })
