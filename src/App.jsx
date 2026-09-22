@@ -99,18 +99,22 @@ export default function App() {
       setActiveChatId(chatId);
     } else {
       const activeChat = appData.chats.find(chat => chat.id === chatId);
-      previousMessages = activeChat?.messages.slice(-5).map(item =>
-        `{${item.role}: ${item.content}}`
-      ) || "";
+      previousMessages = activeChat?.messages.slice(-5).map(item => ({
+        role: item.role,
+        content: item.content
+      })) || [];
     }
 
     addChatItem(chatId, "user", input, file?.name ?? null);
     setLoading(true);
     const formData = new FormData();
 
-    let prompt = `Info About User : ${JSON.stringify(appData.userInfo)}
-                \nPrevious Chat History: [${previousMessages}] 
-                \nCurrent Chat Question: ${input}`;
+    const prompt = JSON.stringify({
+      userInfo: appData.userInfo,
+      previousChatHistory: previousMessages,
+      currentChatQuestion: input
+    });
+    console.log(prompt)
 
     formData.append("input", prompt);
 
@@ -230,7 +234,7 @@ export default function App() {
     });
   }
 
-// To set inputfiled and chatbox height while keyboard is true
+  // To set inputfiled and chatbox height while keyboard is true
   const [keyboardHeight, setKeyboardHeight] = useState(0);
   useEffect(() => {
     const viewport = window.visualViewport;
@@ -294,12 +298,12 @@ export default function App() {
           loading={loading}
         />
 
-        <InputField 
-        keyboardHeight={keyboardHeight}
-        onAskAi={handleAskAi} 
-        loading={loading} 
-        setAlert={setAlert}
-         />
+        <InputField
+          keyboardHeight={keyboardHeight}
+          onAskAi={handleAskAi}
+          loading={loading}
+          setAlert={setAlert}
+        />
       </div>
       {editor &&
         <Editor editor={editor} setEditor={setEditor} setAlert={setAlert} />
