@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import InputField from './components/InputField';
 import ChatBox from './components/ChatBox';
 import Sidebar from './components/Sidebar';
-import { Alert, Confirmation, Editor } from './components/Popups';
+import { Alert, Confirmation, CustomiseUserForm, Editor } from './components/Popups';
 import { isMobile } from "./components/utils";
 
 export default function App() {
@@ -11,58 +11,108 @@ export default function App() {
     initHistory = JSON.parse(localStorage.getItem("history"))
   } else {
     initHistory = {
-      userInfo: {
-        name: "Alpha Beta",
-        desc: "Be Accurate and Topic Focused.",
-        region: "India",
-        preferences: {
-          language: "English",
-          timezone: "Asia/Kolkata",
-          chatStyle: "Professional"
+      "userInfo": {
+        "name": "Alex Morgan",
+        "desc": "Prefer concise explanations with practical examples.",
+        "region": "India",
+        "preferences": {
+          "language": "English",
+          "timezone": "Asia/Kolkata",
+          "chatStyle": "Concise"
         }
       },
-      chats: [
+      "chats": [
         {
-          "id": "chat-001",
-          "title": "Python Basics",
-          "createdAt": "2026-09-21T10:00:00.000Z",
-          "updatedAt": "2026-09-21T10:05:00.000Z",
+          "id": "chat-003",
+          "title": "FastAPI Backend",
+          "createdAt": "2026-09-22T09:00:00.000Z",
+          "updatedAt": "2026-09-22T09:15:00.000Z",
           "messages": [
             {
-              "id": "msg-001",
+              "id": "msg-005",
               "role": "user",
-              "content": "What is Python?",
+              "content": "How does FastAPI handle requests?",
               "file": null,
-              "createdAt": "2026-09-21T10:00:00.000Z"
+              "createdAt": "2026-09-22T09:00:00.000Z"
             },
             {
-              "id": "msg-002",
+              "id": "msg-006",
               "role": "bot",
-              "content": "## Python\n\nPython is a **high-level programming language** known for its simple syntax and wide range of uses.\n\nIt is commonly used for:\n- Web development\n- Automation\n- Data analysis\n- Artificial Intelligence\n- Machine Learning",
+              "content": "FastAPI is a modern Python web framework for building APIs. It uses Python type hints for request validation and automatic API documentation.",
               "file": null,
-              "createdAt": "2026-09-21T10:01:00.000Z"
+              "createdAt": "2026-09-22T09:01:00.000Z"
+            },
+            {
+              "id": "msg-007",
+              "role": "user",
+              "content": "What is the difference between FastAPI and Flask?",
+              "file": null,
+              "createdAt": "2026-09-22T09:10:00.000Z"
+            },
+            {
+              "id": "msg-008",
+              "role": "bot",
+              "content": "FastAPI provides built-in request validation, type hints, automatic OpenAPI documentation, and strong support for asynchronous programming. Flask is a lightweight WSGI framework with a simpler core and a larger ecosystem of extensions.",
+              "file": null,
+              "createdAt": "2026-09-22T09:11:00.000Z"
             }
           ]
         },
         {
-          "id": "chat-002",
-          "title": "React Basics",
-          "createdAt": "2026-09-21T11:00:00.000Z",
-          "updatedAt": "2026-09-21T11:05:00.000Z",
+          "id": "chat-004",
+          "title": "React State Management",
+          "createdAt": "2026-09-22T10:00:00.000Z",
+          "updatedAt": "2026-09-22T10:12:00.000Z",
           "messages": [
             {
-              "id": "msg-003",
+              "id": "msg-009",
               "role": "user",
-              "content": "What is React?",
+              "content": "What is useState in React?",
               "file": null,
-              "createdAt": "2026-09-21T11:00:00.000Z"
+              "createdAt": "2026-09-22T10:00:00.000Z"
             },
             {
-              "id": "msg-004",
+              "id": "msg-010",
               "role": "bot",
-              "content": "## React\n\nReact is a **JavaScript library** for building user interfaces.\n\nThe main idea is to create reusable **components** that manage and display UI efficiently.",
+              "content": "useState is a React Hook that lets a functional component store and update state. Updating the state causes the component to re-render with the new value.",
               "file": null,
-              "createdAt": "2026-09-21T11:01:00.000Z"
+              "createdAt": "2026-09-22T10:01:00.000Z"
+            },
+            {
+              "id": "msg-011",
+              "role": "user",
+              "content": "When should I use useEffect?",
+              "file": null,
+              "createdAt": "2026-09-22T10:10:00.000Z"
+            },
+            {
+              "id": "msg-012",
+              "role": "bot",
+              "content": "useEffect is used to synchronize a component with external systems such as APIs, browser events, timers, subscriptions, and other side effects.",
+              "file": null,
+              "createdAt": "2026-09-22T10:11:00.000Z"
+            }
+          ]
+        },
+        {
+          "id": "chat-005",
+          "title": "Python AI Projects",
+          "createdAt": "2026-09-22T11:00:00.000Z",
+          "updatedAt": "2026-09-22T11:08:00.000Z",
+          "messages": [
+            {
+              "id": "msg-013",
+              "role": "user",
+              "content": "Suggest some AI projects using Python.",
+              "file": null,
+              "createdAt": "2026-09-22T11:00:00.000Z"
+            },
+            {
+              "id": "msg-014",
+              "role": "bot",
+              "content": "You can build projects such as an AI document assistant, resume-job matching system, RAG chatbot, code review assistant, or an AI-powered knowledge base.",
+              "file": null,
+              "createdAt": "2026-09-22T11:01:00.000Z"
             }
           ]
         }
@@ -76,7 +126,8 @@ export default function App() {
   const [editor, setEditor] = useState(null);
   const [confirm, setConfirm] = useState(null);
   const [alert, setAlert] = useState(null);
-  const [sidebar, setSidebar] = useState(null)
+  const [UserForm, setUserForm] = useState(false);
+  const [sidebar, setSidebar] = useState(!isMobile)
   const [activeChatId, setActiveChatId] = useState(null)
 
 
@@ -84,9 +135,6 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem("history", JSON.stringify(appData))
   }, [appData])
-
-
-
 
   async function handleAskAi(input, file) {
     setError(false);
@@ -153,8 +201,6 @@ export default function App() {
       setLoading(false);
     }
   }
-
-
   const addChatItem = (activeChatId, role, content, fileName) => {
     setAppData(prev => ({
       ...prev,
@@ -233,6 +279,26 @@ export default function App() {
       color: "light"
     });
   }
+  const handleUserInfoUpdate = (name, desc, region, language, timeZone, chatStyle) => {
+    setAppData(prev => ({
+      ...prev,
+      userInfo: {
+        name: name,
+        desc: desc,
+        region: region,
+        preferences: {
+          language: language,
+          timezone: timeZone,
+          chatStyle: chatStyle
+        }
+      },
+    }))
+     setAlert({
+      message: `You Updated UserInfo Successfully!`,
+      bgColor: "success",
+      color: "light"
+    });
+  }
 
   // To set inputfiled and chatbox height while keyboard is true
   const [keyboardHeight, setKeyboardHeight] = useState(0);
@@ -248,7 +314,6 @@ export default function App() {
       viewport.removeEventListener("resize", handleResize);
     };
   }, []);
-
 
   //scroll block 
   useEffect(() => {
@@ -276,6 +341,7 @@ export default function App() {
         handleRenameChat={handleRenameChat}
         setConfirm={setConfirm}
         handleDeleteChat={handleDeleteChat}
+        setUserForm={setUserForm}
 
       />
 
@@ -313,6 +379,9 @@ export default function App() {
       }
       {alert &&
         <Alert alert={alert} setAlert={setAlert} />
+      }
+      {UserForm &&
+        <CustomiseUserForm userInfo={appData.userInfo} setUserForm={setUserForm} setAlert={setAlert} UserInfoUpdate={handleUserInfoUpdate}/>
       }
     </div>
 
