@@ -4,7 +4,7 @@ import { FileCard } from "./Common";
 import { isMobile } from "./utils";
 
 
-export default function InputField({keyboardHeight, onAskAi, loading, setAlert }) {
+export default function InputField({ keyboardHeight, onAskAi, loading, setAlert }) {
 
   const [input, setInput] = useState("");
   const [file, setFile] = useState(null);
@@ -61,20 +61,26 @@ export default function InputField({keyboardHeight, onAskAi, loading, setAlert }
       }}
     >
       {file && (
-        <div className="d-inline-flex position-relative ">
+        <div className="d-inline-flex position-relative">
           <FileCard fileName={file.name} />
           <span
             onClick={() => {
               setFile(null);
               fileInputRef.current.value = "";
             }}
-            className=" text-danger bg-light rounded p-0 top-0 start-100 translate-middle d-flex align-items-center justify-content-center "
+            className="position-absolute top-0 start-100 translate-middle
+               d-flex align-items-center justify-content-center
+               text-danger bg-light rounded-circle p-0"
             style={{
-              position: "absolute",
-              height: "14px",
-              width: "14px"
-            }}>
-            <i class="bi bi-x-circle-fill"></i>
+              width: "18px",
+              height: "18px",
+              cursor: "pointer"
+            }}
+          >
+            <i
+              className="bi bi-x-circle-fill"
+              style={{ fontSize: "18px" }}
+            ></i>
           </span>
         </div>
       )}
