@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ChatItem from './ChatItem';
 import { Loading, Error, FileCard } from './Common';
-import { isMobile } from "./utils";
+import { getActiveChat, isMobile } from "./utils";
 
 export default function ChatBox({ appData, activeChatId, keyboardHeight, error, loading }) {
   const [speakingId, setSpeakingId] = useState(null)
@@ -14,7 +14,7 @@ export default function ChatBox({ appData, activeChatId, keyboardHeight, error, 
     )
   }
 
-  const activeChat = appData.chats.find(chat => chat.id === activeChatId)
+  const activeChat = getActiveChat(appData, activeChatId)
 
   return (
     <div className="chatBox flex-grow-1 overflow-auto py-3 px-3 "
