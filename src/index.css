@@ -36,7 +36,7 @@ body {
 .sidebar {
   width: 300px;
   height: 100%;
-  z-index: 1050;
+  z-index: 50;
 
 }
 
@@ -52,21 +52,20 @@ body {
 @keyframes popupFade {
   from {
     opacity: 0;
-    transform: scale(1);
   }
 
   to {
     opacity: 1;
-    transform: scale(1);
   }
 }
+
 
 @media (max-width: 767.98px) {
   .sidebar {
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 1050;
+    z-index: 50;
     width: 72vw;
     max-width: 300px;
   }

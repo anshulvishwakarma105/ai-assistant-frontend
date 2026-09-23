@@ -57,7 +57,7 @@ export default function InputField({ keyboardHeight, onAskAi, loading, setAlert 
         width: "100%",
         position: "absolute",
         bottom: focused && isMobile ? `${keyboardHeight}px` : "0",
-        zIndex: 100
+        zIndex: 40
       }}
     >
       {file && (
