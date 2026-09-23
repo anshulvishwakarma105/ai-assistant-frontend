@@ -1,11 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import InputField from './components/InputField';
 import ChatBox from './components/ChatBox';
 import Sidebar from './components/Sidebar';
 import { Alert, Confirmation, CustomiseUserForm, Editor } from './components/Popups';
-import { isMobile } from "./components/utils";
+import { getActiveChat, isMobile } from "./components/utils";
 
 export default function App() {
+
+  const [animation, setAnimation] = useState(true);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setAnimation(false);
+    }, 3000);
+
+    return () => {
+      clearTimeout(timer);
+    }
+  }, [])
+
   let initHistory;
   if (localStorage.getItem("history")) {
     initHistory = JSON.parse(localStorage.getItem("history"))
@@ -146,7 +158,7 @@ export default function App() {
       chatId = createNewChat();
       setActiveChatId(chatId);
     } else {
-      const activeChat = appData.chats.find(chat => chat.id === chatId);
+      const activeChat = getActiveChat(appData, chatId);
       previousMessages = activeChat?.messages.slice(-5).map(item => ({
         role: item.role,
         content: item.content
@@ -293,7 +305,7 @@ export default function App() {
         }
       },
     }))
-     setAlert({
+    setAlert({
       message: `You Updated UserInfo Successfully!`,
       bgColor: "success",
       color: "light"
@@ -327,64 +339,83 @@ export default function App() {
   }, []);
 
 
+  if (animation) {
+    return (
+      <div className="app bg-primary text-light d-flex flex-column align-items-center justify-content-center gap-4">
+  <img
+    src="/favicon.png"
+    alt="chat icon image"
+    className=" flex-shrink-0"
+    style={{
+      width: "clamp(64px, 12vw, 120px)",
+      height: "clamp(64px, 12vw, 120px)"
+    }}
+  />
 
-  return (
+  <div className="fw-semibold fs-4 fs-md-3 text-center px-3">
+    Wait, It Is Loading
+    <span className="ms-1" style={{letterSpacing: "8px"}}>...</span>
+  </div>
+</div>
+    )
+  } else {
+    return (
 
-    <div className="app  d-flex overflow-hidden position-relative">
-      <Sidebar
-        sidebar={sidebar}
-        setSidebar={setSidebar}
-        appData={appData}
-        activeChatId={activeChatId}
-        setActiveChatId={setActiveChatId}
-        setEditor={setEditor}
-        handleRenameChat={handleRenameChat}
-        setConfirm={setConfirm}
-        handleDeleteChat={handleDeleteChat}
-        setUserForm={setUserForm}
-
-      />
-
-      <div className="flex-grow-1 d-flex flex-column w-100 overflow-hidden position-relative">
-        <div className="bg-dark text-light border-bottom p-2 flex-shrink-0 sidebarToggler">
-          <button
-            className="btn btn-primary"
-            onClick={() => setSidebar(prev => !prev)}
-          >{(sidebar && isMobile) ?
-            <i className="bi bi-x-lg"></i> :
-            <i className="bi bi-list-nested"></i>}
-          </button>
-        </div>
-
-        <ChatBox
+      <div className="app  d-flex overflow-hidden position-relative">
+        <Sidebar
+          sidebar={sidebar}
+          setSidebar={setSidebar}
           appData={appData}
           activeChatId={activeChatId}
-          keyboardHeight={keyboardHeight}
-          error={error}
-          loading={loading}
+          setActiveChatId={setActiveChatId}
+          setEditor={setEditor}
+          handleRenameChat={handleRenameChat}
+          setConfirm={setConfirm}
+          handleDeleteChat={handleDeleteChat}
+          setUserForm={setUserForm}
+
         />
 
-        <InputField
-          keyboardHeight={keyboardHeight}
-          onAskAi={handleAskAi}
-          loading={loading}
-          setAlert={setAlert}
-        />
+        <div className="flex-grow-1 d-flex flex-column w-100 overflow-hidden position-relative">
+          <div className="bg-dark text-light border-bottom p-2 flex-shrink-0 sidebarToggler">
+            <button
+              className="btn btn-primary"
+              onClick={() => setSidebar(prev => !prev)}
+            >{(sidebar && isMobile) ?
+              <i className="bi bi-x-lg"></i> :
+              <i className="bi bi-list-nested"></i>}
+            </button>
+          </div>
+
+          <ChatBox
+            appData={appData}
+            activeChatId={activeChatId}
+            keyboardHeight={keyboardHeight}
+            error={error}
+            loading={loading}
+          />
+
+          <InputField
+            keyboardHeight={keyboardHeight}
+            onAskAi={handleAskAi}
+            loading={loading}
+            setAlert={setAlert}
+          />
+        </div>
+        {editor &&
+          <Editor editor={editor} setEditor={setEditor} setAlert={setAlert} />
+        }
+        {confirm &&
+          <Confirmation confirm={confirm} setConfirm={setConfirm} />
+        }
+        {alert &&
+          <Alert alert={alert} setAlert={setAlert} />
+        }
+        {UserForm &&
+          <CustomiseUserForm userInfo={appData.userInfo} setUserForm={setUserForm} setAlert={setAlert} UserInfoUpdate={handleUserInfoUpdate} />
+        }
       </div>
-      {editor &&
-        <Editor editor={editor} setEditor={setEditor} setAlert={setAlert} />
-      }
-      {confirm &&
-        <Confirmation confirm={confirm} setConfirm={setConfirm} />
-      }
-      {alert &&
-        <Alert alert={alert} setAlert={setAlert} />
-      }
-      {UserForm &&
-        <CustomiseUserForm userInfo={appData.userInfo} setUserForm={setUserForm} setAlert={setAlert} UserInfoUpdate={handleUserInfoUpdate}/>
-      }
-    </div>
 
-  )
+    )
+  }
 }
-
