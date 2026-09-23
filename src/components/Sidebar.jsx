@@ -3,7 +3,7 @@ import { ChatOperations } from './Popups';
 import { UserInfoCard } from './Common';
 import { isMobile } from "./utils";
 
-export default function Sidebar({ sidebar, setSidebar, appData, activeChatId, setActiveChatId, setEditor, handleRenameChat, setConfirm, handleDeleteChat }) {
+export default function Sidebar({ sidebar, setSidebar, appData, activeChatId, setActiveChatId, setEditor, handleRenameChat, setConfirm, handleDeleteChat, setUserForm}) {
   const [chatOperations, setChatOperations] = useState(null);
   useEffect(() => {
     const handleClickOutside = () => {
@@ -83,7 +83,7 @@ export default function Sidebar({ sidebar, setSidebar, appData, activeChatId, se
           </div>
         ))}
       </div>
-      <UserInfoCard userInfo={appData.userInfo}/>
+      <UserInfoCard userInfo={appData.userInfo} setUserForm={setUserForm}/>
     </div>
   )
 }
