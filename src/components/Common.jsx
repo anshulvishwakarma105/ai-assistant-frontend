@@ -18,7 +18,7 @@ function FileCard({ fileName }) {
     return (
         <div
             className="d-flex align-items-center bg-secondary
-                text-light border border-danger rounded-pill px-3 py-1  "
+                text-light border   rounded-pill px-3 py-1  "
             style={{
                 maxWidth: "240px"
             }}>
@@ -27,17 +27,23 @@ function FileCard({ fileName }) {
         </div>
     )
 }
-function UserInfoCard({userInfo}) {
+function UserInfoCard({ userInfo, setUserForm }) {
     return (
-        <div className="mt-auto d-flex align-items-center gap-2 p-2 rounded-3 border">
-          <img src="/profile.png" alt="profile" className="rounded-circle flex-shrink-0" width="32" height="32" />
-          <div className="d-flex flex-column px-1 overflow-hidden">
-            <div className="text-truncate text-light">{userInfo.name}</div>
-            <div className="text-secondary d-flex align-items-center gap-2 text-truncate">
-              <span className="text-truncate">Saving on localstorage</span>
-              <i className="bi bi-cloud-arrow-up flex-shrink-0"></i>
+        <div
+            className="mt-auto d-flex align-items-center gap-2 p-2 rounded-3 border"
+            onClick={() => setUserForm(prev => !prev)}
+            style={{
+                cursor:"pointer"
+            }}
+        >
+            <img src="/profile.png" alt="profile" className="rounded-circle flex-shrink-0" width="32" height="32" />
+            <div className="d-flex flex-column px-1 overflow-hidden">
+                <div className="text-truncate text-light">{userInfo.name}</div>
+                <div className="text-secondary d-flex align-items-center gap-2 text-truncate">
+                    <span className="text-truncate">Saving on localstorage</span>
+                    <i className="bi bi-cloud-arrow-up flex-shrink-0"></i>
+                </div>
             </div>
-          </div>
         </div>
     )
 }
