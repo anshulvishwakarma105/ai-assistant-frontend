@@ -44,9 +44,19 @@ body {
   animation: popupFade 0.2s ease forwards;
 }
 
+.popup-width {
+  min-width: 300px;
+  min-height: 120px;
+}
+
 .chat-message {
   overflow-wrap: anywhere;
   word-break: break-word;
+}
+
+.about-img {
+  width: 500px;
+  height: 500px;
 }
 
 @keyframes popupFade {
@@ -59,7 +69,6 @@ body {
   }
 }
 
-
 @media (max-width: 767.98px) {
   .sidebar {
     position: absolute;
@@ -70,9 +79,53 @@ body {
     max-width: 300px;
   }
 
-
-  .sidebarToggler {
-    display: flex;
-    justify-content: end;
+  .popup-width {
+    min-width: 220px;
+    min-height: 140px;
   }
+
+  .about-img {
+    width: auto;
+    height: auto;
+  }
+
+  .chatbox-header {
+    flex-direction: row-reverse;
+  }
+}
+
+.custom-scrollbar {
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #6f42c1 transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #6f42c1;
+    border-radius: 10px;
+}
+
+.hide-scrollbar {
+    scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+@media (min-width: 573px) {
+    .custom-scrollbar {
+        scrollbar-width: none;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
 }

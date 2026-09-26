@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 import ChatItem from './ChatItem';
-import { Loading, Error, FileCard } from './Common';
+import { Loading, Error, FileCard, NewChatScreen } from './Common';
 import { getActiveChat, isMobile } from "./utils";
 
 export default function ChatBox({ appData, activeChatId, keyboardHeight, error, loading }) {
   const [speakingId, setSpeakingId] = useState(null)
   if (!activeChatId) {
     return (
-      <div className="flex-grow-1 d-flex flex-column justify-content-center align-items-center text-center">
-        <h3 className="text-primary user-select-none">Ask Anything | Feel Free to Ask</h3>
-        <h5 className="text-muted user-select-none">Be Respectful and Kind</h5>
-      </div>
+      <NewChatScreen />
     )
   }
 

@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 
 function Editor({ editor, setEditor, setAlert }) {
   const [newTitle, setNewTitle] = useState(editor.chatName)
-  const handleEditorSubmit = () => {
+  const handleEditorSubmit = (e) => {
+    e.preventDefault()
     if (!newTitle.trim()) {
       setAlert({
         message: "New Title Cannot Be Empty.",
@@ -24,92 +25,99 @@ function Editor({ editor, setEditor, setAlert }) {
   }
   return (
     <>
-      <div className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-md-none"
+      <div className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 "
         style={{ zIndex: 60 }}></div>
       <div
         onClick={(e) => e.stopPropagation()}
         className="position-absolute top-50 start-50 translate-middle
-       bg-dark border border-secondary rounded-3 text-light px-3 py-3
-       d-flex flex-column align-items-center justify-content-center gap-3 
-       shadow popup-animation"
+       bg-dark border border-secondary rounded-3 
+       shadow popup-animation "
         style={{
-          minWidth: "160px",
           zIndex: "3000"
         }}
       >
-        <input
-          type="text"
-          value={newTitle}
-          onChange={(e) => setNewTitle(e.target.value)}
-          className="form-control"
-          id="renameChat"
-          aria-describedby="renameChat" />
+        <form className='text-light px-3 py-3
+       d-flex flex-column align-items-center justify-content-evenly  gap-3 popup-width ' onSubmit={handleEditorSubmit}>
+          <div className="form-floating w-100">
+            <input
+              type="text"
+              value={newTitle}
+              onChange={(e) => setNewTitle(e.target.value)}
+              className="form-control"
+              id="renameChat"
+              placeholder="New Title"
+              aria-describedby="renameChat"
+            />
+            <label htmlFor="renameChat">New Title</label>
+          </div>
 
-        <div className=" w-100 d-flex justify-content-center gap-2">
-          <button
-            className="btn btn-sm btn-primary w-100"
-            onClick={handleEditorSubmit}
-          >
-            {editor.title}
-          </button>
-          <button
-            type='button'
-            onClick={() => setEditor(null)}
-            className="btn btn-sm btn-secondary w-100"
-          >
-            Cancel
-          </button>
 
-        </div>
+          <div className=" w-100 d-flex justify-content-center gap-2">
+            <button
+              type='submit'
+              className="btn btn-sm btn-primary w-100 "
+            >
+              {editor.title}
+            </button>
+            <button
+              type='button'
+              onClick={() => setEditor(null)}
+              className="btn btn-sm btn-secondary w-100 "
+            >
+              Cancel
+            </button>
+
+          </div>
+        </form>
       </div>
     </>
   )
 }
-
 function Confirmation({ confirm, setConfirm }) {
+  const handleConfirmSubmit=(e)=>{
+    e.preventDefault();
+    confirm.action();
+    setConfirm(null);
+  }
   return (
     <>
-      <div className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-md-none"
+      <div className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50"
         style={{ zIndex: 60 }}></div>
       <div
         onClick={(e) => e.stopPropagation()}
         className="position-absolute top-50 start-50 translate-middle
-       bg-dark border border-secondary rounded-3 text-light px-4 py-3 
-       d-flex flex-column align-items-center justify-content-center gap-3 
-       shadow popup-animation"
+       bg-dark border border-secondary rounded-3 
+       shadow popup-animation "
         style={{
-          minWidth: "160px",
           zIndex: "3000"
         }}
       >
-        <div className="text-center">{confirm.message}</div>
+        <form className='text-light px-4 py-3 
+       d-flex flex-column align-items-center justify-content-evenly gap-3 popup-width'
+       onSubmit={handleConfirmSubmit} >
+          <div className="text-center">{confirm.message}</div>
 
-        <div className=" w-100 d-flex justify-content-center gap-2">
-          <button
-            type='button'
-            className="btn btn-sm btn-danger w-100"
-            onClick={() => {
-              confirm.action();
-              setConfirm(null);
-            }}
-          >
-            {confirm.title}
-          </button>
-          <button
-            type='button'
-            onClick={() => setConfirm(null)}
-            className="btn btn-sm btn-secondary w-100"
-          >
-            Cancel
-          </button>
+          <div className=" w-100 d-flex justify-content-center gap-2">
+            <button
+              type='submit'
+              className="btn btn-sm btn-danger w-100"
+            >
+              {confirm.title}
+            </button>
+            <button
+              type='button'
+              onClick={() => setConfirm(null)}
+              className="btn btn-sm btn-secondary w-100"
+            >
+              Cancel
+            </button>
 
-        </div>
+          </div>
+        </form>
       </div>
     </>
   )
 }
-
-
 function Alert({ alert, setAlert }) {
   useEffect(() => {
     if (!alert) return;
@@ -150,7 +158,7 @@ function ChatOperations({ chatId, chatName, setChatOperations, setEditor, handle
   const handleDeleteBtn = () => {
     setConfirm({
       title: "Delete",
-      message: `Are you sure Want to delete "${chatName}" `,
+      message: `Are you sure Want to delete "${chatName}"?`,
       action: () => handleDeleteChat(chatId, chatName)
     })
 
@@ -234,11 +242,11 @@ function CustomiseUserForm({ userInfo, setUserForm, setAlert, UserInfoUpdate }) 
         <form onSubmit={handleUserFormSubmit}>
           <div className='d-flex flex-column gap-3 pb-3'>
             <div className="form-floating ">
-              <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="form-control" id="floatingInput" placeholder="Alex Adams" />
+              <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="form-control" id="floatingInput" placeholder="Alex Mayers" />
               <label htmlFor="floatingInput">Name</label>
             </div>
             <div className="form-floating">
-              <textarea value={desc} onChange={(e) => setDesc(e.target.value)} className="form-control" placeholder="Tell your preferences & interestes." id="floatingTextarea2" style={{ minHeight: "60px", maxHeight: "140px" }}></textarea>
+              <textarea value={desc} onChange={(e) => setDesc(e.target.value)} className="form-control" placeholder="Tell your preferences & interestes." id="floatingTextarea2" style={{ minHeight: "60px", maxHeight: "120px" }}></textarea>
               <label htmlFor="floatingTextarea2">Description</label>
             </div>
             <div className='bg-light text-dark py-2  px-2 rounded '>
@@ -304,7 +312,6 @@ function CustomiseUserForm({ userInfo, setUserForm, setAlert, UserInfoUpdate }) 
     </>
   )
 }
-
 
 export { CustomiseUserForm, Editor, Confirmation, Alert, ChatOperations }
 
