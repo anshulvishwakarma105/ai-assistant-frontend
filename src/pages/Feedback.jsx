@@ -17,6 +17,7 @@ export default function Feedback() {
         setRating(rate);
     }
     const handleFeedbackSubmit = (e) => {
+        // Later i Will Connect it to Send & Store Feedback
         e.preventDefault();
         console.log("feeback form submited");
         console.table({
@@ -65,7 +66,6 @@ export default function Feedback() {
                                     <label htmlFor="feedbackName">Full Name</label>
                                 </div>
                             </div>
-
                             <div className="col-12 col-md-6">
                                 <div className="form-floating">
                                     <input
@@ -80,10 +80,8 @@ export default function Feedback() {
                                 </div>
                             </div>
                         </div>
-
                         <div className="text-center  border rounded">
                             <p className="fw-semibold mb-2">How would you rate our application?</p>
-
                             <div className="d-flex justify-content-center gap-2">
                                 {[1, 2, 3, 4, 5].map((rate) => (
                                     <button
@@ -103,15 +101,11 @@ export default function Feedback() {
                                     </button>
                                 ))}
                             </div>
-
-
                         </div>
-
                         <div className="text-center  border rounded">
                             <p className="fw-semibold mb-2">
                                 Are you satisfied with our application?
                             </p>
-
                             <div className="d-flex justify-content-center gap-4">
                                 <label
                                     className="d-flex align-items-center gap-2"
@@ -127,7 +121,6 @@ export default function Feedback() {
                                     <i className="bi bi-emoji-smile-fill text-warning fs-4"></i>
                                     <span>Yes</span>
                                 </label>
-
                                 <label
                                     className="d-flex align-items-center gap-2"
                                     style={{ cursor: "pointer" }}
@@ -144,12 +137,10 @@ export default function Feedback() {
                                 </label>
                             </div>
                         </div>
-
                         <div >
                             <label htmlFor="feedbackDesc" className="form-label fw-semibold">
                                 Your Feedback
                             </label>
-
                             <textarea
                                 value={feedback}
                                 onChange={(e) => setFeedback(e.target.value)}
@@ -159,7 +150,6 @@ export default function Feedback() {
                                 rows="4"
                             ></textarea>
                         </div>
-
                         <div className="d-flex gap-2">
                             <button
                                 type="submit"
@@ -167,7 +157,6 @@ export default function Feedback() {
                             >
                                 Submit <span className='d-none d-md-inline'>Feedback</span>
                             </button>
-
                             <button
                                 type="button"
                                 className="btn btn-danger w-100 py-2"

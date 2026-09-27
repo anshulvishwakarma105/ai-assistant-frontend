@@ -8,13 +8,13 @@ export default function About() {
             <Navbar />
 
             <div
-                className="container d-flex align-items-start overflow-auto hide-scrollbar"
+                className="pt-3 pt-md-0 container d-flex align-items-start overflow-auto hide-scrollbar"
                 style={{
                     height: "calc(100dvh - 85px)",
                     marginBottom: "60px"
                 }}
             >
-                <div className="row align-items-center g-5 w-100 mx-auto py-2">
+                <div className="row align-items-center g-3 g-md-5 w-100 mx-auto py-2">
                     <div className="col-12 col-md-6">
                         <h1 className="fw-bold display-6 mb-3">
                             Welcome To AI Chat App!
