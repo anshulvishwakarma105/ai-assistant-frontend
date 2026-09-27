@@ -1,5 +1,6 @@
 import React from 'react'
 import { getActiveChat, isMobile } from './utils'
+import { Link } from 'react-router-dom'
 
 function Animation() {
     return (
@@ -21,10 +22,10 @@ function Animation() {
         </div>
     )
 }
-
 function Error({ error }) {
     return (
-        <div className="alert alert-danger mx-3 my-2" role="alert">
+        <div className="text-danger px-3 py-2">
+            <i className="bi bi-exclamation-circle-fill me-2"></i>
             {error.toString()}
         </div>
     )
@@ -64,9 +65,9 @@ function ChatBoxHeader({ sidebar, setSidebar, appData, activeChatId }) {
                 <i className="bi bi-x-lg"></i> :
                 <i className="bi bi-list-nested"></i>}
             </button>
-            <div className="d-flex align-items-baseline gap-2 me-5 ms-4 ms-lg-0">
+            <div className="d-flex align-items-baseline gap-2 me-5 ms-4 ms-lg-0 text-truncate">
                 <span className="d-none d-sm-inline text-success ">Current Chat :</span>
-                <span>{activeChat?.title ?? "New Chat"}</span>
+                <span className='text-truncate'>{activeChat?.title ?? "New Chat"}</span>
                 <i className="bi bi-chevron-bar-down "></i>
             </div>
         </div>
@@ -74,17 +75,42 @@ function ChatBoxHeader({ sidebar, setSidebar, appData, activeChatId }) {
 }
 function NewChatScreen() {
     return (
-        <div className="flex-grow-1 d-flex flex-column justify-content-center align-items-center text-center">
-            <h3 className="text-primary user-select-none">Ask Anything | Feel Free to Ask</h3>
-            <h5 className="text-muted user-select-none">Be Respectful and Kind</h5>
-            <p className="small text-danger user-select-none">
-                (AI responses may be inaccurate. Please double-check important information.)
-            </p>
-        </div>
+       <div className="flex-grow-1 d-flex flex-column justify-content-center align-items-center text-center px-3 opacity-75">
+    <img
+        src="/Chat.png"
+        alt="Chat Twins image"
+        className="flex-shrink-0"
+        style={{
+            width: "clamp(64px, 12vw, 120px)",
+            height: "clamp(64px, 12vw, 120px)"
+        }}
+    />
+
+    <h4 className="text-primary user-select-none">
+        Ask Anything, Be Respectful
+    </h4>
+
+    <p className="small text-muted user-select-none mb-1">
+        AI can make mistakes. Verify important information.{" "}
+        <Link to="/terms" className="text-decoration-none border-bottom border-primary">
+            Read Terms & Conditions
+        </Link>
+    </p>
+</div>
     )
 }
 
-function UserInfoCard({ userInfo, setUserForm }) {
+function UserInfoCard({ userInfo, setUserForm,setConfirm, hanleDeleteHistory }) {
+   const hanleDeleteBtn =(e)=>{
+     e.stopPropagation();
+     setConfirm({
+      title: "Refresh",
+      message: `Are you sure want to delete your whole Data ?`,
+      action: hanleDeleteHistory
+    })
+
+     
+   };
     return (
         <div
             className="mt-auto d-flex align-items-center gap-2 p-2 rounded-3 border"
@@ -100,6 +126,12 @@ function UserInfoCard({ userInfo, setUserForm }) {
                     <span className="text-truncate">Saving on localstorage</span>
                     <i className="bi bi-cloud-arrow-up flex-shrink-0"></i>
                 </div>
+            </div>
+            <div 
+            className='btn btn-outline-danger ms-auto fs-5 ' aria-label='Delete History'
+            onClick={hanleDeleteBtn}
+            >
+                <i className="bi bi-trash3"></i>
             </div>
         </div>
     )
