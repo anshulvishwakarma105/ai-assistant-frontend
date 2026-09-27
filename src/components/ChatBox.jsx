@@ -1,18 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ChatItem from './ChatItem';
 import { Loading, Error, FileCard, NewChatScreen } from './Common';
 import { getActiveChat, isMobile } from "./utils";
+import { useNavigate } from 'react-router-dom';
 
-export default function ChatBox({ appData, activeChatId, keyboardHeight, error, loading }) {
-  const [speakingId, setSpeakingId] = useState(null)
-  if (!activeChatId) {
+export default function ChatBox({ appData, activeChatId, setAlert, keyboardHeight, error, loading }) {
+  const navigate = useNavigate()
+  const [speakingId, setSpeakingId] = useState(null);
+  const activeChat = getActiveChat(appData, activeChatId);
+
+useEffect(() => {
+    if (
+        activeChatId &&
+        activeChatId.toLowerCase() !== "new" &&
+        !activeChat
+    ) {
+      navigate('/chat/new')
+    }
+}, [activeChatId, activeChat, setAlert]);
+
+  if (activeChatId?.toLowerCase() === "new") {
     return (
       <NewChatScreen />
     )
   }
-
-  const activeChat = getActiveChat(appData, activeChatId)
-
   return (
     <div className="chatBox flex-grow-1 overflow-auto py-3 px-3 "
       style={{

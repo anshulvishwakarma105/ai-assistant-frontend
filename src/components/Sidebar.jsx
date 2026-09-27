@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { ChatOperations } from './Popups';
 import { UserInfoCard } from './Common';
 import { isMobile } from "./utils";
+import { useNavigate } from 'react-router-dom';
 
-export default function Sidebar({ sidebar, setSidebar, appData, activeChatId, setActiveChatId, setEditor, handleRenameChat, setConfirm, handleDeleteChat, setUserForm}) {
+export default function Sidebar({ sidebar, setSidebar, appData, activeChatId, setEditor, handleRenameChat, setConfirm, handleDeleteChat, setUserForm, hanleDeleteHistory}) {
+  const navigate = useNavigate();
   const [chatOperations, setChatOperations] = useState(null);
   useEffect(() => {
     const handleClickOutside = () => {
@@ -27,7 +29,7 @@ export default function Sidebar({ sidebar, setSidebar, appData, activeChatId, se
           if (isMobile) {
             setSidebar(null);
           }
-          setActiveChatId(null);
+          navigate(`/chat/new`);
         }}
         className="btn w-100 mb-4 btn-primary"
       >
@@ -41,14 +43,14 @@ export default function Sidebar({ sidebar, setSidebar, appData, activeChatId, se
       </h6>
 
       <div className="position-relative overflow-visible">
-        {appData.chats.map(chat => (
+        {appData.chats.length !== 0 ? appData.chats?.map(chat => (
           <div
             key={chat.id}
             onClick={() => {
               if (isMobile) {
                 setSidebar(null);
               }
-              setActiveChatId(chat.id);
+              navigate(`/chat/${chat.id}`);
             }}
             className={` p-2 rounded mb-1 text-truncate d-flex align-items-center gap-2  ${activeChatId === chat.id ? "bg-secondary" : "text-light"
               }`}
@@ -81,9 +83,11 @@ export default function Sidebar({ sidebar, setSidebar, appData, activeChatId, se
                 handleDeleteChat={handleDeleteChat} />
             )}
           </div>
-        ))}
+        )) :
+          <div className='d-flex justify-content-center text-secondary fst-italic '><i className="bi bi-ban me-2"></i> No Chat To Show Here</div>
+        }
       </div>
-      <UserInfoCard userInfo={appData.userInfo} setUserForm={setUserForm}/>
+      <UserInfoCard userInfo={appData.userInfo} setUserForm={setUserForm} setConfirm={setConfirm} hanleDeleteHistory={hanleDeleteHistory}/>
     </div>
   )
 }

@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function Editor({ editor, setEditor, setAlert }) {
+
   const [newTitle, setNewTitle] = useState(editor.chatName)
   const handleEditorSubmit = (e) => {
     e.preventDefault()
     if (!newTitle.trim()) {
       setAlert({
         message: "New Title Cannot Be Empty.",
-        bgColor: "danger",
-        color: "light"
+        bgColor: "warning",
+        icon: "exclamation-triangle-fill"
       });
       return;
     }
     if (newTitle.trim() === editor.chatName) {
       setAlert({
         message: "New Title Should Be Unique.",
-        bgColor: "danger",
-        color: "light"
+        bgColor: "warning",
+        icon: "exclamation-triangle-fill"
       });
       return;
     }
@@ -74,7 +76,7 @@ function Editor({ editor, setEditor, setAlert }) {
   )
 }
 function Confirmation({ confirm, setConfirm }) {
-  const handleConfirmSubmit=(e)=>{
+  const handleConfirmSubmit = (e) => {
     e.preventDefault();
     confirm.action();
     setConfirm(null);
@@ -94,7 +96,7 @@ function Confirmation({ confirm, setConfirm }) {
       >
         <form className='text-light px-4 py-3 
        d-flex flex-column align-items-center justify-content-evenly gap-3 popup-width'
-       onSubmit={handleConfirmSubmit} >
+          onSubmit={handleConfirmSubmit} >
           <div className="text-center">{confirm.message}</div>
 
           <div className=" w-100 d-flex justify-content-center gap-2">
@@ -130,21 +132,20 @@ function Alert({ alert, setAlert }) {
   }, [alert, setAlert])
 
   return (
-    <div
-      className={`position-fixed top-0 start-50 
-      translate-middle-x mt-5 px-3 py-2 bg-${alert.bgColor}
-      text-${alert.color} border border-secondary rounded-3 
-      shadow d-flex align-items-start justify-content-center gap-2 popup-animation `}
-      style={{
+ <div className={`position-fixed top-0 start-50 
+      translate-middle-x mt-5 alert alert-${alert.bgColor} d-flex align-items-center`} role="alert" style={{
         minWidth: "260px",
         zIndex: "3000"
       }}>
-      <i className="bi bi-info-circle "></i>
-      <span>{alert.message}</span>
-    </div>
+        <i className={`bi bi-${alert.icon} me-2`}></i>
+        <div>
+          {alert.message}
+        </div>
+      </div>
   )
 }
 function ChatOperations({ chatId, chatName, setChatOperations, setEditor, handleRenameChat, setConfirm, handleDeleteChat }) {
+  const navigate = useNavigate();
   const handleRenameBtn = () => {
     setEditor({
       title: "Rename",
@@ -164,6 +165,15 @@ function ChatOperations({ chatId, chatName, setChatOperations, setEditor, handle
 
     setChatOperations(null);
   }
+  const handleReportBtn = () => {
+    setConfirm({
+      title: "Report",
+      message: `Tell us through the Feedback form what's wrong with this chat: "${chatName}"?`,
+      action: () => navigate('/feedback')
+    })
+
+    setChatOperations(null);
+  }
   return (
     <div
       className="position-absolute top-50 start-100 translate-middle-y 
@@ -178,19 +188,27 @@ function ChatOperations({ chatId, chatName, setChatOperations, setEditor, handle
       }}
     >
       <button
-        className="btn btn-sm text-light w-100 text-start py-2 px-2 rounded-2"
+        className="btn btn-sm text-light w-100 text-start py-2 px-2 rounded-2 my-1"
         onClick={handleRenameBtn}
       >
         <i className="bi bi-pencil me-2"></i>
         Rename
       </button>
-
+      <div className="border-top border-secondary"></div>
       <button
-        className="btn btn-sm text-danger w-100 text-start py-2 px-2 rounded-2 border-top border-secondary mt-1"
+        className="btn btn-sm text-danger w-100 text-start rounded-2 py-2 px-2 my-1"
         onClick={handleDeleteBtn}
       >
         <i className="bi bi-trash me-2"></i>
         Delete
+      </button>
+      <div className="border-top border-secondary"></div>
+      <button
+        className="btn btn-sm text-warning w-100 text-start rounded-2 py-2 px-2 my-1 "
+        onClick={handleReportBtn}
+      >
+        <i className="bi bi-exclamation-triangle  me-2"></i>
+        Report
       </button>
     </div>
   )
@@ -215,8 +233,8 @@ function CustomiseUserForm({ userInfo, setUserForm, setAlert, UserInfoUpdate }) 
     ) {
       setAlert({
         message: `Somthing should be Different to Update`,
-        bgColor: "info",
-        color: "dark"
+        bgColor: "warning",
+        icon: "exclamation-triangle-fill"
       });
     } else {
       UserInfoUpdate(name, desc, region, language, timeZone, chatStyle);
@@ -231,14 +249,14 @@ function CustomiseUserForm({ userInfo, setUserForm, setAlert, UserInfoUpdate }) 
         onClick={(e) => e.stopPropagation()}
         className="position-absolute top-50 start-50 translate-middle
        bg-dark border border-secondary rounded-3 text-light px-4 py-4
-       d-flex flex-column align-items-center justify-content-center gap-3 
+       d-flex flex-column align-items-center justify-content-center gap-2
        shadow popup-animation"
         style={{
           minWidth: "260px",
           zIndex: "3000"
         }}
       >
-
+        <h4>User Info</h4>
         <form onSubmit={handleUserFormSubmit}>
           <div className='d-flex flex-column gap-3 pb-3'>
             <div className="form-floating ">

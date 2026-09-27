@@ -24,9 +24,16 @@ function Navbar() {
             path: "/feedback"
         }]
     return (
-        <nav className="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+        <nav className="navbar navbar-expand-md bg-primary" data-bs-theme="dark">
             <div className="container-fluid">
-                <NavLink to="/" className="navbar-brand fw-bold" >Ai Chat App</NavLink>
+                <NavLink to="/" className="navbar-brand fw-bold align-middle" > <img
+                        src="/Chat.png"
+                        alt="Chat Twins image"
+                        className="flex-shrink-0 opacity-75 me-2"
+                        style={{
+                            width: "26px",
+                            height: "26px"
+                        }}/> <span> Ai Chat App </span></NavLink>
                 <button
                     className="navbar-toggler"
                     type="button"
@@ -38,7 +45,7 @@ function Navbar() {
                 </button>
 
                 <div
-                    className="offcanvas-lg offcanvas-end"
+                    className="offcanvas-md offcanvas-end"
                     tabIndex="-1"
                     id="navbarOffcanvas"
                     aria-labelledby="navbarOffcanvasLabel"
