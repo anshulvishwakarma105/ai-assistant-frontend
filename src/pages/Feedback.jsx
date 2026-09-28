@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { Footer, Navbar } from '../components/UiComponent'
 import { useLocation } from 'react-router-dom';
-
+import { PageTitle } from '../components/utils'
+import FeedbackImg from "../assets/Feedback.png"
 
 export default function Feedback({ setAlert }) {
     const { state } = useLocation();
-    const userName = JSON.parse(localStorage.getItem("history"))?.userInfo?.name || "Alex Morgan" ;
+    const userName = JSON.parse(localStorage.getItem("history"))?.userInfo?.name || "Alex Morgan";
 
     const [fname, setFname] = useState(userName);
     const [email, setEmail] = useState("");
@@ -24,7 +25,7 @@ export default function Feedback({ setAlert }) {
         e.preventDefault();
 
         // Later i Will Connect it to Send & Store Feedback
-        if (!fname.trim() || !rating || !feedback.trim())  {
+        if (!fname.trim() || !rating || !feedback.trim()) {
             setAlert({
                 message: `Fill All Neccessary Fields of ${state?.type || "Feedback"}`,
                 bgColor: "warning",
@@ -48,6 +49,7 @@ export default function Feedback({ setAlert }) {
     }
     return (
         <>
+            <PageTitle title="Feedback | Ai Twins" />
             <Navbar />
             <div className="d-flex align-items-center justify-content-center gap-4">
                 <form
@@ -194,10 +196,10 @@ export default function Feedback({ setAlert }) {
                 </form>
                 <div className="d-none d-lg-block">
                     <img
-                        src="/Feedback.png"
+                        src={FeedbackImg}
                         alt="Shakespeare Quote"
                         className="img-fluid"
-                        style={{ maxWidth: "350px" }}
+                        style={{ maxWidth: "450px", minHeight: "450px" }}
                     />
                 </div>
             </div>

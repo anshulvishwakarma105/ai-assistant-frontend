@@ -1,12 +1,14 @@
 import React from 'react'
 import { Footer, Navbar } from '../components/UiComponent'
 import { Link } from 'react-router-dom'
+import { PageTitle } from '../components/utils'
+import AboutImg from "../assets/About.png"
 
 export default function About() {
     return (
         <>
+        <PageTitle title="About | Ai Twins" />
             <Navbar />
-
             <div
                 className="pt-3 pt-md-0 container d-flex align-items-start overflow-auto hide-scrollbar"
                 style={{
@@ -54,7 +56,7 @@ export default function About() {
 
                     <div className="col-12 col-md-6 d-flex justify-content-center">
                         <img
-                            src="/About.png"
+                            src={AboutImg}
                             alt="Group of people together"
                             className="about-img img-fluid"
                         />

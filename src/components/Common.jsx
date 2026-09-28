@@ -1,12 +1,13 @@
 import React from 'react'
 import { getActiveChat, isMobile } from './utils'
 import { Link } from 'react-router-dom'
+import LoadingImg from "../assets/Loading.png"
 
 function Animation() {
     return (
         <div className="app bg-primary text-light d-flex flex-column align-items-center justify-content-center gap-4">
             <img
-                src="/Loading.png"
+                src={LoadingImg}
                 alt="Loading icon image"
                 className=" flex-shrink-0"
                 style={{

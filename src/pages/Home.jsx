@@ -1,14 +1,17 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Footer, Navbar } from '../components/UiComponent'
+import { PageTitle } from '../components/utils'
+import BackgroundImg from "../assets/Background.webp"
 
 export default function Home() {
     return (
         <>
+            <PageTitle title="Home | Ai Twins" />
             <Navbar />
             <div className="position-relative h-100 w-100 overflow-hidden">
                 <img
-                    src="/Background.webp"
+                    src={BackgroundImg}
                     alt="Aesthetic background image"
                     className="position-absolute top-0 start-0 w-100 h-100 object-fit-cover opacity-75"
                 />

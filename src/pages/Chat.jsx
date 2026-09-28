@@ -3,11 +3,12 @@ import InputField from '../components/InputField';
 import ChatBox from '../components/ChatBox';
 import Sidebar from '../components/Sidebar';
 import { Alert, Confirmation, CustomiseUserForm, Editor } from '../components/Popups';
-import { getActiveChat, isMobile } from "../components/utils";
+import { isMobile, getActiveChat, PageTitle } from "../components/utils";
 import { Animation, ChatBoxHeader } from '../components/Common';
 import { useNavigate, useParams } from 'react-router-dom';
+ 
 
-export default function Chat({alert, setAlert}) {
+export default function Chat({ alert, setAlert }) {
 
   const [animation, setAnimation] = useState(true);
   useEffect(() => {
@@ -88,8 +89,8 @@ export default function Chat({alert, setAlert}) {
     }
     try {
       const response = await fetch(
-        // "https://ai-assistant-backend-temp.onrender.com/api/chat"
-        "http://127.0.0.1:8000/api/chat"
+        "https://ai-assistant-backend-temp.onrender.com/api/chat"
+        // "http://127.0.0.1:8000/api/chat"
         ,
         {
           method: "POST",
@@ -224,7 +225,7 @@ export default function Chat({alert, setAlert}) {
       },
       chats: []
     };
-    if (JSON.stringify(appData) === JSON.stringify(defaultAppData)){ 
+    if (JSON.stringify(appData) === JSON.stringify(defaultAppData)) {
       setAlert({
         message: "Your Chat History is Already Cleared",
         bgColor: "primary",
@@ -273,60 +274,61 @@ export default function Chat({alert, setAlert}) {
     )
   } else {
     return (
-
-      <div className="app  d-flex overflow-hidden position-relative">
-        <Sidebar
-          sidebar={sidebar}
-          setSidebar={setSidebar}
-          appData={appData}
-          activeChatId={id}
-          setEditor={setEditor}
-          handleRenameChat={handleRenameChat}
-          setConfirm={setConfirm}
-          handleDeleteChat={handleDeleteChat}
-          setUserForm={setUserForm}
-          hanleDeleteHistory={hanleDeleteHistory}
-
-        />
-
-        <div className="flex-grow-1 d-flex flex-column w-100  overflow-hidden position-relative">
-
-          <ChatBoxHeader
+      <>
+        <PageTitle title="Chat | Ai Twins" />
+        <div className="app  d-flex overflow-hidden position-relative">
+          <Sidebar
             sidebar={sidebar}
             setSidebar={setSidebar}
             appData={appData}
-            activeChatId={id} />
-
-          <ChatBox
-            appData={appData}
             activeChatId={id}
-            setAlert={setAlert}
-            keyboardHeight={keyboardHeight}
-            error={error}
-            loading={loading}
+            setEditor={setEditor}
+            handleRenameChat={handleRenameChat}
+            setConfirm={setConfirm}
+            handleDeleteChat={handleDeleteChat}
+            setUserForm={setUserForm}
+            hanleDeleteHistory={hanleDeleteHistory}
+
           />
 
-          <InputField
-            keyboardHeight={keyboardHeight}
-            onAskAi={handleAskAi}
-            loading={loading}
-            setAlert={setAlert}
-          />
-        </div>
-        {
-          editor &&
-          <Editor editor={editor} setEditor={setEditor} setAlert={setAlert} />
-        }
-        {
-          confirm &&
-          <Confirmation confirm={confirm} setConfirm={setConfirm} />
-        }
-        {
-          UserForm &&
-          <CustomiseUserForm userInfo={appData.userInfo} setUserForm={setUserForm} setAlert={setAlert} UserInfoUpdate={handleUserInfoUpdate} />
-        }
-      </div >
+          <div className="flex-grow-1 d-flex flex-column w-100  overflow-hidden position-relative">
 
+            <ChatBoxHeader
+              sidebar={sidebar}
+              setSidebar={setSidebar}
+              appData={appData}
+              activeChatId={id} />
+
+            <ChatBox
+              appData={appData}
+              activeChatId={id}
+              setAlert={setAlert}
+              keyboardHeight={keyboardHeight}
+              error={error}
+              loading={loading}
+            />
+
+            <InputField
+              keyboardHeight={keyboardHeight}
+              onAskAi={handleAskAi}
+              loading={loading}
+              setAlert={setAlert}
+            />
+          </div>
+          {
+            editor &&
+            <Editor editor={editor} setEditor={setEditor} setAlert={setAlert} />
+          }
+          {
+            confirm &&
+            <Confirmation confirm={confirm} setConfirm={setConfirm} />
+          }
+          {
+            UserForm &&
+            <CustomiseUserForm userInfo={appData.userInfo} setUserForm={setUserForm} setAlert={setAlert} UserInfoUpdate={handleUserInfoUpdate} />
+          }
+        </div >
+      </>
     )
   }
 }

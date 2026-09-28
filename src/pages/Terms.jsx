@@ -1,10 +1,12 @@
 import React from 'react'
 import { Footer, Navbar } from '../components/UiComponent'
 import { Link } from 'react-router-dom'
+import { PageTitle } from '../components/utils'
 
 export default function Terms() {
     return (
         <>
+            <PageTitle title="Terms | Ai Twins" />
             <Navbar />
             <div
                 className="container overflow-auto py-4 custom-scrollbar"
