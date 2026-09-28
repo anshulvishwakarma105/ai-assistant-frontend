@@ -91,8 +91,8 @@ export default function Chat({ alert, setAlert }) {
     console.log([...formData])
     try {
       const response = await fetch(
-        // "https://ai-assistant-backend-temp.onrender.com/api/chat"
-        "http://127.0.0.1:8000/api/chat"
+        "https://ai-assistant-backend-temp.onrender.com/api/chat"
+        // "http://127.0.0.1:8000/api/chat"
         ,
         {
           method: "POST",
