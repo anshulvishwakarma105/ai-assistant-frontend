@@ -192,6 +192,12 @@ export default function Feedback({ setAlert }) {
                                 Reset
                             </button>
                         </div>
+                        <div className="mt-3 text-center text-secondary small">
+                            For any queries, email :{" "}
+                            <a href="mailto:anshulvishwkarma58@gmail.com" className="text-decoration-none fw-semibold border-bottom border-primary">
+                                anshulvishwkarma58@gmail.com
+                            </a>
+                        </div>
                     </div>
                 </form>
                 <div className="d-none d-lg-block">

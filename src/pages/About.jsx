@@ -7,7 +7,7 @@ import AboutImg from "../assets/About.png"
 export default function About() {
     return (
         <>
-        <PageTitle title="About | Ai Twins" />
+            <PageTitle title="About | Ai Twins" />
             <Navbar />
             <div
                 className="pt-3 pt-md-0 container d-flex align-items-start overflow-auto hide-scrollbar"
@@ -35,12 +35,18 @@ export default function About() {
                                 About Us
                             </h2>
 
-                            <p className="text-secondary mb-4">
+                            <p className="text-secondary">
                                 AI Chat App is designed to provide a simple, fast and
                                 privacy-focused chat experience. Your conversations and
                                 information are kept locally, giving you greater control
                                 over your data.
                             </p>
+                            <div className="mb-4">
+                                <span className="text-secondary">Developed by </span>
+                                <span className="fw-semibold" style={{ color: "#6f42c1" }}>
+                                    Anshul Vishwakarma
+                                </span>
+                            </div>
 
                             <div className="d-flex align-items-center justify-content-start gap-3">
                                 <Link to="/chat" className="btn btn-primary btn-lg px-4">
