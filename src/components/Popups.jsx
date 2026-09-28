@@ -224,10 +224,10 @@ function ChatOperations({ chatId, chatName, setChatOperations, setEditor, handle
 function CustomiseUserForm({ userInfo, setUserForm, setAlert, UserInfoUpdate }) {
   const [name, setName] = useState(userInfo.name)
   const [desc, setDesc] = useState(userInfo.desc)
-  const [chatStyle, setChatStyle] = useState(userInfo.chatStyle)
-  const [language, setLanguage] = useState(userInfo.language)
+  const [chatStyle, setChatStyle] = useState(userInfo.preferences.chatStyle)
+  const [language, setLanguage] = useState(userInfo.preferences.language)
   const [region, setRegion] = useState(userInfo.region)
-  const [timeZone, setTimeZone] = useState(userInfo.timeZone)
+  const [timeZone, setTimeZone] = useState(userInfo.preferences.timezone)
 
 
   const handleUserFormSubmit = (e) => {

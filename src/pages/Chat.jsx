@@ -302,8 +302,8 @@ export default function Chat({ alert, setAlert }) {
             <ChatBox
               appData={appData}
               activeChatId={id}
-              setAlert={setAlert}
               keyboardHeight={keyboardHeight}
+              sidebar={sidebar}
               error={error}
               loading={loading}
             />

@@ -4,11 +4,11 @@ import { Loading, Error, FileCard, NewChatScreen } from './Common';
 import { getActiveChat, isMobile } from "./utils";
 import { useNavigate } from 'react-router-dom';
 
-export default function ChatBox({ appData, activeChatId, setAlert, keyboardHeight, error, loading }) {
+export default function ChatBox({ appData, activeChatId, keyboardHeight, sidebar, error, loading }) {
   const navigate = useNavigate()
   const [speakingId, setSpeakingId] = useState(null);
   const activeChat = getActiveChat(appData, activeChatId);
-  
+
   useEffect(() => {
     if (
       activeChatId &&
@@ -25,7 +25,7 @@ export default function ChatBox({ appData, activeChatId, setAlert, keyboardHeigh
     )
   }
   return (
-    <div className="chatBox flex-grow-1 overflow-auto py-3 px-3 "
+    <div className={`${sidebar ? "" : "container"} chatBox flex-grow-1 overflow-auto py-3 px-3 custom-scrollbar`}
       style={{
         marginBottom: isMobile && keyboardHeight ? `${keyboardHeight + 60}px` : "52px",
       }}>
