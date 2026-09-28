@@ -191,7 +191,7 @@ export default function Chat({ alert, setAlert }) {
       icon: "check-circle-fill"
     });
   }
-  const handleUserInfoUpdate = (name, desc, region, language, timeZone, chatStyle) => {
+  const handleUserInfoUpdate = (name, desc, region, language, timezone, chatStyle) => {
     setAppData(prev => ({
       ...prev,
       userInfo: {
@@ -200,7 +200,7 @@ export default function Chat({ alert, setAlert }) {
         region: region,
         preferences: {
           language: language,
-          timezone: timeZone,
+          timezone: timezone,
           chatStyle: chatStyle
         }
       },

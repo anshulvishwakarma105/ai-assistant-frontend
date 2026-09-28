@@ -234,10 +234,10 @@ function CustomiseUserForm({ userInfo, setUserForm, setAlert, UserInfoUpdate }) 
     e.preventDefault();
     if (userInfo.name === name &&
       userInfo.desc === desc &&
-      userInfo.chatStyle === chatStyle &&
-      userInfo.language === language &&
+      userInfo.preferences.chatStyle === chatStyle &&
+      userInfo.preferences.language === language &&
       userInfo.region === region &&
-      userInfo.timeZone === timeZone
+      userInfo.preferences.timezone === timeZone
     ) {
       setAlert({
         message: `Somthing should be Different to Update`,
