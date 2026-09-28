@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import InputField from '../components/InputField';
 import ChatBox from '../components/ChatBox';
 import Sidebar from '../components/Sidebar';
-import { Alert, Confirmation, CustomiseUserForm, Editor } from '../components/Popups';
+import { Confirmation, CustomiseUserForm, Editor } from '../components/Popups';
 import { isMobile, getActiveChat, PageTitle } from "../components/utils";
 import { Animation, ChatBoxHeader } from '../components/Common';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -87,10 +87,12 @@ export default function Chat({ alert, setAlert }) {
     if (file) {
       formData.append("file", file);
     }
+    console.log(file)
+    console.log([...formData])
     try {
       const response = await fetch(
-        "https://ai-assistant-backend-temp.onrender.com/api/chat"
-        // "http://127.0.0.1:8000/api/chat"
+        // "https://ai-assistant-backend-temp.onrender.com/api/chat"
+        "http://127.0.0.1:8000/api/chat"
         ,
         {
           method: "POST",
