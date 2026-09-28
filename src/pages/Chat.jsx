@@ -7,7 +7,7 @@ import { getActiveChat, isMobile } from "../components/utils";
 import { Animation, ChatBoxHeader } from '../components/Common';
 import { useNavigate, useParams } from 'react-router-dom';
 
-export default function Chat() {
+export default function Chat({alert, setAlert}) {
 
   const [animation, setAnimation] = useState(true);
   useEffect(() => {
@@ -44,7 +44,6 @@ export default function Chat() {
   const [loading, setLoading] = useState(false);
   const [editor, setEditor] = useState(null);
   const [confirm, setConfirm] = useState(null);
-  const [alert, setAlert] = useState(null);
   const [UserForm, setUserForm] = useState(false);
   const [sidebar, setSidebar] = useState(!isMobile)
   const { id } = useParams();
@@ -321,10 +320,6 @@ export default function Chat() {
         {
           confirm &&
           <Confirmation confirm={confirm} setConfirm={setConfirm} />
-        }
-        {
-          alert &&
-          <Alert alert={alert} setAlert={setAlert} />
         }
         {
           UserForm &&

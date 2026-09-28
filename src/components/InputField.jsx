@@ -5,24 +5,20 @@ import { isMobile } from "./utils";
 
 
 export default function InputField({ keyboardHeight, onAskAi, loading, setAlert }) {
-
   const [input, setInput] = useState("");
   const [file, setFile] = useState(null);
   const [focused, setFocused] = useState(false);
-
-
+  
   const fileInputRef = useRef(null)
 
   const handleInputSubmit = (e) => {
     e.preventDefault();
-
     if (loading || !input.trim()) return;
     onAskAi(input, file);
     setInput("");
     setFile(null);
     fileInputRef.current.value = "";
   };
-
   const handleFileSubmit = (e) => {
     const selectedFile = e.target.files[0];
     if (!selectedFile) return;
@@ -84,7 +80,6 @@ export default function InputField({ keyboardHeight, onAskAi, loading, setAlert 
           </span>
         </div>
       )}
-
       <form className="input-group my-2" onSubmit={handleInputSubmit}>
         <div className="d-flex align-items-center px-3 text-light">
           <i
@@ -113,16 +108,13 @@ export default function InputField({ keyboardHeight, onAskAi, loading, setAlert 
           onBlur={() => setFocused(false)}
         />
         <button
-          className="btn bg-primary text-light"
+          className={`btn rounded ${loading ? "btn-success" : "btn-primary"}`}
           type="submit"
           disabled={loading}
         >
           {loading ? "Wait ..." : "Submit"}
-
         </button>
       </form>
-
-
     </div>
   );
 }

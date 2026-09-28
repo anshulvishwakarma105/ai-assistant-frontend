@@ -52,17 +52,15 @@ function FileCard({ fileName }) {
 }
 function ChatBoxHeader({ sidebar, setSidebar, appData, activeChatId }) {
     const activeChat = getActiveChat(appData, activeChatId);
-
-
     return (
         <div className="bg-dark text-light border-bottom p-2  
                   d-flex align-items-center justify-content-between flex-shrink-0 chatbox-header">
 
             <button
-                className="btn btn-primary"
+                className="btn btn-primary "
                 onClick={() => setSidebar(prev => !prev)}
             >{(sidebar && isMobile) ?
-                <i className="bi bi-x-lg"></i> :
+                <i className="bi bi-x-lg "></i> :
                 <i className="bi bi-list-nested"></i>}
             </button>
             <div className="d-flex align-items-baseline gap-2 me-5 ms-4 ms-lg-0 text-truncate">
@@ -75,61 +73,64 @@ function ChatBoxHeader({ sidebar, setSidebar, appData, activeChatId }) {
 }
 function NewChatScreen() {
     return (
-       <div className="flex-grow-1 d-flex flex-column justify-content-center align-items-center text-center px-3 opacity-75">
-    <img
-        src="/Chat.png"
-        alt="Chat Twins image"
-        className="flex-shrink-0"
-        style={{
-            width: "clamp(64px, 12vw, 120px)",
-            height: "clamp(64px, 12vw, 120px)"
-        }}
-    />
+        <div className="flex-grow-1 d-flex flex-column justify-content-center align-items-center text-center px-3 opacity-75">
+            <img
+                src="/Chat.png"
+                alt="Chat Twins image"
+                className="flex-shrink-0"
+                style={{
+                    width: "clamp(64px, 12vw, 120px)",
+                    height: "clamp(64px, 12vw, 120px)"
+                }}
+            />
 
-    <h4 className="text-primary user-select-none">
-        Ask Anything, Be Respectful
-    </h4>
+            <h4 className="text-primary user-select-none">
+                Ask Anything, Be Respectful
+            </h4>
 
-    <p className="small text-muted user-select-none mb-1">
-        AI can make mistakes. Verify important information.{" "}
-        <Link to="/terms" className="text-decoration-none border-bottom border-primary">
-            Read Terms & Conditions
-        </Link>
-    </p>
-</div>
+            <p className="small text-muted user-select-none mb-1">
+                AI can make mistakes. Verify important information.{" "}
+                <Link to="/terms" className="text-decoration-none border-bottom border-primary">
+                    Read Terms & Conditions
+                </Link>
+            </p>
+        </div>
     )
 }
+function UserInfoCard({ userInfo, setUserForm, setConfirm, hanleDeleteHistory }) {
+    const hanleDeleteBtn = (e) => {
+        e.stopPropagation();
+        setConfirm({
+            title: "Refresh",
+            message: `Are you sure want to delete your whole Data ?`,
+            action: hanleDeleteHistory
+        })
 
-function UserInfoCard({ userInfo, setUserForm,setConfirm, hanleDeleteHistory }) {
-   const hanleDeleteBtn =(e)=>{
-     e.stopPropagation();
-     setConfirm({
-      title: "Refresh",
-      message: `Are you sure want to delete your whole Data ?`,
-      action: hanleDeleteHistory
-    })
 
-     
-   };
+    };
     return (
         <div
             className="mt-auto d-flex align-items-center gap-2 p-2 rounded-3 border"
-            onClick={() => setUserForm(prev => !prev)}
-            style={{
-                cursor: "pointer"
-            }}
+
         >
-            <img src="/Profile.png" alt="profile" className="rounded-circle flex-shrink-0" width="32" height="32" />
+            <img
+                src="/Profile.png" alt="profile"
+                className="rounded-circle flex-shrink-0"
+                width="32" height="32"
+                onClick={() => setUserForm(prev => !prev)}
+                style={{
+                    cursor: "pointer"
+                }} />
             <div className="d-flex flex-column px-1 overflow-hidden">
                 <div className="text-truncate text-light">{userInfo.name}</div>
-                <div className="text-secondary d-flex align-items-center gap-2 text-truncate">
-                    <span className="text-truncate">Saving on localstorage</span>
-                    <i className="bi bi-cloud-arrow-up flex-shrink-0"></i>
+                <div className="text-secondary d-flex align-items-center gap-1 text-truncate">
+                    <i className="bi bi-clock-history flex-shrink-0 me-1"></i>
+                    <span className="text-truncate small fst-italic">{userInfo.preferences.timezone}</span>
                 </div>
             </div>
-            <div 
-            className='btn btn-outline-danger ms-auto fs-5 ' aria-label='Delete History'
-            onClick={hanleDeleteBtn}
+            <div
+                className='btn btn-outline-danger ms-auto fs-6 ' aria-label='Delete History'
+                onClick={hanleDeleteBtn}
             >
                 <i className="bi bi-trash3"></i>
             </div>

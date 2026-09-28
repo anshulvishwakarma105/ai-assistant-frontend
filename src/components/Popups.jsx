@@ -132,16 +132,16 @@ function Alert({ alert, setAlert }) {
   }, [alert, setAlert])
 
   return (
- <div className={`position-fixed top-0 start-50 
+    <div className={`position-fixed top-0 start-50 
       translate-middle-x mt-5 alert alert-${alert.bgColor} d-flex align-items-center`} role="alert" style={{
         minWidth: "260px",
         zIndex: "3000"
       }}>
-        <i className={`bi bi-${alert.icon} me-2`}></i>
-        <div>
-          {alert.message}
-        </div>
+      <i className={`bi bi-${alert.icon} me-2`}></i>
+      <div>
+        {alert.message}
       </div>
+    </div>
   )
 }
 function ChatOperations({ chatId, chatName, setChatOperations, setEditor, handleRenameChat, setConfirm, handleDeleteChat }) {
@@ -169,7 +169,15 @@ function ChatOperations({ chatId, chatName, setChatOperations, setEditor, handle
     setConfirm({
       title: "Report",
       message: `Tell us through the Feedback form what's wrong with this chat: "${chatName}"?`,
-      action: () => navigate('/feedback')
+      action: () => navigate('/feedback', {
+        state: {
+          type: "Report",
+          message: `Something is Wrong with this Chat.
+          Chat_Id : ${chatId},
+          Chat_Name : ${chatName},
+          So I want to report.`
+        }
+      })
     })
 
     setChatOperations(null);

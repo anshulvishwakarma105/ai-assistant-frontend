@@ -15,7 +15,6 @@ export default function ChatItemOperation({ id, text, speakingId, setSpeakingId 
             console.error("Copy failed:", e);
         }
     }
-
     const cleanMarkdown = (markdownText) => {
         return markdownText
             .replace(/```[\s\S]*?```/g, "")
@@ -29,8 +28,6 @@ export default function ChatItemOperation({ id, text, speakingId, setSpeakingId 
             .replace(/\n{2,}/g, "\n")
             .trim();
     };
-
-
     const readAloud = async () => {
         try {
             if (speakingId === id) {
@@ -58,7 +55,6 @@ export default function ChatItemOperation({ id, text, speakingId, setSpeakingId 
             console.error("Copy failed:", e);
         }
     }
-
     const shareResponse = async () => {
         //later add share as file option
         try {
@@ -72,7 +68,6 @@ export default function ChatItemOperation({ id, text, speakingId, setSpeakingId 
             console.error("Copy failed:", e);
         }
     }
-
     const downloadAsPdf = () => {
         const element = document.getElementById(`chatId-${id}`);
         if (!element) return;

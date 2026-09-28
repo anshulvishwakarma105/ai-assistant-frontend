@@ -8,16 +8,16 @@ export default function ChatBox({ appData, activeChatId, setAlert, keyboardHeigh
   const navigate = useNavigate()
   const [speakingId, setSpeakingId] = useState(null);
   const activeChat = getActiveChat(appData, activeChatId);
-
-useEffect(() => {
+  
+  useEffect(() => {
     if (
-        activeChatId &&
-        activeChatId.toLowerCase() !== "new" &&
-        !activeChat
+      activeChatId &&
+      activeChatId.toLowerCase() !== "new" &&
+      !activeChat
     ) {
       navigate('/chat/new')
     }
-}, [activeChatId, activeChat, setAlert]);
+  }, [activeChatId, activeChat]);
 
   if (activeChatId?.toLowerCase() === "new") {
     return (

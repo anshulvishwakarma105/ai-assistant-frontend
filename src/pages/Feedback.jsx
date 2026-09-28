@@ -1,13 +1,17 @@
 import React, { useState } from 'react'
 import { Footer, Navbar } from '../components/UiComponent'
+import { useLocation } from 'react-router-dom';
 
-export default function Feedback() {
 
-    const [fname, setFname] = useState("Adams Mayers");
-    const [email, setEmail] = useState("sample@example.com");
+export default function Feedback({ setAlert }) {
+    const { state } = useLocation();
+    const userName = JSON.parse(localStorage.getItem("history"))?.userInfo?.name || "Alex Morgan" ;
+
+    const [fname, setFname] = useState(userName);
+    const [email, setEmail] = useState("");
     const [rating, setRating] = useState(5);
     const [satisfied, setSatisfied] = useState(true);
-    const [feedback, setFeedback] = useState("");
+    const [feedback, setFeedback] = useState(state?.message || "");
 
     const handleRateSubmit = (rate) => {
         if (rate === rating && rate !== 1) {
@@ -17,15 +21,29 @@ export default function Feedback() {
         setRating(rate);
     }
     const handleFeedbackSubmit = (e) => {
-        // Later i Will Connect it to Send & Store Feedback
         e.preventDefault();
+
+        // Later i Will Connect it to Send & Store Feedback
+        if (!fname.trim() || !rating || !feedback.trim())  {
+            setAlert({
+                message: `Fill All Neccessary Fields of ${state?.type || "Feedback"}`,
+                bgColor: "warning",
+                icon: "exclamation-triangle-fill"
+            })
+            return;
+        }
         console.log("feeback form submited");
         console.table({
-            fname: fname,
+            fname: fname.trim(),
             email: email,
             rating: rating,
             satisfied: satisfied,
-            feedback: feedback
+            feedback: feedback.trim()
+        })
+        setAlert({
+            message: `${state?.type || "Feedback"} Submitted Successfully!`,
+            bgColor: "success",
+            icon: "check-circle-fill"
         })
     }
     return (
@@ -42,9 +60,10 @@ export default function Feedback() {
                 >
                     <div
                         className="w-100 shadow-sm p-4 d-flex flex-column gap-3 mx-auto"
-                        style={{ maxWidth: "650px",
-                            marginBottom:"60px"
-                         }}
+                        style={{
+                            maxWidth: "650px",
+                            marginBottom: "60px"
+                        }}
                     >
                         <div className="text-center">
                             <h2 className="fw-bold mb-2" style={{ color: "#6f42c1" }}>Share Your Feedback</h2>
@@ -139,12 +158,12 @@ export default function Feedback() {
                         </div>
                         <div >
                             <label htmlFor="feedbackDesc" className="form-label fw-semibold">
-                                Your Feedback
+                                Your {state?.type || "Feedback"}
                             </label>
                             <textarea
                                 value={feedback}
                                 onChange={(e) => setFeedback(e.target.value)}
-                                className="form-control"
+                                className="form-control custom-scrollbar"
                                 placeholder="Share your thoughts and tell us how we can improve your experience."
                                 id="feedbackDesc"
                                 rows="4"
@@ -155,7 +174,7 @@ export default function Feedback() {
                                 type="submit"
                                 className="btn btn-success w-100 py-2"
                             >
-                                Submit <span className='d-none d-md-inline'>Feedback</span>
+                                Submit <span className='d-none d-md-inline'>{state?.type || "Feedback"}</span>
                             </button>
                             <button
                                 type="button"
@@ -163,7 +182,7 @@ export default function Feedback() {
                                 onClick={() => {
                                     setFname("")
                                     setEmail("")
-                                    setRating(0)
+                                    setRating(5)
                                     setSatisfied(true)
                                     setFeedback("")
                                 }}

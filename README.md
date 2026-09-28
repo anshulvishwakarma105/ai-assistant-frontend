@@ -13,6 +13,14 @@ A simple Chatbot Website that help to comunicate with varoius LLm models for tex
 >> react-markdown
 >> html2pdf
 
+## React Hooks
+>> useState()
+>> useEffect()
+>> useRef()
+>> useParams()
+>> useNavigation()
+>> useLocation()
+
 //Python
 >> fastapi
 >> uvicorn
