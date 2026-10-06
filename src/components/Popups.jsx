@@ -226,8 +226,6 @@ function CustomiseUserForm({ userInfo, setUserForm, setAlert, UserInfoUpdate }) 
   const [desc, setDesc] = useState(userInfo.desc)
   const [chatStyle, setChatStyle] = useState(userInfo.preferences.chatStyle)
   const [language, setLanguage] = useState(userInfo.preferences.language)
-  const [region, setRegion] = useState(userInfo.region)
-  const [timeZone, setTimeZone] = useState(userInfo.preferences.timezone)
 
 
   const handleUserFormSubmit = (e) => {
@@ -235,9 +233,7 @@ function CustomiseUserForm({ userInfo, setUserForm, setAlert, UserInfoUpdate }) 
     if (userInfo.name === name &&
       userInfo.desc === desc &&
       userInfo.preferences.chatStyle === chatStyle &&
-      userInfo.preferences.language === language &&
-      userInfo.region === region &&
-      userInfo.preferences.timezone === timeZone
+      userInfo.preferences.language === language
     ) {
       setAlert({
         message: `Somthing should be Different to Update`,
@@ -245,7 +241,7 @@ function CustomiseUserForm({ userInfo, setUserForm, setAlert, UserInfoUpdate }) 
         icon: "exclamation-triangle-fill"
       });
     } else {
-      UserInfoUpdate(name, desc, region, language, timeZone, chatStyle);
+      UserInfoUpdate(name, desc, language, chatStyle);
       setUserForm(false);
     }
   }
@@ -256,11 +252,11 @@ function CustomiseUserForm({ userInfo, setUserForm, setAlert, UserInfoUpdate }) 
       <div
         onClick={(e) => e.stopPropagation()}
         className="position-absolute top-50 start-50 translate-middle
-       bg-dark border border-secondary rounded-3 text-light px-4 py-4
+       bg-dark border border-secondary rounded-3 text-light p-4
        d-flex flex-column align-items-center justify-content-center gap-2
        shadow popup-animation"
         style={{
-          minWidth: "260px",
+          minWidth: "220px",
           zIndex: "3000"
         }}
       >
@@ -268,7 +264,7 @@ function CustomiseUserForm({ userInfo, setUserForm, setAlert, UserInfoUpdate }) 
         <form onSubmit={handleUserFormSubmit}>
           <div className='d-flex flex-column gap-3 pb-3'>
             <div className="form-floating ">
-              <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="form-control" id="floatingInput" placeholder="Alex Mayers" />
+              <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="form-control" id="floatingInput" placeholder="Alex Morgan" />
               <label htmlFor="floatingInput">Name</label>
             </div>
             <div className="form-floating">
@@ -293,29 +289,13 @@ function CustomiseUserForm({ userInfo, setUserForm, setAlert, UserInfoUpdate }) 
               </div>
             </div>
             <div className='d-flex gap-2 '>
-              <select className="form-select" aria-label="Time Zone" value={timeZone} onChange={(e) => setTimeZone(e.target.value)} >
-                <option value="Asia/Kolkata">Time Zone</option>
-                <option value="Asia/Kolkata">Asia/Kolkata</option>
-                <option value="America/New_York">America/New_York</option>
-                <option value="Europe/London">Europe/London</option>
-              </select>
-
               <select className="form-select" aria-label="Language" value={language} onChange={(e) => setLanguage(e.target.value)}>
-                <option value="English">Language</option>
-                <option value="Hindi">Hindi</option>
-                <option value="English">English</option>
+                <option value="">Language</option>
+                <option value="hi-In">Hindi</option>
+                <option value="en-In">English</option>
                 <option value="Hinglish">Hinglish</option>
               </select>
             </div>
-            <div className="d-flex gap-2 align-items-center">
-              <div className="">
-                <label htmlFor="inputPassword6" className="col-form-label bg-light text-dark rounded px-2">Region</label>
-              </div>
-              <div className="w-100">
-                <input type="text" className="form-control" aria-describedby="region" value={region} onChange={(e) => setRegion(e.target.value)} />
-              </div>
-            </div>
-
           </div>
           <div className=" w-100 d-flex justify-content-center gap-2">
             <button

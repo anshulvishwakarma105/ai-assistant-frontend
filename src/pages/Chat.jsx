@@ -6,7 +6,7 @@ import { Confirmation, CustomiseUserForm, Editor } from '../components/Popups';
 import { isMobile, getActiveChat, PageTitle } from "../components/utils";
 import { Animation, ChatBoxHeader } from '../components/Common';
 import { useNavigate, useParams } from 'react-router-dom';
- 
+
 
 export default function Chat({ alert, setAlert }) {
 
@@ -29,10 +29,9 @@ export default function Chat({ alert, setAlert }) {
       "userInfo": {
         "name": "Alex Morgan",
         "desc": "Prefer concise explanations with practical examples.",
-        "region": "India",
         "preferences": {
-          "language": "English",
-          "timezone": "Asia/Kolkata",
+          "language": navigator.language || "en-US",
+          "timezone": Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Kolkata",
           "chatStyle": "Concise"
         }
       },
@@ -193,20 +192,28 @@ export default function Chat({ alert, setAlert }) {
       icon: "check-circle-fill"
     });
   }
-  const handleUserInfoUpdate = (name, desc, region, language, timezone, chatStyle) => {
+  const handleUserInfoUpdate = (name, desc, language, chatStyle) => {
     setAppData(prev => ({
       ...prev,
       userInfo: {
         name: name,
         desc: desc,
-        region: region,
         preferences: {
-          language: language,
-          timezone: timezone,
+          "language": language || navigator.language || "en-US",
+          "timezone": Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Kolkata",
           chatStyle: chatStyle
         }
       },
     }))
+    console.log({
+      name: name,
+      desc: desc,
+      preferences: {
+        "language": language || navigator.language || "en-US",
+        "timezone": Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Kolkata",
+        chatStyle: chatStyle
+      }
+    })
     setAlert({
       message: `You Updated UserInfo Successfully!`,
       bgColor: "success",
@@ -218,10 +225,9 @@ export default function Chat({ alert, setAlert }) {
       userInfo: {
         name: "Alex Morgan",
         desc: "Prefer concise explanations with practical examples.",
-        region: "India",
         preferences: {
-          language: "English",
-          timezone: "Asia/Kolkata",
+          "language": navigator.language || "en-US",
+          "timezone": Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Kolkata",
           chatStyle: "Concise"
         }
       },
