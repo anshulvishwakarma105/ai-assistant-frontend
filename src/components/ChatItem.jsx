@@ -4,12 +4,12 @@ import rehypeHighlight from "rehype-highlight";
 import ChatItemOperation from './ChatItemOperation';
 import { CopyBtn, SvgImage } from './Common';
 
-const ChatItem = ({ id, role, content, createdAt, speakingId, setSpeakingId, setAlert}) => {
+const ChatItem = ({ id, role, content, isImage, createdAt, speakingId, setSpeakingId, setAlert }) => {
     const svgMatches = content?.match(/<svg[\s\S]*?<\/svg>/gi);
 
-const textContent = svgMatches
-    ? content.replace(/<svg[\s\S]*?<\/svg>/gi, "").trim()
-    : content;
+    const textContent = svgMatches
+        ? content.replace(/<svg[\s\S]*?<\/svg>/gi, "").trim()
+        : content;
     return (
         <>
             {role === "user" ?
@@ -46,7 +46,8 @@ const textContent = svgMatches
                                 text={content}
                                 speakingId={speakingId}
                                 setSpeakingId={setSpeakingId}
-                                 setAlert={setAlert}
+                                isImage={isImage}
+                                setAlert={setAlert}
                             />
                         </div> :
                         <span className="px-3 py-0 text-muted fst-italic"> <i className="bi bi-ban me-1"></i>Something went wrong nothing to show</span>
