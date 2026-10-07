@@ -36,7 +36,7 @@ export default function InputField({ keyboardHeight, onAskAi, loading, setAlert 
       "application/msword",
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     ];
-
+ 
     const maxSize = 10 * 1024 * 1024;
 
     if (!allowedTypes.includes(selectedFile.type)) {
