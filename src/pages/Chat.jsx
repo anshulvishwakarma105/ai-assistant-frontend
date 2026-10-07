@@ -342,8 +342,8 @@ export default function Chat({ alert, setAlert }) {
     }
     try {
       const response = await fetch(
-        "https://ai-assistant-backend-temp.onrender.com/api/chat"
-        // "http://127.0.0.1:8000/api/chat"
+        // "https://ai-assistant-backend-temp.onrender.com/api/chat"
+        "http://127.0.0.1:8000/api/chat"
         ,
         {
           method: "POST",
@@ -358,12 +358,9 @@ export default function Chat({ alert, setAlert }) {
     } catch (e) {
       console.error("FETCH ERROR:", e);
       setError({
-        chatId:chatId,
-        message: e.message});
-      setTimeout(() => {
-        setError(null)
-      }, 5000);
-
+        chatId: chatId,
+        message: `Something went wrong '${e.message}'`
+      });
     } finally {
       setLoading(null);
     }

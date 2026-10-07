@@ -1,23 +1,12 @@
 import React, { useState } from 'react'
 import html2pdf from "html2pdf.js";
+import { CopyBtn } from './Common';
 
 export default function ChatItemOperation({ id, text, speakingId, setSpeakingId }) {
     const svgMatch = text?.match(/<svg[\s\S]*?<\/svg>/i);
     const textContent = svgMatch ? text.replace(svgMatch[0], "") : text;
 
-    const [copied, setCopied] = useState(false)
-    const copyText = async () => {
-        try {
-            //can be cleanMarkDown(text) for bot response
-            await navigator.clipboard.writeText(textContent);
-            setCopied(true);
-            setTimeout(() => {
-                setCopied(false)
-            }, 2000);
-        } catch (e) {
-            console.error("Copy failed:", e);
-        }
-    }
+
     const cleanMarkdown = (markdownText) => {
         return markdownText
             .replace(/```[\s\S]*?```/g, "")
@@ -32,34 +21,34 @@ export default function ChatItemOperation({ id, text, speakingId, setSpeakingId 
             .trim();
     };
     const readAloud = () => {
-    try {
-        if (!("speechSynthesis" in window)) return;
+        try {
+            if (!("speechSynthesis" in window)) return;
 
-        if (speakingId === id) {
+            if (speakingId === id) {
+                speechSynthesis.cancel();
+                setSpeakingId(null);
+                return;
+            }
+
             speechSynthesis.cancel();
+
+            const cleanText = cleanMarkdown(textContent);
+
+            if (!cleanText.trim()) return;
+
+            const voice = new SpeechSynthesisUtterance(cleanText);
+            voice.lang = "en-US";
+
+            voice.onstart = () => setSpeakingId(id);
+            voice.onend = () => setSpeakingId(null);
+            voice.onerror = () => setSpeakingId(null);
+
+            speechSynthesis.speak(voice);
+        } catch (e) {
+            console.error("Speech failed:", e);
             setSpeakingId(null);
-            return;
         }
-
-        speechSynthesis.cancel();
-
-        const cleanText = cleanMarkdown(textContent);
-
-        if (!cleanText.trim()) return;
-
-        const voice = new SpeechSynthesisUtterance(cleanText);
-        voice.lang = "en-US";
-
-        voice.onstart = () => setSpeakingId(id);
-        voice.onend = () => setSpeakingId(null);
-        voice.onerror = () => setSpeakingId(null);
-
-        speechSynthesis.speak(voice);
-    } catch (e) {
-        console.error("Speech failed:", e);
-        setSpeakingId(null);
-    }
-};
+    };
     const shareResponse = async () => {
         //later add share as file option
         try {
@@ -122,28 +111,28 @@ export default function ChatItemOperation({ id, text, speakingId, setSpeakingId 
         //later take the margin, filename, orientation, format from user.
         try {
             html2pdf()
-            .set({
-                margin: [15, 15, 15, 15],
-                filename: `Ai_Response_Chat_Id_${id}`,
-                image: {
-                    type: "jpeg",
-                    quality: 0.95
-                },
-                html2canvas: {
-                    scale: 2,
-                    useCORS: true
-                },
-                pagebreak: {
-                    mode: ["css", "legacy"]
-                },
-                jsPDF: {
-                    unit: "mm",
-                    format: "a4",
-                    orientation: "portrait"
-                }
-            })
-            .from(pdfContent)
-            .save();
+                .set({
+                    margin: [15, 15, 15, 15],
+                    filename: `Ai_Response_Chat_Id_${id}`,
+                    image: {
+                        type: "jpeg",
+                        quality: 0.95
+                    },
+                    html2canvas: {
+                        scale: 2,
+                        useCORS: true
+                    },
+                    pagebreak: {
+                        mode: ["css", "legacy"]
+                    },
+                    jsPDF: {
+                        unit: "mm",
+                        format: "a4",
+                        orientation: "portrait"
+                    }
+                })
+                .from(pdfContent)
+                .save();
         } catch (e) {
             console.error("Copy failed:", e);
         }
@@ -152,24 +141,23 @@ export default function ChatItemOperation({ id, text, speakingId, setSpeakingId 
 
     return (
         <div className='d-flex gap-1 py-1 px-2'>
-            <button className='btn btn-sm btn-outline-none '
-                type='button'
-                onClick={copyText}
-            >
-                <i className={`bi ${copied ? "bi-check-lg text-success" : "bi-copy"}`}></i>
-            </button>
-            <button className='btn btn-sm btn-outline-none '
-                type='button'
-                onClick={readAloud}
-            >
-                <i className={`bi ${speakingId === id ? "bi-stop-fill" : "bi-volume-up"}`}></i>
-            </button >
-            <button className='btn btn-sm btn-outline-none '
-                type='button'
-                onClick={shareResponse}
-            >
-                <i className="bi bi-share"></i>
-            </button>
+            <CopyBtn text={text} />
+            {textContent && (<>
+                <button className='btn btn-sm btn-outline-none '
+                    type='button'
+                    onClick={readAloud}
+                >
+                    <i className={`bi ${speakingId === id ? "bi-stop-fill" : "bi-volume-up"}`}></i>
+                </button >
+
+                <button className='btn btn-sm btn-outline-none '
+                    type='button'
+                    onClick={shareResponse}
+                >
+                    <i className="bi bi-share"></i>
+                </button>
+            </>)}
+
             <button className='btn btn-sm btn-outline-none '
                 type='button'
                 onClick={downloadAsPdf}

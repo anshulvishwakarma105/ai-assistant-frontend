@@ -123,7 +123,10 @@ export default function InputField({ keyboardHeight, onAskAi, loading, setAlert 
           type="submit"
           disabled={loading}
         >
-          {loading ? "Wait ..." : "Submit"}
+          {loading ? 
+          (<><span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+          <span>Wait</span></> ) 
+          : "Submit"}
         </button>
       </form>
 

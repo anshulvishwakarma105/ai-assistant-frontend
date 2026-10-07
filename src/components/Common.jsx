@@ -1,21 +1,24 @@
 import { getActiveChat, isMobile } from './utils'
 import { Link } from 'react-router-dom'
 import DOMPurify from "dompurify";
+import { useState } from 'react';
 
 function SvgImage({ svg_code }) {
     if (!svg_code) {
         return null;
     }
-    const svg = DOMPurify.sanitize(svg_code[0], {
+
+    const svg = DOMPurify.sanitize(svg_code, {
         USE_PROFILES: { svg: true }
     });
+
     return (
         <div
-        className="svg-image border rounded"
-         dangerouslySetInnerHTML={{ __html: svg }}/>
+            className="svg-image border rounded my-2"
+            dangerouslySetInnerHTML={{ __html: svg }}
+        />
     );
 }
-
 function Animation() {
     return (
         <div className="app bg-primary text-light d-flex flex-column align-items-center justify-content-center gap-4">
@@ -46,11 +49,37 @@ function Error({ error }) {
 }
 function Loading() {
     return (
-        <div className="text-muted px-3 py-2">
-            Answering...
+        <div  className='d-flex align-items-center'>
+            <span className="text-primary fw-semibold px-3 py-2">Twin Answering . . .</span>
+            <div className="spinner-border spinner-border-sm text-primary" role="status" />
         </div>
     )
 }
+function CopyBtn({ text }) {
+    const [copied, setCopied] = useState(false)
+    const copyText = async () => {
+        try {
+            //can be cleanMarkDown(text) for bot response
+            if (!navigator.clipboard) return;
+            await navigator.clipboard.writeText(text);
+            setCopied(true);
+            setTimeout(() => {
+                setCopied(false)
+            }, 2000);
+        } catch (e) {
+            console.error("Copy failed:", e);
+        }
+    }
+    return (
+        <button className='btn btn-sm btn-outline-none '
+            type='button'
+            onClick={copyText}
+        >
+            <i className={`bi ${copied ? "bi-check-lg text-success" : "bi-copy"}`}></i>
+        </button>
+    )
+}
+
 function FileCard({ fileName }) {
     return (
         <div
@@ -149,5 +178,5 @@ function UserInfoCard({ userInfo, setUserForm, setConfirm, hanleDeleteHistory })
     )
 }
 
-export { SvgImage, Animation, Error, Loading, FileCard, ChatBoxHeader, NewChatScreen, UserInfoCard }
+export { SvgImage, Animation, Error, Loading, CopyBtn, FileCard, ChatBoxHeader, NewChatScreen, UserInfoCard }
 
