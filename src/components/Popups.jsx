@@ -196,7 +196,7 @@ function ChatOperations({ chatId, chatName, setChatOperations, setEditor, handle
       }}
     >
       <button
-        className="btn btn-sm text-light w-100 text-start py-2 px-2 rounded-2 my-1"
+        className="btn btn-sm text-light w-100 text-start p-2 rounded-2 my-1"
         onClick={handleRenameBtn}
       >
         <i className="bi bi-pencil me-2"></i>
@@ -204,7 +204,7 @@ function ChatOperations({ chatId, chatName, setChatOperations, setEditor, handle
       </button>
       <div className="border-top border-secondary"></div>
       <button
-        className="btn btn-sm text-danger w-100 text-start rounded-2 py-2 px-2 my-1"
+        className="btn btn-sm text-danger w-100 text-start rounded-2 p-2 my-1"
         onClick={handleDeleteBtn}
       >
         <i className="bi bi-trash me-2"></i>
@@ -318,7 +318,45 @@ function CustomiseUserForm({ userInfo, setUserForm, setAlert, UserInfoUpdate }) 
     </>
   )
 }
-
-export { CustomiseUserForm, Editor, Confirmation, Alert, ChatOperations }
+function ChatInputAdditions({ setChatInputAdditions, fileInputRef, handleFileSubmit, setFile, setGenerateImage }) {
+  return (
+    <div
+      className="position-absolute bottom-100 start-0 m-2 p-2 bg-dark text-light border border-secondary rounded-3 shadow popup-animation d-flex flex-column gap-1"
+      onClick={(e) => e.stopPropagation()}
+      style={{ zIndex: 3000, minWidth: "180px" }}
+    >
+      <div
+        className="d-flex align-items-center gap-3 px-2 py-2 rounded-2 cursor-pointer"
+        onClick={() => {
+          fileInputRef.current.click();
+        }}
+      >
+        <i className="bi bi-upload"></i>
+        <span>Upload File</span>
+        <input
+          type="file"
+          ref={fileInputRef}
+          accept=".txt,.pdf,.doc,.docx"
+          onChange={handleFileSubmit}
+          hidden
+        />
+      </div>
+      <hr className="my-1 border-secondary opacity-50" />
+      <div
+        className="d-flex align-items-center gap-3 px-2 py-2 rounded-2 cursor-pointer"
+        onClick={() => {
+          setChatInputAdditions(false);
+          setGenerateImage(true);
+          setFile(null);
+          fileInputRef.current.value = "";
+        }}
+      >
+        <i className="bi bi-image"></i>
+        <span>Generate Image</span>
+      </div>
+    </div>
+  );
+}
+export { CustomiseUserForm, Editor, Confirmation, Alert, ChatOperations, ChatInputAdditions }
 
 

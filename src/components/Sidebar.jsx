@@ -33,7 +33,7 @@ export default function Sidebar({ sidebar, setSidebar, appData, activeChatId, se
         }}
         className="btn w-100 mb-4 btn-primary"
       >
-        <i className="bi bi-plus-lg me-2"></i>
+        <i className="bi bi-pencil-square me-2"></i>
         <span>New Chat</span>
       </button>
 
@@ -52,11 +52,8 @@ export default function Sidebar({ sidebar, setSidebar, appData, activeChatId, se
               }
               navigate(`/chat/${chat.id}`);
             }}
-            className={` p-2 rounded mb-1 text-truncate d-flex align-items-center gap-2  ${activeChatId === chat.id ? "bg-secondary" : "text-light"
+            className={` p-2 rounded mb-1 text-truncate d-flex align-items-center gap-2 cursor-pointer ${activeChatId === chat.id ? "bg-secondary" : "text-light"
               }`}
-            style={{
-              cursor: "pointer",
-            }}
           >
             <i className="bi bi-stars flex-shrink-0 px-2"></i>
             <span className="text-truncate">{chat.title}</span>

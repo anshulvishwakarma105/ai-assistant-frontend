@@ -2,11 +2,14 @@ import React, { useState } from 'react'
 import html2pdf from "html2pdf.js";
 
 export default function ChatItemOperation({ id, text, speakingId, setSpeakingId }) {
+    const svgMatch = text?.match(/<svg[\s\S]*?<\/svg>/i);
+    const textContent = svgMatch ? text.replace(svgMatch[0], "") : text;
+
     const [copied, setCopied] = useState(false)
     const copyText = async () => {
         try {
             //can be cleanMarkDown(text) for bot response
-            await navigator.clipboard.writeText(text);
+            await navigator.clipboard.writeText(textContent);
             setCopied(true);
             setTimeout(() => {
                 setCopied(false)
@@ -37,7 +40,7 @@ export default function ChatItemOperation({ id, text, speakingId, setSpeakingId 
             }
             speechSynthesis.cancel();
 
-            const cleanText = cleanMarkdown(text);
+            const cleanText = cleanMarkdown(textContent);
             const voice = new SpeechSynthesisUtterance(cleanText)
             voice.lang = "en-US";
 
@@ -61,7 +64,7 @@ export default function ChatItemOperation({ id, text, speakingId, setSpeakingId 
             if (!navigator.share) return;
             await navigator.share({
                 title: "Ai Response",
-                text: `Ai Response : ${text}`,
+                text: `Ai Response : ${textContent}`,
                 url: window.location.href
             })
         } catch (e) {
