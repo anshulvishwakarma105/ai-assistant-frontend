@@ -19,7 +19,7 @@ export default function About() {
                 <div className="row align-items-center g-3 g-md-5 w-100 mx-auto py-2">
                     <div className="col-12 col-md-6">
                         <h1 className="fw-bold display-6 mb-3">
-                            Welcome To AI Chat App!
+                            Welcome To AI Twins App!
                         </h1>
 
                         <p className="text-secondary fs-5 fw-semibold mb-4">
@@ -36,7 +36,7 @@ export default function About() {
                             </h2>
 
                             <p className="text-secondary">
-                                AI Chat App is designed to provide a simple, fast and
+                                AI Twins App is designed to provide a simple, fast and
                                 privacy-focused chat experience. Your conversations and
                                 information are kept locally, giving you greater control
                                 over your data.

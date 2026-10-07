@@ -22,7 +22,7 @@ export default function Terms() {
                         <i className="bi bi-arrow-repeat ms-2"></i>
                     </p>
                     <p className="ps-2 fs-5 fw-semibold">
-                        Welcome to AI Chat App. By accessing or using this application,
+                        Welcome to AI Twins App. By accessing or using this application,
                         you agree to follow these Terms & Conditions.
                     </p>
                     <p className="ps-2 fw-medium text-danger">
@@ -31,7 +31,7 @@ export default function Terms() {
                     <h5 className="fw-semibold mt-4">1. Use of the Service</h5>
                     <p className="fst-italic">
                         <i className="bi bi-dot me-2"></i>
-                        <Link to="/chat">AI Chat App</Link> provides an interface for interacting
+                        <Link to="/chat">AI Twins App</Link> provides an interface for interacting
                         with AI services. You agree to use the application only for lawful and
                         appropriate purposes.
                     </p>
@@ -76,13 +76,13 @@ export default function Terms() {
                     <h5 className="fw-semibold mt-4">5. Third-Party Services</h5>
                     <p className="fst-italic">
                         <i className="bi bi-dot me-2"></i>
-                        AI Chat App may use third-party AI or infrastructure services to
+                        AI Twins App may use third-party AI or infrastructure services to
                         process requests and generate responses.
                     </p>
                     <p className="fst-italic">
                         <i className="bi bi-dot me-2"></i>
                         The availability, functionality, and policies of these third-party
-                        services are outside the direct control of AI Chat App.
+                        services are outside the direct control of AI Twins App.
                     </p>
                     <h5 className="fw-semibold mt-4">6. Availability</h5>
                     <p className="fst-italic">
@@ -109,7 +109,7 @@ export default function Terms() {
                     <h5 className="fw-semibold mt-4">8. Limitation of Liability</h5>
                     <p className="fst-italic">
                         <i className="bi bi-dot me-2"></i>
-                        To the extent permitted by applicable law, AI Chat App and its
+                        To the extent permitted by applicable law, AI Twins App and its
                         developers are not responsible for losses resulting from use of the application.
                     </p>
                     <p className="fst-italic">
@@ -137,7 +137,7 @@ export default function Terms() {
                     </p>
                     <p className="fst-italic">
                         <i className="bi bi-dot me-2"></i>
-                        By using <Link to="/chat">AI Chat App</Link>, you acknowledge that
+                        By using <Link to="/chat">AI Twins App</Link>, you acknowledge that
                         you have read and understood these Terms & Conditions and agree to
                         comply with them.
                     </p>

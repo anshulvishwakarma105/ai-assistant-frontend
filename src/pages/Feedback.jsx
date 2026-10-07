@@ -70,7 +70,7 @@ export default function Feedback({ setAlert }) {
                         <div className="text-center">
                             <h2 className="fw-bold mb-2" style={{ color: "#6f42c1" }}>Share Your Feedback</h2>
                             <p className="text-secondary mb-0 fst-italic">
-                                Help us improve your AI Chat App experience.
+                                Help us improve your AI Twins App experience.
                             </p>
                         </div>
                         <div className="row g-3 mb-3">

@@ -76,7 +76,7 @@ export default function InputField({ keyboardHeight, onAskAi, loading, setAlert 
           <span
             onClick={() => setGenerateImage(false)}
             className="position-absolute top-0 start-100 translate-middle d-flex align-items-center justify-content-center text-danger bg-light rounded-circle p-0 cursor-pointer"
-            style={{ width: "18px", height: "18px" }}
+            style={{ width: "16px", height: "16px" }}
           >
             <i className="bi bi-x-circle-fill" style={{ fontSize: "18px" }}></i>
           </span>

@@ -1,4 +1,3 @@
-import React from 'react'
 import { getActiveChat, isMobile } from './utils'
 import { Link } from 'react-router-dom'
 import DOMPurify from "dompurify";

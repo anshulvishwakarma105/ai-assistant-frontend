@@ -31,33 +31,35 @@ export default function ChatItemOperation({ id, text, speakingId, setSpeakingId 
             .replace(/\n{2,}/g, "\n")
             .trim();
     };
-    const readAloud = async () => {
-        try {
-            if (speakingId === id) {
-                speechSynthesis.cancel();
-                setSpeakingId(null);
-                return;
-            }
+    const readAloud = () => {
+    try {
+        if (!("speechSynthesis" in window)) return;
+
+        if (speakingId === id) {
             speechSynthesis.cancel();
-
-            const cleanText = cleanMarkdown(textContent);
-            const voice = new SpeechSynthesisUtterance(cleanText)
-            voice.lang = "en-US";
-
-            voice.onstart = () => {
-                setSpeakingId(id);
-            }
-            voice.onend = () => {
-                setSpeakingId(null);
-            }
-            voice.onerror = () => {
-                setSpeakingId(null);
-            }
-            speechSynthesis.speak(voice);
-        } catch (e) {
-            console.error("Copy failed:", e);
+            setSpeakingId(null);
+            return;
         }
+
+        speechSynthesis.cancel();
+
+        const cleanText = cleanMarkdown(textContent);
+
+        if (!cleanText.trim()) return;
+
+        const voice = new SpeechSynthesisUtterance(cleanText);
+        voice.lang = "en-US";
+
+        voice.onstart = () => setSpeakingId(id);
+        voice.onend = () => setSpeakingId(null);
+        voice.onerror = () => setSpeakingId(null);
+
+        speechSynthesis.speak(voice);
+    } catch (e) {
+        console.error("Speech failed:", e);
+        setSpeakingId(null);
     }
+};
     const shareResponse = async () => {
         //later add share as file option
         try {

@@ -75,11 +75,11 @@ export default function ChatBox({ appData, activeChatId, keyboardHeight, sidebar
           </div>
         ))}
         
-        {loading && (
+        {loading === activeChatId && (
           <Loading />
         )}
-        {error && (
-          <Error error={error} />
+        {error?.chatId === activeChatId && (
+          <Error error={error.message} />
         )}
 
       </div>

@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import ReactMarkdown from "react-markdown";
 import ChatItemOperation from './ChatItemOperation';
 import { SvgImage } from './Common';

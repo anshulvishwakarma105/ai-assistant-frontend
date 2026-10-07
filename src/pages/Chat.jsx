@@ -291,8 +291,8 @@ export default function Chat({ alert, setAlert }) {
   }
 
   // usestates--------
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(null);
   const [editor, setEditor] = useState(null);
   const [confirm, setConfirm] = useState(null);
   const [UserForm, setUserForm] = useState(false);
@@ -307,7 +307,7 @@ export default function Chat({ alert, setAlert }) {
   }, [appData])
 
   async function handleAskAi(input, file, generateImage) {
-    setError(false);
+    setError(null);
 
     let chatId = id;
     let previousMessages = "";
@@ -325,7 +325,7 @@ export default function Chat({ alert, setAlert }) {
     }
 
     addChatItem(chatId, "user", input, file?.name ?? null, generateImage);
-    setLoading(true);
+    setLoading(chatId);
     const formData = new FormData();
 
     const prompt = JSON.stringify({
@@ -357,13 +357,15 @@ export default function Chat({ alert, setAlert }) {
       addChatItem(chatId, "bot", data.response, null, generateImage);
     } catch (e) {
       console.error("FETCH ERROR:", e);
-      setError(e.message);
+      setError({
+        chatId:chatId,
+        message: e.message});
       setTimeout(() => {
-        setError(false)
+        setError(null)
       }, 5000);
 
     } finally {
-      setLoading(false);
+      setLoading(null);
     }
   }
   const addChatItem = (activeChatId, role, content, fileName, generateImage) => {

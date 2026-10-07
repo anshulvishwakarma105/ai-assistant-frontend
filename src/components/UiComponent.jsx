@@ -1,4 +1,3 @@
-import React from 'react'
 import { NavLink } from 'react-router-dom'
 
 function Navbar() {
@@ -27,13 +26,13 @@ function Navbar() {
         <nav className="navbar navbar-expand-md bg-primary" data-bs-theme="dark">
             <div className="container-fluid">
                 <NavLink to="/" className="navbar-brand fw-bold align-middle" > <img
-                        src="/Chat.png"
-                        alt="Chat Twins image"
-                        className="flex-shrink-0 opacity-75 me-2"
-                        style={{
-                            width: "26px",
-                            height: "26px"
-                        }}/> <span> Ai Chat App </span></NavLink>
+                    src="/Chat.png"
+                    alt="Chat Twins image"
+                    className="flex-shrink-0 opacity-75 me-2"
+                    style={{
+                        width: "26px",
+                        height: "26px"
+                    }} /> <span>Ai Twins App</span></NavLink>
                 <button
                     className="navbar-toggler"
                     type="button"
@@ -84,7 +83,7 @@ function Navbar() {
 function Footer() {
     return (
         <footer className="d-flex align-items-center  justify-content-center fixed-bottom bg-primary text-light py-3 px-2 fw-semibold">
-            <p className='m-0'>Copyright <span>&copy;</span> 2026 AiChatApp | <span className='d-none d-md-inline'>Developed by</span>  Av Dev</p>
+            <p className='m-0'>Copyright <span>&copy;</span> 2026 Ai-Twins<span className='d-none d-sm-inline'>-app</span> | <span className='d-none d-md-inline'>Developed by Anshul Vishwakarma</span><span  className='d-inline d-md-none'>Av Dev</span></p>
         </footer>
     )
 }
