@@ -1,6 +1,21 @@
 import React from 'react'
 import { getActiveChat, isMobile } from './utils'
 import { Link } from 'react-router-dom'
+import DOMPurify from "dompurify";
+
+function SvgImage({ svg_code }) {
+    if (!svg_code) {
+        return null;
+    }
+    const svg = DOMPurify.sanitize(svg_code[0], {
+        USE_PROFILES: { svg: true }
+    });
+    return (
+        <div
+        className="svg-image border rounded"
+         dangerouslySetInnerHTML={{ __html: svg }}/>
+    );
+}
 
 function Animation() {
     return (
@@ -115,12 +130,9 @@ function UserInfoCard({ userInfo, setUserForm, setConfirm, hanleDeleteHistory })
         >
             <img
                 src="/Profile.png" alt="profile"
-                className="rounded-circle flex-shrink-0"
+                className="rounded-circle flex-shrink-0 cursor-pointer"
                 width="32" height="32"
-                onClick={() => setUserForm(prev => !prev)}
-                style={{
-                    cursor: "pointer"
-                }} />
+                onClick={() => setUserForm(prev => !prev)} />
             <div className="d-flex flex-column px-1 overflow-hidden">
                 <div className="text-truncate text-light">{userInfo.name}</div>
                 <div className="text-secondary d-flex align-items-center gap-1 text-truncate">
@@ -138,5 +150,5 @@ function UserInfoCard({ userInfo, setUserForm, setConfirm, hanleDeleteHistory })
     )
 }
 
-export { Animation, Error, Loading, FileCard, ChatBoxHeader, NewChatScreen, UserInfoCard }
+export { SvgImage, Animation, Error, Loading, FileCard, ChatBoxHeader, NewChatScreen, UserInfoCard }
 
