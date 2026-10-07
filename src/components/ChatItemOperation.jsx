@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import html2pdf from "html2pdf.js";
 import { CopyBtn } from './Common';
 
-export default function ChatItemOperation({ id, text, speakingId, setSpeakingId, setAlert }) {
+export default function ChatItemOperation({ id, text, speakingId, setSpeakingId, isImage, setAlert }) {
     const svgMatch = text?.match(/<svg[\s\S]*?<\/svg>/i);
     const textContent = svgMatch ? text.replace(svgMatch[0], "") : text;
 
@@ -156,6 +156,21 @@ export default function ChatItemOperation({ id, text, speakingId, setSpeakingId,
 
     }
 
+    const downloadAsPng = () => {
+        setAlert({
+            message: "Downloading Image As Png...",
+            bgColor: "primary",
+            icon: "check-circle-fill"
+        });
+    }
+    const downloadAsJpg = () => {
+        setAlert({
+            message: "Downloading Image As Jpg...",
+            bgColor: "primary",
+            icon: "download"
+        });
+    }
+
     return (
         <div className='d-flex gap-1 py-1 px-2'>
             <CopyBtn text={text} />
@@ -175,12 +190,28 @@ export default function ChatItemOperation({ id, text, speakingId, setSpeakingId,
                 </button>
             </>)}
 
-            <button className='btn btn-sm btn-outline-none '
-                type='button'
-                onClick={downloadAsPdf}
-            >
-                <i className="bi bi-file-earmark-pdf"></i>
-            </button>
+            {isImage ?
+                (
+                    <>
+                        <button className='btn btn-sm btn-outline-none '
+                            type='button'
+                            onClick={downloadAsPng}
+                        >
+                            <i className="bi bi-filetype-png"></i>
+                        </button>
+                        <button className='btn btn-sm btn-outline-none '
+                            type='button'
+                            onClick={downloadAsJpg}
+                        >
+                            <i className="bi bi-filetype-jpg"></i>
+                        </button>
+                    </>) :
+                (<button className='btn btn-sm btn-outline-none '
+                    type='button'
+                    onClick={downloadAsPdf}
+                >
+                    <i className="bi bi-file-earmark-pdf"></i>
+                </button>)}
         </div>
     )
 }
