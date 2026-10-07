@@ -61,7 +61,7 @@ export default function Feedback({ setAlert }) {
                     }}
                 >
                     <div
-                        className="w-100 shadow-sm p-4 d-flex flex-column gap-3 mx-auto"
+                        className="w-100 p-4 d-flex flex-column gap-3 mx-auto"
                         style={{
                             maxWidth: "650px",
                             marginBottom: "60px"
@@ -102,7 +102,7 @@ export default function Feedback({ setAlert }) {
                             </div>
                         </div>
                         <div className="text-center  border rounded">
-                            <p className="fw-semibold mb-2">How would you rate our application?</p>
+                            <p className="fw-semibold fst-italic mb-2">How would you rate our application?</p>
                             <div className="d-flex justify-content-center gap-2">
                                 {[1, 2, 3, 4, 5].map((rate) => (
                                     <button
@@ -124,7 +124,7 @@ export default function Feedback({ setAlert }) {
                             </div>
                         </div>
                         <div className="text-center  border rounded">
-                            <p className="fw-semibold mb-2">
+                            <p className="fw-semibold fst-italic mb-2">
                                 Are you satisfied with our application?
                             </p>
                             <div className="d-flex justify-content-center gap-4">

@@ -17,10 +17,6 @@ export default function Terms() {
                         Terms and Conditions
                     </h1>
                     <hr />
-                    <p className="d-inline-block small text-success border-bottom border-3 border-success">
-                        Last Updated: September 2026
-                        <i className="bi bi-arrow-repeat ms-2"></i>
-                    </p>
                     <p className="ps-2 fs-5 fw-semibold">
                         Welcome to AI Twins App. By accessing or using this application,
                         you agree to follow these Terms & Conditions.

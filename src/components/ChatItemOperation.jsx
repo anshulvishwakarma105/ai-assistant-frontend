@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import html2pdf from "html2pdf.js";
 import { CopyBtn } from './Common';
 
-export default function ChatItemOperation({ id, text, speakingId, setSpeakingId }) {
+export default function ChatItemOperation({ id, text, speakingId, setSpeakingId, setAlert }) {
     const svgMatch = text?.match(/<svg[\s\S]*?<\/svg>/i);
     const textContent = svgMatch ? text.replace(svgMatch[0], "") : text;
 
@@ -21,6 +21,11 @@ export default function ChatItemOperation({ id, text, speakingId, setSpeakingId 
             .trim();
     };
     const readAloud = () => {
+        setAlert({
+            message: "Vioce Media is Start Playing",
+            bgColor: "primary",
+            icon: "play-circle-fill"
+        });
         try {
             if (!("speechSynthesis" in window)) return;
 
@@ -47,7 +52,13 @@ export default function ChatItemOperation({ id, text, speakingId, setSpeakingId 
         } catch (e) {
             console.error("Speech failed:", e);
             setSpeakingId(null);
+            setAlert({
+                message: `Speech failed: ${e}`,
+                bgColor: "danger",
+                icon: "exclamation-triangle"
+            });
         }
+
     };
     const shareResponse = async () => {
         //later add share as file option
@@ -68,46 +79,47 @@ export default function ChatItemOperation({ id, text, speakingId, setSpeakingId 
         const pdfContent = document.createElement("div");
 
         pdfContent.innerHTML = `
+    <div style="
+        font-family: Arial, sans-serif;
+        padding: 24px;
+        color: #212529;
+        background: white;
+    ">
         <div style="
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            color: #212529;
-            background: white;
+            text-align: center;
+            padding-bottom: 18px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #6f42c1;
         ">
             <h1 style="
-                margin: 0 0 8px 0;
-                font-size: 24px;
+                margin: 0 0 6px 0;
+                font-size: 26px;
+                font-weight: 600;
+                color: #212529;
             ">
-                AI Response
+                AI Twins Response
             </h1>
 
             <div style="
                 font-size: 12px;
                 color: #6c757d;
-                margin-bottom: 20px;
             ">
                 ${new Date().toLocaleString()}
             </div>
-
-            <div style="
-                display: inline-block;
-                background: #6c757d;
-                color: white;
-                padding: 5px 10px;
-                border-radius: 4px;
-                font-size: 12px;
-                margin-bottom: 15px;
-            ">
-                AI Response
-            </div>
-
-            <div>
-                ${element.innerHTML}
-            </div>
         </div>
-    `;
+
+        <div>
+            ${element.innerHTML}
+        </div>
+    </div>
+`;
 
         document.body.appendChild(pdfContent);
+        setAlert({
+            message: "PDF is Ready to Download",
+            bgColor: "primary",
+            icon: "check-circle-fill"
+        });
         //later take the margin, filename, orientation, format from user.
         try {
             html2pdf()
@@ -135,6 +147,11 @@ export default function ChatItemOperation({ id, text, speakingId, setSpeakingId 
                 .save();
         } catch (e) {
             console.error("Copy failed:", e);
+            setAlert({
+                message: `Copy failed: ${e}`,
+                bgColor: "danger",
+                icon: "exclamation-triangle"
+            });
         }
 
     }

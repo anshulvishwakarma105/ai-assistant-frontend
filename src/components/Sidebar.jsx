@@ -42,7 +42,7 @@ export default function Sidebar({ sidebar, setSidebar, appData, activeChatId, se
         <span className="px-2">Recent Chats</span>
       </h6>
 
-      <div className="position-relative overflow-visible">
+      <div className="position-relative overflow-auto hide-scrollbar">
         {appData.chats.length !== 0 ? appData.chats?.map(chat => (
           <div
             key={chat.id}

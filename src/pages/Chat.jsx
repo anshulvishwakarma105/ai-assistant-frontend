@@ -342,8 +342,8 @@ export default function Chat({ alert, setAlert }) {
     }
     try {
       const response = await fetch(
-        // "https://ai-assistant-backend-temp.onrender.com/api/chat"
-        "http://127.0.0.1:8000/api/chat"
+        "https://ai-assistant-backend-temp.onrender.com/api/chat"
+        // "http://127.0.0.1:8000/api/chat"
         ,
         {
           method: "POST",
@@ -558,6 +558,7 @@ export default function Chat({ alert, setAlert }) {
               sidebar={sidebar}
               error={error}
               loading={loading}
+               setAlert={setAlert}
             />
 
             <InputField
