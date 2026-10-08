@@ -2,14 +2,10 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import ChatItemOperation from './ChatItemOperation';
-import { CopyBtn, SvgImage } from './Common';
+import { CopyBtn, SvgImage } from './RenderComponents';
 
 const ChatItem = ({ id, role, content, isImage, createdAt, speakingId, setSpeakingId, setAlert }) => {
     const svgMatches = content?.match(/<svg[\s\S]*?<\/svg>/gi);
-
-    const textContent = svgMatches
-        ? content.replace(/<svg[\s\S]*?<\/svg>/gi, "").trim()
-        : content;
     return (
         <>
             {role === "user" ?
@@ -34,15 +30,20 @@ const ChatItem = ({ id, role, content, isImage, createdAt, speakingId, setSpeaki
                             <div
                                 className='d-flex flex-column border-start border-3 border-secondary text-dark chat-message px-3 py-2'
                                 id={`chatId-${id}`}>
-                                <ReactMarkdown remarkPlugins={remarkGfm} rehypePlugins={rehypeHighlight}>
-                                    {textContent}
-                                </ReactMarkdown>
-                                {svgMatches?.map((svg, index) => (
-                                    <SvgImage key={index} svg_code={svg} />
-                                ))}
+                                {isImage?
+                                    (svgMatches?.map((svg, index) => (
+                                        <div key={index}>
+                                            <div className="d-block fw-semibold">{index === 0 ? "" : `${index + 1}.`} Svg Image</div>
+                                            <SvgImage svg_code={svg} />
+                                        </div>))):
+                                (<ReactMarkdown remarkPlugins={remarkGfm} rehypePlugins={rehypeHighlight}>
+                                    {content}
+                                </ReactMarkdown>)
+                                }
                             </div>
                             <ChatItemOperation
                                 id={id}
+                                svg={svgMatches?.[0]}
                                 text={content}
                                 speakingId={speakingId}
                                 setSpeakingId={setSpeakingId}

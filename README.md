@@ -14,16 +14,34 @@ AI-Twins/
 │   ├── Favicon.png
 │   ├── Loading.png
 │   └── Profile.png
+│
 ├── src/
 │   ├── assets/
 │   │   ├── About.jsx
 │   │   ├── Background.jsx
 │   │   ├── Feedback.jsx
 │   │   └── Oops.jsx
+│   │
 │   ├── components/
-│   │   ├── Chat.jsx
-│   │   ├── InputField.jsx
-│   │   └── ...etc
+│   │   ├── screens/
+│   │   │   ├── chatScreen/
+│   │   │   │   ├── ChatBox.jsx
+│   │   │   │   ├── ChatBoxHeader.jsx
+│   │   │   │   ├── InputField.jsx
+│   │   │   │   └── Sidebar.jsx
+│   │   │   ├── Animation.jsx
+│   │   │   └── NewChatScreen.jsx
+│   │   │
+│   │   ├── uiComponents/
+│   │   │   ├── Footer.jsx
+│   │   │   └── Navbar.jsx
+│   │   │
+│   │   ├── Calculations.jsx
+│   │   ├── ChatItem.jsx
+│   │   ├── ChatItemOperation.jsx
+│   │   ├── PopComponents.jsx
+│   │   └── RenderComponents.jsx
+│   │
 │   ├── pages/
 │   │   ├── About.jsx
 │   │   ├── Chat.jsx
@@ -31,9 +49,11 @@ AI-Twins/
 │   │   ├── Home.jsx
 │   │   ├── NotFound.jsx
 │   │   └── Terms.jsx
+│   │
 │   ├── App.jsx
 │   ├── index.css
 │   └── main.jsx
+│
 ├── .gitignore
 ├── eslint.config.js
 ├── index.html

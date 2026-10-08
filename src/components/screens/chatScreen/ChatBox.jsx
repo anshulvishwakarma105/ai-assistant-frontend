@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import ChatItem from './ChatItem';
-import { Loading, Error, FileCard, NewChatScreen, SvgImage } from './Common';
-import { getActiveChat, isMobile } from "./utils";
 import { useNavigate } from 'react-router-dom';
+import ChatItem from '../../ChatItem';
+import NewChatScreen from '../NewChatScreen';
+import { Loading, Error } from '../../PopComponents';
+import { FileCard } from '../../RenderComponents';
+import { getActiveChat, isMobile } from "../../Calculations";
 
 export default function ChatBox({ appData, activeChatId, keyboardHeight, sidebar, error, loading, setAlert}) {
   const navigate = useNavigate()

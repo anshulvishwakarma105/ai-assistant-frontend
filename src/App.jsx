@@ -6,7 +6,7 @@ import About from './pages/About'
 import Terms from './pages/Terms'
 import Feedback from './pages/Feedback'
 import NotFound from './pages/NotFound'
-import { Alert } from './components/Popups'
+import { Alert } from './components/PopComponents'
 
 export default function App() {
   const [alert, setAlert] = useState(null);

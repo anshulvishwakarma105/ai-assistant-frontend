@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { PageTitle } from '../components/utils'
+import { PageTitle } from '../components/Calculations';
 import OopsImg from "../assets/Oops.webp"
 
 export default function NotFound() {

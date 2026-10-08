@@ -1,7 +1,7 @@
-import React from 'react'
-import { Footer, Navbar } from '../components/UiComponent'
+import Navbar from '../components/uiComponents/Navbar';
+import Footer from '../components/uiComponents/Footer';
 import { Link } from 'react-router-dom'
-import { PageTitle } from '../components/utils'
+import { PageTitle } from '../components/Calculations';
 
 export default function Terms() {
     return (

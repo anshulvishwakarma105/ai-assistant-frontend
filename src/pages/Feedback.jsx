@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { Footer, Navbar } from '../components/UiComponent'
+import Navbar from '../components/uiComponents/Navbar';
+import Footer from '../components/uiComponents/Footer';
 import { useLocation } from 'react-router-dom';
-import { PageTitle } from '../components/utils'
+import { PageTitle } from '../components/Calculations';
 import FeedbackImg from "../assets/Feedback.png"
 
 export default function Feedback({ setAlert }) {

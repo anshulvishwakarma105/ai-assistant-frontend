@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { createElement, useState } from 'react'
 import html2pdf from "html2pdf.js";
-import { CopyBtn } from './Common';
+import { CopyBtn } from './RenderComponents';
 
-export default function ChatItemOperation({ id, text, speakingId, setSpeakingId, isImage, setAlert }) {
-    const svgMatch = text?.match(/<svg[\s\S]*?<\/svg>/i);
-    const textContent = svgMatch ? text.replace(svgMatch[0], "") : text;
-
+export default function ChatItemOperation({ id, svg, text, speakingId, setSpeakingId, isImage, setAlert }) {
+    const textContent = svg ?
+        text.replace(/<svg[\s\S]*?<\/svg>/gi, "").trim()
+        : text;
 
     const cleanMarkdown = (markdownText) => {
         return markdownText
@@ -155,6 +155,56 @@ export default function ChatItemOperation({ id, text, speakingId, setSpeakingId,
         }
 
     }
+    const downloadImage = (svg, format = "png") => {
+        if (format === "svg") {
+            const svgBlob = new Blob([svg], {
+                type: "image/svg+xml"
+            });
+            const svgBlobUrl = URL.createObjectURL(svgBlob);
+            const a = document.createElement("a");
+            a.href = svgBlobUrl;
+            a.download = `Ai-Twins-generated-Image-${id}.${format}`
+            a.click()
+            URL.revokeObjectURL(svgBlobUrl);
+            return;
+        }
+
+        //Svg image create
+        const svgBlob = new Blob([svg], {
+            type: "image/svg+xml"
+        });
+        const svgBlobUrl = URL.createObjectURL(svgBlob)
+
+        const image = new Image();
+        image.onload = () => {
+            const canvas = document.createElement("canvas");
+            canvas.width = image.naturalWidth || 500;
+            canvas.height = image.naturalHeight || 500;
+
+            const ctx = canvas.getContext("2d");
+
+            //Jpg background set
+            if (format === "jpg") {
+                ctx.fillStyle = "white";
+                ctx.fillRect(0, 0, canvas.width, canvas.height)
+            }
+            ctx.drawImage(image, 0, 0)
+
+            canvas.toBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a")
+                a.href = url;
+                a.download = `Ai-Twins-generated-Image-${id}.${format}`;
+                a.click();
+                URL.revokeObjectURL(url);
+            },
+                format === "jpg" ?
+                    "image/jpeg" : "image/png", 1
+            );
+            URL.revokeObjectURL(svgBlobUrl);
+        }
+        image.src = svgBlobUrl;
+    }
 
     const downloadAsPng = () => {
         setAlert({
@@ -162,6 +212,7 @@ export default function ChatItemOperation({ id, text, speakingId, setSpeakingId,
             bgColor: "primary",
             icon: "check-circle-fill"
         });
+        downloadImage(svg, "png");
     }
     const downloadAsJpg = () => {
         setAlert({
@@ -169,49 +220,79 @@ export default function ChatItemOperation({ id, text, speakingId, setSpeakingId,
             bgColor: "primary",
             icon: "download"
         });
+        downloadImage(svg, "jpg");
+
     }
+    const downloadAsSvg = () => {
+        setAlert({
+            message: "Downloading Image As Svg...",
+            bgColor: "primary",
+            icon: "download"
+        });
+        downloadImage(svg, "svg");
+
+    }
+    const OpenAsNewTab = () => {
+        const svgBlob = new Blob([svg], {
+            type: "image/svg+xml"
+        });
+        const svgBlobUrl = URL.createObjectURL(svgBlob);
+        window.open(svgBlobUrl, "_blank");
+    }
+
 
     return (
         <div className='d-flex gap-1 py-1 px-2'>
             <CopyBtn text={text} />
-            {textContent && (<>
-                <button className='btn btn-sm btn-outline-none '
-                    type='button'
-                    onClick={readAloud}
-                >
-                    <i className={`bi ${speakingId === id ? "bi-stop-fill" : "bi-volume-up"}`}></i>
-                </button >
-
-                <button className='btn btn-sm btn-outline-none '
-                    type='button'
-                    onClick={shareResponse}
-                >
-                    <i className="bi bi-share"></i>
-                </button>
-            </>)}
-
             {isImage ?
-                (
-                    <>
-                        <button className='btn btn-sm btn-outline-none '
-                            type='button'
-                            onClick={downloadAsPng}
-                        >
-                            <i className="bi bi-filetype-png"></i>
-                        </button>
-                        <button className='btn btn-sm btn-outline-none '
-                            type='button'
-                            onClick={downloadAsJpg}
-                        >
-                            <i className="bi bi-filetype-jpg"></i>
-                        </button>
-                    </>) :
-                (<button className='btn btn-sm btn-outline-none '
-                    type='button'
-                    onClick={downloadAsPdf}
-                >
-                    <i className="bi bi-file-earmark-pdf"></i>
-                </button>)}
+                (<>
+                    <button className='btn btn-sm btn-outline-none '
+                        type='button'
+                        onClick={downloadAsSvg}
+                    >
+                        <i className="bi bi-filetype-svg"></i>
+                    </button>
+                    <button className='btn btn-sm btn-outline-none '
+                        type='button'
+                        onClick={downloadAsPng}
+                    >
+                        <i className="bi bi-filetype-png"></i>
+                    </button>
+                    <button className='btn btn-sm btn-outline-none '
+                        type='button'
+                        onClick={downloadAsJpg}
+                    >
+                        <i className="bi bi-filetype-jpg"></i>
+                    </button>
+                    <button className='btn btn-sm btn-outline-none '
+                        type='button'
+                        onClick={OpenAsNewTab}
+                    >
+                        <i className="bi bi-box-arrow-up-right"></i>
+                    </button>
+
+                </>) :
+                (<>
+                    <button className='btn btn-sm btn-outline-none '
+                        type='button'
+                        onClick={readAloud}
+                    >
+                        <i className={`bi ${speakingId === id ? "bi-stop-fill" : "bi-volume-up"}`}></i>
+                    </button >
+
+                    <button className='btn btn-sm btn-outline-none '
+                        type='button'
+                        onClick={shareResponse}
+                    >
+                        <i className="bi bi-share"></i>
+                    </button>
+                    <button className='btn btn-sm btn-outline-none '
+                        type='button'
+                        onClick={downloadAsPdf}
+                    >
+                        <i className="bi bi-file-earmark-pdf"></i>
+                    </button>
+                </>)}
         </div>
     )
 }

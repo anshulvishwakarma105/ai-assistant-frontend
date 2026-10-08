@@ -1,6 +1,212 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+//popups
+function Alert({ alert, setAlert }) {
+  useEffect(() => {
+    if (!alert) return;
+
+    const timer = setTimeout(() => {
+      setAlert(null)
+    }, 5000);
+
+    return () => clearTimeout(timer)
+  }, [alert, setAlert])
+
+  return (
+    <div className={`position-fixed top-0 start-50 
+      translate-middle-x mt-5 alert alert-${alert.bgColor} d-flex align-items-center`} role="alert" style={{
+        minWidth: "300px",
+        zIndex: "3000"
+      }}>
+      <i className={`bi bi-${alert.icon} me-2`}></i>
+      <div>
+        {alert.message}
+      </div>
+    </div>
+  )
+}
+function Error({ error }) {
+    return (
+        <div className="text-danger px-3 py-2">
+            <i className="bi bi-exclamation-circle-fill me-2"></i>
+            {error.toString()}
+        </div>
+    )
+}
+function Loading() {
+    return (
+        <div className='d-flex align-items-center'>
+            <span className="text-primary fw-semibold px-3 py-2">Twin Answering . . .</span>
+            <div className="spinner-border spinner-border-sm text-primary" role="status" />
+        </div>
+    )
+}
+
+//option popups
+function Confirmation({ confirm, setConfirm }) {
+  const handleConfirmSubmit = (e) => {
+    e.preventDefault();
+    confirm.action();
+    setConfirm(null);
+  }
+  return (
+    <>
+      <div className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50"
+        style={{ zIndex: 60 }}></div>
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="position-absolute top-50 start-50 translate-middle
+       bg-dark border border-secondary rounded-3 
+       shadow popup-animation "
+        style={{
+          zIndex: "3000"
+        }}
+      >
+        <form className='text-light px-4 py-3 
+       d-flex flex-column align-items-center justify-content-evenly gap-3 popup-width'
+          onSubmit={handleConfirmSubmit} >
+          <div className="text-center">{confirm.message}</div>
+
+          <div className=" w-100 d-flex justify-content-center gap-2">
+            <button
+              type='submit'
+              className="btn btn-sm btn-danger w-100"
+            >
+              {confirm.title}
+            </button>
+            <button
+              type='button'
+              onClick={() => setConfirm(null)}
+              className="btn btn-sm btn-secondary w-100"
+            >
+              Cancel
+            </button>
+
+          </div>
+        </form>
+      </div>
+    </>
+  )
+}
+function ChatOperationsList({ chatId, chatName, setChatOperations, setEditor, handleRenameChat, setConfirm, handleDeleteChat }) {
+  const navigate = useNavigate();
+  const handleRenameBtn = () => {
+    setEditor({
+      title: "Rename",
+      action: handleRenameChat,
+      chatId: chatId,
+      chatName: chatName
+    })
+    setChatOperations(null);
+
+  }
+  const handleDeleteBtn = () => {
+    setConfirm({
+      title: "Delete",
+      message: `Are you sure Want to delete "${chatName}"?`,
+      action: () => handleDeleteChat(chatId, chatName)
+    })
+
+    setChatOperations(null);
+  }
+  const handleReportBtn = () => {
+    setConfirm({
+      title: "Report",
+      message: `Tell us through the Feedback form what's wrong with this chat: "${chatName}"?`,
+      action: () => navigate('/feedback', {
+        state: {
+          type: "Report",
+          message: `Something is Wrong with this Chat.
+          Chat_Id : ${chatId},
+          Chat_Name : ${chatName},
+          So I want to report.`
+        }
+      })
+    })
+
+    setChatOperations(null);
+  }
+  return (
+    <div
+      className="position-absolute top-50 start-100 translate-middle-y 
+      py-2 px-2 
+    bg-dark border border-secondary 
+    rounded-3 shadow popup-animation
+    d-flex flex-column"
+      onClick={(e) => e.stopPropagation()}
+      style={{
+        zIndex: 3000,
+        minWidth: "80px"
+      }}
+    >
+      <button
+        className="btn btn-sm text-light w-100 text-start p-2 rounded-2 my-1"
+        onClick={handleRenameBtn}
+      >
+        <i className="bi bi-pencil me-2"></i>
+        Rename
+      </button>
+      <div className="border-top border-secondary"></div>
+      <button
+        className="btn btn-sm text-danger w-100 text-start rounded-2 p-2 my-1"
+        onClick={handleDeleteBtn}
+      >
+        <i className="bi bi-trash me-2"></i>
+        Delete
+      </button>
+      <div className="border-top border-secondary"></div>
+      <button
+        className="btn btn-sm text-warning w-100 text-start rounded-2 py-2 px-2 my-1 "
+        onClick={handleReportBtn}
+      >
+        <i className="bi bi-exclamation-triangle  me-2"></i>
+        Report
+      </button>
+    </div>
+  )
+}
+function ChatInputAdditions({ setChatInputAdditions, fileInputRef, handleFileSubmit, setFile, setGenerateImage }) {
+  return (
+    <div
+      className="position-absolute bottom-100 start-0 m-2 p-2 bg-dark text-light border border-secondary rounded-3 shadow popup-animation d-flex flex-column gap-1"
+      onClick={(e) => e.stopPropagation()}
+      style={{ zIndex: 3000, minWidth: "180px" }}
+    >
+      <div
+        className="d-flex align-items-center gap-3 px-2 py-2 rounded-2 cursor-pointer"
+        onClick={() => {
+          fileInputRef.current.click();
+        }}
+      >
+        <i className="bi bi-upload"></i>
+        <span>Upload File</span>
+        <input
+          type="file"
+          ref={fileInputRef}
+          accept=".txt,.pdf,.doc,.docx"
+          onChange={handleFileSubmit}
+          hidden
+        />
+      </div>
+      <hr className="my-1 border-secondary opacity-50" />
+      <div
+        className="d-flex align-items-center gap-3 px-2 py-2 rounded-2 cursor-pointer"
+        onClick={() => {
+          setChatInputAdditions(false);
+          setGenerateImage(true);
+          setFile(null);
+          fileInputRef.current.value = "";
+        }}
+      >
+        <i className="bi bi-image"></i>
+        <span>Generate Image</span>
+      </div>
+    </div>
+  );
+}
+
+//form Popups
 function Editor({ editor, setEditor, setAlert }) {
 
   const [newTitle, setNewTitle] = useState(editor.chatName)
@@ -73,152 +279,6 @@ function Editor({ editor, setEditor, setAlert }) {
         </form>
       </div>
     </>
-  )
-}
-function Confirmation({ confirm, setConfirm }) {
-  const handleConfirmSubmit = (e) => {
-    e.preventDefault();
-    confirm.action();
-    setConfirm(null);
-  }
-  return (
-    <>
-      <div className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50"
-        style={{ zIndex: 60 }}></div>
-      <div
-        onClick={(e) => e.stopPropagation()}
-        className="position-absolute top-50 start-50 translate-middle
-       bg-dark border border-secondary rounded-3 
-       shadow popup-animation "
-        style={{
-          zIndex: "3000"
-        }}
-      >
-        <form className='text-light px-4 py-3 
-       d-flex flex-column align-items-center justify-content-evenly gap-3 popup-width'
-          onSubmit={handleConfirmSubmit} >
-          <div className="text-center">{confirm.message}</div>
-
-          <div className=" w-100 d-flex justify-content-center gap-2">
-            <button
-              type='submit'
-              className="btn btn-sm btn-danger w-100"
-            >
-              {confirm.title}
-            </button>
-            <button
-              type='button'
-              onClick={() => setConfirm(null)}
-              className="btn btn-sm btn-secondary w-100"
-            >
-              Cancel
-            </button>
-
-          </div>
-        </form>
-      </div>
-    </>
-  )
-}
-function Alert({ alert, setAlert }) {
-  useEffect(() => {
-    if (!alert) return;
-
-    const timer = setTimeout(() => {
-      setAlert(null)
-    }, 5000);
-
-    return () => clearTimeout(timer)
-  }, [alert, setAlert])
-
-  return (
-    <div className={`position-fixed top-0 start-50 
-      translate-middle-x mt-5 alert alert-${alert.bgColor} d-flex align-items-center`} role="alert" style={{
-        minWidth: "260px",
-        zIndex: "3000"
-      }}>
-      <i className={`bi bi-${alert.icon} me-2`}></i>
-      <div>
-        {alert.message}
-      </div>
-    </div>
-  )
-}
-function ChatOperations({ chatId, chatName, setChatOperations, setEditor, handleRenameChat, setConfirm, handleDeleteChat }) {
-  const navigate = useNavigate();
-  const handleRenameBtn = () => {
-    setEditor({
-      title: "Rename",
-      action: handleRenameChat,
-      chatId: chatId,
-      chatName: chatName
-    })
-    setChatOperations(null);
-
-  }
-  const handleDeleteBtn = () => {
-    setConfirm({
-      title: "Delete",
-      message: `Are you sure Want to delete "${chatName}"?`,
-      action: () => handleDeleteChat(chatId, chatName)
-    })
-
-    setChatOperations(null);
-  }
-  const handleReportBtn = () => {
-    setConfirm({
-      title: "Report",
-      message: `Tell us through the Feedback form what's wrong with this chat: "${chatName}"?`,
-      action: () => navigate('/feedback', {
-        state: {
-          type: "Report",
-          message: `Something is Wrong with this Chat.
-          Chat_Id : ${chatId},
-          Chat_Name : ${chatName},
-          So I want to report.`
-        }
-      })
-    })
-
-    setChatOperations(null);
-  }
-  return (
-    <div
-      className="position-absolute top-50 start-100 translate-middle-y 
-     ms-2 py-2 px-2 
-    bg-dark border border-secondary 
-    rounded-3 shadow popup-animation
-    d-flex flex-column"
-      onClick={(e) => e.stopPropagation()}
-      style={{
-        zIndex: 3000,
-        minWidth: "80px"
-      }}
-    >
-      <button
-        className="btn btn-sm text-light w-100 text-start p-2 rounded-2 my-1"
-        onClick={handleRenameBtn}
-      >
-        <i className="bi bi-pencil me-2"></i>
-        Rename
-      </button>
-      <div className="border-top border-secondary"></div>
-      <button
-        className="btn btn-sm text-danger w-100 text-start rounded-2 p-2 my-1"
-        onClick={handleDeleteBtn}
-      >
-        <i className="bi bi-trash me-2"></i>
-        Delete
-      </button>
-      <div className="border-top border-secondary"></div>
-      <button
-        className="btn btn-sm text-warning w-100 text-start rounded-2 py-2 px-2 my-1 "
-        onClick={handleReportBtn}
-      >
-        <i className="bi bi-exclamation-triangle  me-2"></i>
-        Report
-      </button>
-    </div>
   )
 }
 function CustomiseUserForm({ userInfo, setUserForm, setAlert, UserInfoUpdate }) {
@@ -318,45 +378,7 @@ function CustomiseUserForm({ userInfo, setUserForm, setAlert, UserInfoUpdate }) 
     </>
   )
 }
-function ChatInputAdditions({ setChatInputAdditions, fileInputRef, handleFileSubmit, setFile, setGenerateImage }) {
-  return (
-    <div
-      className="position-absolute bottom-100 start-0 m-2 p-2 bg-dark text-light border border-secondary rounded-3 shadow popup-animation d-flex flex-column gap-1"
-      onClick={(e) => e.stopPropagation()}
-      style={{ zIndex: 3000, minWidth: "180px" }}
-    >
-      <div
-        className="d-flex align-items-center gap-3 px-2 py-2 rounded-2 cursor-pointer"
-        onClick={() => {
-          fileInputRef.current.click();
-        }}
-      >
-        <i className="bi bi-upload"></i>
-        <span>Upload File</span>
-        <input
-          type="file"
-          ref={fileInputRef}
-          accept=".txt,.pdf,.doc,.docx"
-          onChange={handleFileSubmit}
-          hidden
-        />
-      </div>
-      <hr className="my-1 border-secondary opacity-50" />
-      <div
-        className="d-flex align-items-center gap-3 px-2 py-2 rounded-2 cursor-pointer"
-        onClick={() => {
-          setChatInputAdditions(false);
-          setGenerateImage(true);
-          setFile(null);
-          fileInputRef.current.value = "";
-        }}
-      >
-        <i className="bi bi-image"></i>
-        <span>Generate Image</span>
-      </div>
-    </div>
-  );
-}
-export { CustomiseUserForm, Editor, Confirmation, Alert, ChatOperations, ChatInputAdditions }
+
+export { Alert, Error, Loading, Confirmation, ChatOperationsList, ChatInputAdditions, Editor , CustomiseUserForm}
 
 

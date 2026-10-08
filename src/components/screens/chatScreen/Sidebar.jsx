@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { ChatOperations } from './Popups';
-import { UserInfoCard } from './Common';
-import { isMobile } from "./utils";
 import { useNavigate } from 'react-router-dom';
+import { UserInfoCard } from '../../RenderComponents';
+import { isMobile } from "../../Calculations";
+import { ChatOperationsList } from '../../PopComponents';
 
 export default function Sidebar({ sidebar, setSidebar, appData, activeChatId, setEditor, handleRenameChat, setConfirm, handleDeleteChat, setUserForm, hanleDeleteHistory}) {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ export default function Sidebar({ sidebar, setSidebar, appData, activeChatId, se
   return (
 
     <div
-      className={` ${sidebar ? "d-flex" : "d-none"} bg-dark text-light p-3  flex-shrink-0 sidebar popup-animation h-100  flex-column`}
+      className={` ${sidebar ? "d-flex " : "d-none"} position-relative bg-dark text-light p-3  flex-shrink-0 sidebar popup-animation h-100  flex-column`}
     >
       <button
         onClick={() => {
@@ -41,8 +41,8 @@ export default function Sidebar({ sidebar, setSidebar, appData, activeChatId, se
         <i className="bi bi-chevron-down"></i>
         <span className="px-2">Recent Chats</span>
       </h6>
-
-      <div className="position-relative overflow-auto hide-scrollbar">
+     
+      <div className=" overflow-auto  hide-scrollbar">
         {appData.chats.length !== 0 ? appData.chats?.map(chat => (
           <div
             key={chat.id}
@@ -64,13 +64,12 @@ export default function Sidebar({ sidebar, setSidebar, appData, activeChatId, se
                 setConfirm(null);
                 setEditor(null)
                 setChatOperations(prev => prev === chat.id ? null : chat.id);
-
               }}
             >
               <i className="bi bi-three-dots-vertical"></i>
             </button>
             {chatOperations === chat.id && (
-              <ChatOperations
+              <ChatOperationsList
                 chatId={chat.id}
                 chatName={chat.title}
                 setChatOperations={setChatOperations}

@@ -1,7 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Footer, Navbar } from '../components/UiComponent'
-import { PageTitle } from '../components/utils'
+import Navbar from '../components/uiComponents/Navbar';
+import Footer from '../components/uiComponents/Footer';
+import { PageTitle } from '../components/Calculations';
 import BackgroundImg from "../assets/Background.webp"
 
 export default function Home() {

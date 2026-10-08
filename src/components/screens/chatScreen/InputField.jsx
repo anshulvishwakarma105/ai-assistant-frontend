@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useRef } from "react";
-import { FileCard } from "./Common";
-import { isMobile } from "./utils";
-import { ChatInputAdditions } from "./Popups";
+import { FileCard } from "../../RenderComponents";
+import { isMobile } from "../../Calculations";
+import { ChatInputAdditions } from "../../PopComponents";
 
 export default function InputField({ keyboardHeight, onAskAi, loading, setAlert }) {
   const [input, setInput] = useState("");

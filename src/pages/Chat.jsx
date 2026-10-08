@@ -1,14 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react'
-import InputField from '../components/InputField';
-import ChatBox from '../components/ChatBox';
-import Sidebar from '../components/Sidebar';
-import { Confirmation, CustomiseUserForm, Editor } from '../components/Popups';
-import { isMobile, getActiveChat, PageTitle } from "../components/utils";
-import { Animation, ChatBoxHeader } from '../components/Common';
+import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
+import { isMobile, getActiveChat, PageTitle } from '../components/Calculations';
+import Animation from '../components/screens/Animation';
+import ChatBox from '../components/screens/chatScreen/ChatBox';
+import ChatBoxHeader from '../components/screens/chatScreen/ChatBoxHeader';
+import InputField from '../components/screens/chatScreen/InputField';
+import Sidebar from '../components/screens/chatScreen/Sidebar';
+import { Confirmation, Editor, CustomiseUserForm  } from '../components/PopComponents';
 
-
-export default function Chat({ alert, setAlert }) {
+export default function Chat({ setAlert }) {
 
   const [animation, setAnimation] = useState(true);
   useEffect(() => {
