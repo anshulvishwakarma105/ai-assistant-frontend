@@ -8,59 +8,6 @@ AI Twins is a chatbot web application that allows users to communicate with vari
 
 The application provides experience with support for multiple conversations, file uploads, Markdown rendering, code syntax highlighting, and downloadable PDF responses.
 
-AI-Twins/
-├── public/
-│   ├── Chat.png
-│   ├── Favicon.png
-│   ├── Loading.png
-│   └── Profile.png
-│
-├── src/
-│   ├── assets/
-│   │   ├── About.jsx
-│   │   ├── Background.jsx
-│   │   ├── Feedback.jsx
-│   │   └── Oops.jsx
-│   │
-│   ├── components/
-│   │   ├── screens/
-│   │   │   ├── chatScreen/
-│   │   │   │   ├── ChatBox.jsx
-│   │   │   │   ├── ChatBoxHeader.jsx
-│   │   │   │   ├── InputField.jsx
-│   │   │   │   └── Sidebar.jsx
-│   │   │   ├── Animation.jsx
-│   │   │   └── NewChatScreen.jsx
-│   │   │
-│   │   ├── uiComponents/
-│   │   │   ├── Footer.jsx
-│   │   │   └── Navbar.jsx
-│   │   │
-│   │   ├── Calculations.jsx
-│   │   ├── ChatItem.jsx
-│   │   ├── ChatItemOperation.jsx
-│   │   ├── PopComponents.jsx
-│   │   └── RenderComponents.jsx
-│   │
-│   ├── pages/
-│   │   ├── About.jsx
-│   │   ├── Chat.jsx
-│   │   ├── Feedback.jsx
-│   │   ├── Home.jsx
-│   │   ├── NotFound.jsx
-│   │   └── Terms.jsx
-│   │
-│   ├── App.jsx
-│   ├── index.css
-│   └── main.jsx
-│
-├── .gitignore
-├── eslint.config.js
-├── index.html
-├── package.json
-├── package-lock.json
-├── vercel.json
-└── vite.config.js
 
 ## Features
 
@@ -244,17 +191,62 @@ The application includes measures such as:
 ## Project Structure
 
 ```text
-src/
-├── components/
-├── pages/
-├── utils/
-├── App.jsx
-└── main.jsx
-
-public/
-├── favicon.png
-└── profile.png
+AI-Twins/
+├── public/
+│   ├── Chat.png
+│   ├── Favicon.png
+│   ├── Loading.png
+│   └── Profile.png
+│
+├── src/
+│   ├── assets/
+│   │   ├── About.jsx
+│   │   ├── Background.jsx
+│   │   ├── Feedback.jsx
+│   │   └── Oops.jsx
+│   │
+│   ├── components/
+│   │   ├── screens/
+│   │   │   ├── chatScreen/
+│   │   │   │   ├── ChatBox.jsx
+│   │   │   │   ├── ChatBoxHeader.jsx
+│   │   │   │   ├── InputField.jsx
+│   │   │   │   └── Sidebar.jsx
+│   │   │   │
+│   │   │   ├── Animation.jsx
+│   │   │   └── NewChatScreen.jsx
+│   │   │
+│   │   ├── uiComponents/
+│   │   │   ├── Footer.jsx
+│   │   │   └── Navbar.jsx
+│   │   │
+│   │   ├── Calculations.jsx
+│   │   ├── ChatItem.jsx
+│   │   ├── ChatItemOperation.jsx
+│   │   ├── PopComponents.jsx
+│   │   └── RenderComponents.jsx
+│   │
+│   ├── pages/
+│   │   ├── About.jsx
+│   │   ├── Chat.jsx
+│   │   ├── Feedback.jsx
+│   │   ├── Home.jsx
+│   │   ├── NotFound.jsx
+│   │   └── Terms.jsx
+│   │
+│   ├── App.jsx
+│   ├── index.css
+│   └── main.jsx
+│
+├── .gitignore
+├── eslint.config.js
+├── index.html
+├── package.json
+├── package-lock.json
+├── vercel.json
+└── vite.config.js
 ```
+
 
 ## Development Tools
 
