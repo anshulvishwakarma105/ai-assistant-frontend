@@ -130,7 +130,7 @@ function ChatOperationsList({ chatId, chatName, setChatOperations, setEditor, ha
   return (
     <div
       className="position-absolute top-50 start-100 translate-middle-y 
-      py-2 px-2 
+      ms-2 py-2 px-2 
     bg-dark border border-secondary 
     rounded-3 shadow popup-animation
     d-flex flex-column"
@@ -166,7 +166,7 @@ function ChatOperationsList({ chatId, chatName, setChatOperations, setEditor, ha
     </div>
   )
 }
-function ChatInputAdditions({ setChatInputAdditions, fileInputRef, handleFileSubmit, setFile, setGenerateImage }) {
+function ChatInputAdditions({ fileInputRef, handleFileSubmit,  handleImageGenerationSubmit }) {
   return (
     <div
       className="position-absolute bottom-100 start-0 m-2 p-2 bg-dark text-light border border-secondary rounded-3 shadow popup-animation d-flex flex-column gap-1"
@@ -192,12 +192,7 @@ function ChatInputAdditions({ setChatInputAdditions, fileInputRef, handleFileSub
       <hr className="my-1 border-secondary opacity-50" />
       <div
         className="d-flex align-items-center gap-3 px-2 py-2 rounded-2 cursor-pointer"
-        onClick={() => {
-          setChatInputAdditions(false);
-          setGenerateImage(true);
-          setFile(null);
-          fileInputRef.current.value = "";
-        }}
+        onClick={handleImageGenerationSubmit}
       >
         <i className="bi bi-image"></i>
         <span>Generate Image</span>

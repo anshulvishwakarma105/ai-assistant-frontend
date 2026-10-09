@@ -98,8 +98,8 @@ export default function Chat({ setAlert }) {
     formData.append("input", prompt);
     try {
       const response = await fetch(
-        // "https://ai-assistant-backend-temp.onrender.com/api/chat"
-        "http://127.0.0.1:8000/api/chat"
+        "https://ai-assistant-backend-temp.onrender.com/api/chat"
+        // "http://127.0.0.1:8000/api/chat"
         ,
         {
           method: "POST",
@@ -305,23 +305,22 @@ export default function Chat({ setAlert }) {
               setSidebar={setSidebar}
               appData={appData}
               activeChatId={id} />
+              <ChatBox
+                appData={appData}
+                activeChatId={id}
+                keyboardHeight={keyboardHeight}
+                sidebar={sidebar}
+                error={error}
+                loading={loading}
+                setAlert={setAlert}
+              />
 
-            <ChatBox
-              appData={appData}
-              activeChatId={id}
-              keyboardHeight={keyboardHeight}
-              sidebar={sidebar}
-              error={error}
-              loading={loading}
-              setAlert={setAlert}
-            />
-
-            <InputField
-              keyboardHeight={keyboardHeight}
-              onAskAi={handleAskAi}
-              loading={loading}
-              setAlert={setAlert}
-            />
+              <InputField
+                keyboardHeight={keyboardHeight}
+                onAskAi={handleAskAi}
+                loading={loading}
+                setAlert={setAlert}
+              />
           </div>
           {
             editor &&

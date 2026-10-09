@@ -34,7 +34,7 @@ const ChatItem = ({ id, role, content, createdAt, speakingId, setSpeakingId, set
                                 {svgMatches?.[0]?
                                     (svgMatches?.map((svg, index) => (
                                         <div key={index}>
-                                            <div className="d-block fw-semibold">{index === 0 ? "" : `${index + 1}.`} Svg Image</div>
+                                            <div className="d-block fw-semibold">{index === 0 ? "" : `${index + 1}.`} Svg File<i class="bi bi-filetype-svg ms-2"></i></div>
                                             <SvgImage svg_code={svg} />
                                         </div>))):
                                 (<ReactMarkdown remarkPlugins={remarkGfm} rehypePlugins={rehypeHighlight}>

@@ -7,7 +7,7 @@ export default function ChatBoxHeader({ sidebar, setSidebar, appData, activeChat
                   d-flex align-items-center justify-content-between flex-shrink-0 chatbox-header">
 
             <button
-                className="btn btn-primary "
+                className={`btn btn-${(sidebar && isMobile)? "danger": "primary"}`}
                 onClick={() => setSidebar(prev => !prev)}
             >{(sidebar && isMobile) ?
                 <i className="bi bi-x-lg "></i> :

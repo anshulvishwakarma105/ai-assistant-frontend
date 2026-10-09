@@ -36,26 +36,54 @@ export default function InputField({ keyboardHeight, onAskAi, loading, setAlert 
       "application/msword",
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     ];
- 
+
     const maxSize = 10 * 1024 * 1024;
 
     if (!allowedTypes.includes(selectedFile.type)) {
-      setAlert("Only TXT, PDF, DOC and DOCX files are allowed.");
+      setAlert({
+        message: `Only TXT, PDF and DOCX files are allowed.`,
+        bgColor: "warning",
+        icon: "exclamation-triangle"
+      })
       setFile(null);
       e.target.value = "";
       return;
     }
 
     if (selectedFile.size > maxSize) {
-      setAlert("File size must be less than 10 MB.");
+      setAlert({
+        message: `File size must be less than 10 MB.`,
+        bgColor: "warning",
+        icon: "exclamation-triangle"
+      })
       setFile(null);
       e.target.value = "";
       return;
     }
     setFile(selectedFile);
-    setGenerateImage(false);
+    if (generateImage) {
+      setAlert({
+        message: `Only One Addition Are Allowed`,
+        bgColor: "warning",
+        icon: "exclamation-triangle"
+      })
+      setGenerateImage(false);
+    }
     setChatInputAdditions(false);
   };
+  const handleImageGenerationSubmit = () => {
+    setChatInputAdditions(false);
+    setGenerateImage(true);
+    if (file) {
+      setAlert({
+        message: `Only One Chat Addition Are Allowed`,
+        bgColor: "warning",
+        icon: "exclamation-triangle"
+      })
+      setFile(null);
+      fileInputRef.current.value = "";
+    }
+  }
 
   return (
     <div
@@ -99,12 +127,21 @@ export default function InputField({ keyboardHeight, onAskAi, loading, setAlert 
         </div>
       )}
 
-      <form className="input-group my-2" onSubmit={handleInputSubmit}>
+      <form className="input-group my-2 d-flex align-items-center" onSubmit={handleInputSubmit}>
         <div
-          className="d-flex align-items-center px-3 text-light cursor-pointer"
+          className={`bg-${chatInputAdditions ? "danger" : "primary"} d-flex align-items-center justify-content-center px-3 text-light cursor-pointer rounded-circle mx-2`}
           onClick={() => setChatInputAdditions(prev => !prev)}
+          style={{
+            width: "30px",
+            height: "30px"
+          }}
         >
-          <i className="bi bi-plus-lg fs-5"></i>
+          <i className="bi bi-plus-lg fs-5"
+            style={{
+              display: "inline-block",
+              transform: `rotate(${chatInputAdditions ? 45 : 0}deg)`,
+              transition: "transform 0.3s ease"
+            }}></i>
         </div>
 
         <input
@@ -123,20 +160,18 @@ export default function InputField({ keyboardHeight, onAskAi, loading, setAlert 
           type="submit"
           disabled={loading}
         >
-          {loading ? 
-          (<><span className="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
-          <span>Wait</span></> ) 
-          : "Submit"}
+          {loading ?
+            (<><span className="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+              <span>Wait</span></>)
+            : "Submit"}
         </button>
       </form>
 
       {chatInputAdditions && (
         <ChatInputAdditions
-          setChatInputAdditions={setChatInputAdditions}
           fileInputRef={fileInputRef}
           handleFileSubmit={handleFileSubmit}
-          setFile={setFile}
-          setGenerateImage={setGenerateImage}
+          handleImageGenerationSubmit={handleImageGenerationSubmit}
         />
       )}
     </div>

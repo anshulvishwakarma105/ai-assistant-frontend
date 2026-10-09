@@ -28,7 +28,7 @@ export default function ChatBox({ appData, activeChatId, keyboardHeight, sidebar
     )
   }
   return (
-    <div className={`${sidebar ? "" : "container"} chatBox flex-grow-1 overflow-auto py-3 px-3 custom-scrollbar`}
+    <div className="container chatBox flex-grow-1 overflow-auto py-3 px-3 custom-scrollbar"
       style={{
         marginBottom: isMobile && keyboardHeight ? `${keyboardHeight + 60}px` : "56px",
       }}>
