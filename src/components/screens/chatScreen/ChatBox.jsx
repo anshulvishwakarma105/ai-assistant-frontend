@@ -48,7 +48,6 @@ export default function ChatBox({ appData, activeChatId, keyboardHeight, sidebar
               id={chatItem.id}
               role={chatItem.role}
               content={chatItem.content}
-              isImage={chatItem.isImage}
               createdAt={chatItem.createdAt}
               speakingId={speakingId}
               setSpeakingId={setSpeakingId}

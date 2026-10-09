@@ -1,5 +1,4 @@
 import DOMPurify from "dompurify";
-import { useState } from 'react';
 
 function SvgImage({ svg_code }) {
     if (!svg_code) {
@@ -16,30 +15,6 @@ function SvgImage({ svg_code }) {
             dangerouslySetInnerHTML={{ __html: svg }}
         />
     );
-}
-function CopyBtn({ text }) {
-    const [copied, setCopied] = useState(false)
-    const copyText = async () => {
-        try {
-            //can be cleanMarkDown(text) for bot response
-            if (!navigator.clipboard) return;
-            await navigator.clipboard.writeText(text);
-            setCopied(true);
-            setTimeout(() => {
-                setCopied(false)
-            }, 2000);
-        } catch (e) {
-            console.error("Copy failed:", e);
-        }
-    }
-    return (
-        <button className='btn btn-sm btn-outline-none '
-            type='button'
-            onClick={copyText}
-        >
-            <i className={`bi ${copied ? "bi-check-lg text-success" : "bi-copy"}`}></i>
-        </button>
-    )
 }
 function FileCard({ fileName }) {
     return (
@@ -93,5 +68,5 @@ function UserInfoCard({ userInfo, setUserForm, setConfirm, hanleDeleteHistory })
     )
 }
 
-export { SvgImage, CopyBtn, FileCard, UserInfoCard }
+export { SvgImage, FileCard, UserInfoCard }
 

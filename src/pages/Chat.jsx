@@ -6,7 +6,7 @@ import ChatBox from '../components/screens/chatScreen/ChatBox';
 import ChatBoxHeader from '../components/screens/chatScreen/ChatBoxHeader';
 import InputField from '../components/screens/chatScreen/InputField';
 import Sidebar from '../components/screens/chatScreen/Sidebar';
-import { Confirmation, Editor, CustomiseUserForm  } from '../components/PopComponents';
+import { Confirmation, Editor, CustomiseUserForm } from '../components/PopComponents';
 
 export default function Chat({ setAlert }) {
 
@@ -73,26 +73,33 @@ export default function Chat({ setAlert }) {
       })) || [];
     }
 
-    addChatItem(chatId, "user", input, file?.name ?? null, false);
+    addChatItem(chatId, "user", input, file?.name ?? null);
     setLoading(chatId);
     const formData = new FormData();
-
-    const prompt = JSON.stringify({
+    let prompt = JSON.stringify({
       userInfo: appData.userInfo,
       previousChatHistory: previousMessages,
       currentChatQuestion: input
     });
-    formData.append("input", prompt);
     if (file) {
       formData.append("file", file);
+      prompt = JSON.stringify({
+        previousChatHistory: previousMessages,
+        currentChatQuestion: input
+      });
     }
     if (generateImage) {
-      formData.append("generateImage", generateImage);
+      formData.append("generateImage", String(generateImage));
+      prompt = JSON.stringify({
+        previousChatHistory: previousMessages,
+        currentChatQuestion: input
+      });
     }
+    formData.append("input", prompt);
     try {
       const response = await fetch(
-        "https://ai-assistant-backend-temp.onrender.com/api/chat"
-        // "http://127.0.0.1:8000/api/chat"
+        // "https://ai-assistant-backend-temp.onrender.com/api/chat"
+        "http://127.0.0.1:8000/api/chat"
         ,
         {
           method: "POST",
@@ -103,7 +110,7 @@ export default function Chat({ setAlert }) {
       if (!response.ok) {
         throw new Error(data.detail || "Something went wrong");
       }
-      addChatItem(chatId, "bot", data.response, null, generateImage);
+      addChatItem(chatId, "bot", data.response, null);
     } catch (e) {
       console.error("FETCH ERROR:", e);
       setError({
@@ -114,7 +121,7 @@ export default function Chat({ setAlert }) {
       setLoading(null);
     }
   }
-  const addChatItem = (activeChatId, role, content, fileName, generateImage) => {
+  const addChatItem = (activeChatId, role, content, fileName) => {
     setAppData(prev => ({
       ...prev,
       chats: prev.chats.map(chat =>
@@ -129,7 +136,6 @@ export default function Chat({ setAlert }) {
                 role: role,
                 content: content,
                 file: fileName,
-                isImage: generateImage,
                 createdAt: new Date().toISOString()
               }
             ]
@@ -307,7 +313,7 @@ export default function Chat({ setAlert }) {
               sidebar={sidebar}
               error={error}
               loading={loading}
-               setAlert={setAlert}
+              setAlert={setAlert}
             />
 
             <InputField
