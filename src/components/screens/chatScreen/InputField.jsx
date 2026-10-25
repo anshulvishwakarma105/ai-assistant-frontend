@@ -129,7 +129,8 @@ export default function InputField({ keyboardHeight, onAskAi, loading, setAlert 
 
       <form className="input-group my-2 d-flex align-items-center" onSubmit={handleInputSubmit}>
         <div
-          className={`bg-${chatInputAdditions ? "danger" : "primary"} d-flex align-items-center justify-content-center px-3 text-light cursor-pointer rounded-circle mx-2`}
+          className={`${chatInputAdditions ? "bg-danger" : ""} d-flex align-items-center justify-content-center px-3 text-light cursor-pointer rounded-circle mx-2`}
+          title={chatInputAdditions? "close": "Addition"}
           onClick={() => setChatInputAdditions(prev => !prev)}
           style={{
             width: "30px",

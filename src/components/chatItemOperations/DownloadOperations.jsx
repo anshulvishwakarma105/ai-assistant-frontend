@@ -12,6 +12,7 @@ function DownloadAsSvg({svg, setAlert, downloadImage }) {
     }
     return (
         <button className='btn btn-sm btn-outline-none '
+            title="Download As Svg"
             type='button'
             onClick={downloadAsSvg}
         >
@@ -30,6 +31,7 @@ function DownloadAsPng({svg, setAlert, downloadImage }) {
     }
     return (
         <button className='btn btn-sm btn-outline-none '
+        title="Download As Png"
             type='button'
             onClick={downloadAsPng}
         >
@@ -49,6 +51,7 @@ function DownloadAsJpg({svg, setAlert, downloadImage }) {
     }
     return (
         <button className='btn btn-sm btn-outline-none '
+            title="Download As Jpg"
             type='button'
             onClick={downloadAsJpg}
         >
@@ -141,6 +144,7 @@ function DownloadAsPdf({id, setAlert}) {
     }
     return (
         <button className='btn btn-sm btn-outline-none '
+            title="Download As Pdf"
             type='button'
             onClick={downloadAsPdf}
         >

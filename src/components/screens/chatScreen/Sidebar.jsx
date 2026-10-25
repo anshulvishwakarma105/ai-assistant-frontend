@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { UserInfoCard } from '../../RenderComponents';
+import { Advertise, UserInfoCard } from '../../RenderComponents';
 import { isMobile } from "../../Calculations";
 import { ChatOperationsList } from '../../PopComponents';
 
 export default function Sidebar({ sidebar, setSidebar, appData, activeChatId, setEditor, handleRenameChat, setConfirm, handleDeleteChat, setUserForm, hanleDeleteHistory }) {
   const navigate = useNavigate();
+  const [Ad, setAd] = useState(true);
   const [chatOperations, setChatOperations] = useState(null);
   useEffect(() => {
     const handleClickOutside = () => {
@@ -84,7 +85,12 @@ export default function Sidebar({ sidebar, setSidebar, appData, activeChatId, se
             <div className='d-flex justify-content-center text-secondary fst-italic '><i className="bi bi-ban me-2"></i> No Chat To Show Here</div>
           }
         </div>
-        <UserInfoCard userInfo={appData.userInfo} setUserForm={setUserForm} setConfirm={setConfirm} hanleDeleteHistory={hanleDeleteHistory} />
+        <div className='mt-auto'>
+          {Ad &&
+            <Advertise setAd={setAd} />
+          }
+          <UserInfoCard userInfo={appData.userInfo} setUserForm={setUserForm} setConfirm={setConfirm} hanleDeleteHistory={hanleDeleteHistory} />
+        </div>
       </div>
     </div>
   )

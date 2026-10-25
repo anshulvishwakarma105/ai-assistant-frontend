@@ -17,6 +17,7 @@ function CopyBtn({ text }) {
     }
     return (
         <button className='btn btn-sm btn-outline-none '
+            title="Copy"
             type='button'
             onClick={copyText}
         >
@@ -25,7 +26,7 @@ function CopyBtn({ text }) {
     )
 }
 
-function ReadAloud({id, setAlert, speakingId, setSpeakingId, cleanText}) {
+function ReadAloud({ id, setAlert, speakingId, setSpeakingId, cleanText }) {
     const readAloud = () => {
         setAlert({
             message: "Vioce Media is Starting...",
@@ -66,6 +67,7 @@ function ReadAloud({id, setAlert, speakingId, setSpeakingId, cleanText}) {
     };
     return (
         <button className='btn btn-sm btn-outline-none '
+            title="Read Aloud"
             type='button'
             onClick={readAloud}
         >
@@ -73,7 +75,7 @@ function ReadAloud({id, setAlert, speakingId, setSpeakingId, cleanText}) {
         </button >
     )
 }
-function ShareResponse({textContent}) {
+function ShareResponse({ textContent }) {
     const shareResponse = async () => {
         //later add share as file option
         try {
@@ -89,6 +91,7 @@ function ShareResponse({textContent}) {
     }
     return (
         <button className='btn btn-sm btn-outline-none '
+            title="Share Response"
             type='button'
             onClick={shareResponse}
         >
@@ -96,7 +99,7 @@ function ShareResponse({textContent}) {
         </button>
     )
 }
-function OpenAsNewTab({svg}) {
+function OpenAsNewTab({ svg }) {
     const openAsNewTab = () => {
         const svgBlob = new Blob([svg], {
             type: "image/svg+xml"
@@ -106,6 +109,7 @@ function OpenAsNewTab({svg}) {
     }
     return (
         <button className='btn btn-sm btn-outline-none '
+            title="Open As New Tab"
             type='button'
             onClick={openAsNewTab}
         >

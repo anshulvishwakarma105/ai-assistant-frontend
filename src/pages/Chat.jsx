@@ -14,7 +14,7 @@ export default function Chat({ setAlert }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setAnimation(false);
-    }, 1000);
+    }, 3000);
 
     return () => {
       clearTimeout(timer);

@@ -8,6 +8,7 @@ export default function ChatBoxHeader({ sidebar, setSidebar, appData, activeChat
 
             <button
                 className={`btn btn-${(sidebar && isMobile)? "danger": "primary"}`}
+                title={sidebar? "close sidebar":"open sidebar"}
                 onClick={() => setSidebar(prev => !prev)}
             >{(sidebar && isMobile) ?
                 <i className="bi bi-x-lg "></i> :
