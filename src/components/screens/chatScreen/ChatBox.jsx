@@ -6,7 +6,7 @@ import { Loading, Error } from '../../PopComponents';
 import { FileCard } from '../../RenderComponents';
 import { getActiveChat, isMobile } from "../../Calculations";
 
-export default function ChatBox({ appData, activeChatId, keyboardHeight, sidebar, error, loading, setAlert}) {
+export default function ChatBox({ appData, activeChatId, keyboardHeight, sidebar, error, loading, setAlert }) {
   const navigate = useNavigate()
   const [speakingId, setSpeakingId] = useState(null);
   const activeChat = getActiveChat(appData, activeChatId);
@@ -28,21 +28,25 @@ export default function ChatBox({ appData, activeChatId, keyboardHeight, sidebar
     )
   }
   return (
-    <div className="container chatBox flex-grow-1 overflow-auto py-3 px-3 custom-scrollbar"
+    <div
+      className="container chatBox flex-grow-1 overflow-auto py-3 px-3 custom-scrollbar"
       style={{
-        marginBottom: isMobile && keyboardHeight ? `${keyboardHeight + 60}px` : "56px",
-      }}>
+        marginBottom: isMobile && keyboardHeight
+          ? `${keyboardHeight + 60}px`
+          : "56px",
+      }}
+    >
       <div className="d-flex flex-column gap-2 px-2 px-lg-5">
         {activeChat?.messages.map(chatItem => (
           <div
             key={chatItem.id}
             className={
-              chatItem.role === "user" ?
-                "d-flex flex-column align-items-end my-2" :
-                "d-flex justify-content-start my-2"}
-          >{chatItem.file && (
-            <FileCard fileName={chatItem.file} />
-          )}
+              chatItem.role === "user"
+                ? "d-flex flex-column align-items-end my-2"
+                : "d-flex justify-content-start my-2"
+            }
+          >
+            {chatItem.file && <FileCard fileName={chatItem.file} />}
 
             <ChatItem
               id={chatItem.id}
@@ -51,18 +55,16 @@ export default function ChatBox({ appData, activeChatId, keyboardHeight, sidebar
               createdAt={chatItem.createdAt}
               speakingId={speakingId}
               setSpeakingId={setSpeakingId}
-               setAlert={setAlert}
+              setAlert={setAlert}
             />
           </div>
         ))}
-        
-        {loading === activeChatId && (
-          <Loading />
-        )}
+
+        {loading === activeChatId && <Loading />}
+
         {error?.chatId === activeChatId && (
           <Error error={error.message} />
         )}
-
       </div>
     </div>
   )

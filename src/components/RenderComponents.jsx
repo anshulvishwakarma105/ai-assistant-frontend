@@ -40,36 +40,47 @@ function UserInfoCard({ userInfo, setUserForm, setConfirm, hanleDeleteHistory })
             action: hanleDeleteHistory
         })
     };
-    return (
-        <div
-            className=" d-flex align-items-center gap-2 p-2 rounded-3 border"
+    
+return (
+    <div className="d-flex align-items-center gap-2 pt-2 border-top border-2 border-secondary">
+        <img
+            src="/Profile.png"
+            alt="Profile"
+            title="Edit Profile"
+            className="rounded-circle flex-shrink-0 cursor-pointer"
+            width="32"
+            height="32"
+            onClick={() => setUserForm(prev => !prev)}
+        />
 
-        >
-            <img
-                src="/Profile.png" alt="profile"
-                title="Edit Profile"
-                className="rounded-circle flex-shrink-0 cursor-pointer"
-                width="32" height="32"
-                onClick={() => setUserForm(prev => !prev)} />
-            <div className="d-flex flex-column px-1 overflow-hidden">
-                <div className="text-truncate text-light">{userInfo.name}</div>
-                <div className="text-secondary d-flex align-items-center gap-1 text-truncate">
-                    <i className="bi bi-clock-history flex-shrink-0 me-1"></i>
-                    <span className="text-truncate small fst-italic">{userInfo.preferences.timezone}</span>
-                </div>
+        <div className="d-flex flex-column px-1 overflow-hidden">
+            <div className="text-truncate text-light">
+                {userInfo.name}
             </div>
-            <div
-                className='btn btn-outline-danger ms-auto fs-6 ' aria-label='Delete History'
-                title="Delete History"
-                onClick={hanleDeleteBtn}
-            >
-                <i className="bi bi-trash3"></i>
+
+            <div className="text-secondary d-flex align-items-center gap-1 text-truncate">
+                <i className="bi bi-clock-history flex-shrink-0"></i>
+                <span className="text-truncate small fst-italic">
+                    {userInfo.preferences.timezone}
+                </span>
             </div>
         </div>
-    )
+
+        <button
+            type="button"
+            className="btn btn-sm btn-outline-danger ms-auto flex-shrink-0"
+            aria-label="Delete History"
+            title="Delete History"
+            onClick={hanleDeleteBtn}
+        >
+            <i className="bi bi-trash3" aria-hidden="true"></i>
+        </button>
+    </div>
+)
+
 }
 
-export default function Advertise({ setAd, variant = "sidebar" }) {
+function Advertise({ setAd, variant = "sidebar" }) {
     const isHome = variant === "home";
 
     return (

@@ -28,17 +28,23 @@ function Alert({ alert, setAlert }) {
 }
 function Error({ error }) {
     return (
-        <div className="text-danger px-3 py-2">
-            <i className="bi bi-exclamation-circle-fill me-2"></i>
-            {error.toString()}
+        <div className="text-danger px-3 py-2 d-flex align-items-start">
+            <i className="bi bi-exclamation-circle-fill me-2 mt-1 flex-shrink-0"></i>
+            <span>{error.toString()}</span>
         </div>
     )
 }
+
 function Loading() {
     return (
-        <div className='d-flex align-items-center'>
-            <span className="text-primary fw-semibold px-3 py-2">Twin Answering . . .</span>
-            <div className="spinner-border spinner-border-sm text-primary" role="status" />
+        <div className="d-inline-flex align-items-center gap-2 px-3 py-2">
+            <span className="text-primary fw-semibold">
+                Twin Responding . . .
+            </span>
+            <div
+                className="spinner-border spinner-border-sm text-primary flex-shrink-0"
+                role="status"
+            />
         </div>
     )
 }
